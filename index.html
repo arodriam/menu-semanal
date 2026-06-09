@@ -1,0 +1,2267 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Menú & Entrenamiento — Adrià & Esther</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f5f0; color: #1a1a1a; min-height: 100vh; }
+
+header { background: #1a1a1a; color: white; padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+header h1 { font-size: 18px; font-weight: 600; }
+header p { font-size: 12px; color: #999; margin-top: 2px; }
+
+.view-bar { background: #111; padding: 10px 24px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.view-label { font-size: 11px; color: #666; text-transform: uppercase; letter-spacing: 0.6px; margin-right: 4px; }
+.profile-chip { padding: 5px 14px; border-radius: 20px; font-size: 12px; font-weight: 600; cursor: pointer; border: 2px solid transparent; transition: all 0.15s; user-select: none; }
+.profile-chip.adria { background: #dbeafe; color: #1d4ed8; }
+.profile-chip.esther { background: #fce7f3; color: #be185d; }
+.profile-chip.both { background: #2a2a2a; color: #aaa; }
+.profile-chip.active { border-color: currentColor; }
+
+.training-bar { background: #1a1a1a; border-top: 1px solid #2a2a2a; padding: 10px 24px; display: flex; gap: 20px; flex-wrap: wrap; align-items: center; }
+.training-person { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.person-name { font-size: 12px; font-weight: 700; min-width: 48px; }
+.person-name.adria { color: #60a5fa; }
+.person-name.esther { color: #f9a8d4; }
+.toggle-group { display: flex; background: #2a2a2a; border-radius: 20px; padding: 2px; gap: 2px; }
+.toggle-btn { padding: 5px 11px; border-radius: 16px; font-size: 11px; font-weight: 600; cursor: pointer; border: none; background: transparent; color: #888; transition: all 0.15s; user-select: none; white-space: nowrap; }
+.toggle-btn.active { background: #1d4ed8; color: white; }
+.toggle-btn.active-hyrox { background: #7c3aed; color: white; }
+.toggle-btn.active-larga { background: #059669; color: white; }
+.toggle-btn.active-rest { background: #4b5563; color: #d1d5db; }
+.toggle-btn:hover:not(.active):not(.active-hyrox):not(.active-larga):not(.active-rest) { color: #ccc; }
+
+.mode-banner { padding: 6px 24px; font-size: 11px; font-weight: 600; text-align: center; letter-spacing: 0.5px; display: none; }
+.mode-banner.show { display: block; }
+.mode-banner.normal { background: #dbeafe; color: #1d4ed8; }
+.mode-banner.hyrox { background: #ede9fe; color: #7c3aed; }
+.mode-banner.larga { background: #d1fae5; color: #065f46; }
+.mode-banner.rest { background: #f3f4f6; color: #6b7280; }
+
+.days-nav { background: white; border-bottom: 1px solid #e5e5e5; display: flex; overflow-x: auto; scrollbar-width: none; padding: 0 16px; position: sticky; top: 0; z-index: 10; }
+.days-nav::-webkit-scrollbar { display: none; }
+.day-tab { padding: 13px 16px; font-size: 13px; font-weight: 500; color: #888; cursor: pointer; white-space: nowrap; border-bottom: 2px solid transparent; transition: all 0.15s; }
+.day-tab:hover { color: #1a1a1a; }
+.day-tab.active { color: #1a1a1a; border-bottom-color: #1a1a1a; font-weight: 600; }
+
+.content { max-width: 900px; margin: 0 auto; padding: 20px 16px; }
+.day-panel { display: none; }
+.day-panel.active { display: block; }
+.day-header { font-size: 22px; font-weight: 700; margin-bottom: 16px; }
+
+.macros-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+.macros-bar { background: white; border-radius: 12px; padding: 14px 18px; border: 1px solid #e8e8e8; display: flex; gap: 14px; flex-wrap: wrap; align-items: flex-start; }
+.macro-who { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; width: 100%; }
+.macro-who.adria { color: #1d4ed8; }
+.macro-who.esther { color: #be185d; }
+.macro-item { text-align: center; }
+.macro-value { font-size: 16px; font-weight: 700; }
+.macro-label { font-size: 10px; color: #999; text-transform: uppercase; letter-spacing: 0.4px; }
+.macro-adria { color: #1d4ed8; }
+.macro-esther { color: #be185d; }
+
+.meals-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+@media (max-width: 600px) { .meals-grid { grid-template-columns: 1fr; } .macros-grid { grid-template-columns: 1fr; } }
+
+.meal-card { background: white; border-radius: 12px; padding: 16px 18px; border: 1px solid #e8e8e8; }
+.meal-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #999; margin-bottom: 6px; }
+.meal-name { font-size: 15px; font-weight: 600; margin-bottom: 14px; line-height: 1.3; }
+.col-header { display: flex; justify-content: flex-end; gap: 12px; margin-bottom: 4px; }
+.col-label-adria { font-size: 10px; font-weight: 700; color: #1d4ed8; min-width: 55px; text-align: right; text-transform: uppercase; letter-spacing: 0.5px; }
+.col-label-esther { font-size: 10px; font-weight: 700; color: #be185d; min-width: 55px; text-align: right; text-transform: uppercase; letter-spacing: 0.5px; }
+.quantities { display: flex; flex-direction: column; }
+.qty-row { display: flex; align-items: baseline; justify-content: space-between; font-size: 13px; padding: 5px 0; border-bottom: 1px solid #f5f5f5; }
+.qty-row:last-child { border-bottom: none; }
+.qty-ingredient { color: #555; flex: 1; }
+.qty-values { display: flex; gap: 12px; flex-shrink: 0; }
+.qty-adria { color: #1d4ed8; font-weight: 600; font-size: 13px; min-width: 55px; text-align: right; transition: color 0.2s; }
+.qty-esther { color: #be185d; font-weight: 600; font-size: 13px; min-width: 55px; text-align: right; transition: color 0.2s; }
+.qty-single { font-weight: 600; font-size: 13px; min-width: 55px; text-align: right; }
+.qty-adria.is-reduced { color: #93b4ef; }
+.qty-adria.is-boosted { color: #7c3aed; }
+.qty-esther.is-reduced { color: #e8a0c2; }
+
+.family-card { background: #fffbeb; border-color: #fbbf24; }
+.family-badge { display: inline-block; background: #fef3c7; color: #92400e; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 10px; margin-bottom: 8px; }
+.note { font-size: 11px; color: #999; margin-top: 10px; font-style: italic; line-height: 1.5; }
+.ctx-note { font-size: 11px; margin-top: 8px; line-height: 1.5; padding: 6px 8px; border-radius: 6px; display: none; }
+.ctx-note.show { display: block; }
+.ctx-note.normal { background: #eff6ff; color: #1d4ed8; }
+.ctx-note.hyrox { background: #f5f3ff; color: #7c3aed; }
+.ctx-note.larga { background: #ecfdf5; color: #065f46; }
+.ctx-note.rest { background: #f9fafb; color: #6b7280; }
+
+/* Training plan styles */
+.phase-card { background: white; border-radius: 12px; padding: 20px; border: 1px solid #e8e8e8; margin-bottom: 14px; }
+.phase-header { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+.phase-number { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; color: white; flex-shrink: 0; }
+.phase-1 .phase-number { background: #3b82f6; }
+.phase-2 .phase-number { background: #8b5cf6; }
+.phase-3 .phase-number { background: #f59e0b; }
+.phase-4 .phase-number { background: #10b981; }
+.phase-title { font-size: 16px; font-weight: 700; }
+.phase-period { font-size: 12px; color: #999; margin-top: 2px; }
+.phase-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.phase-table th { text-align: left; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: #999; padding: 4px 8px 8px 0; }
+.phase-table td { padding: 7px 8px 7px 0; border-bottom: 1px solid #f5f5f5; vertical-align: top; }
+.phase-table tr:last-child td { border-bottom: none; }
+.day-name { font-weight: 600; color: #1a1a1a; min-width: 80px; }
+.session-type { display: inline-block; padding: 2px 7px; border-radius: 10px; font-size: 10px; font-weight: 700; margin-right: 6px; }
+.s-fuerza { background: #dbeafe; color: #1d4ed8; }
+.s-z2 { background: #d1fae5; color: #065f46; }
+.s-hyrox { background: #ede9fe; color: #7c3aed; }
+.s-tempo { background: #fef3c7; color: #92400e; }
+.s-larga { background: #ecfdf5; color: #059669; }
+.s-libre { background: #f3f4f6; color: #6b7280; }
+.s-taper { background: #ffe4e6; color: #be123c; }
+.km-badge { font-size: 11px; color: #999; }
+.target-box { background: #1a1a1a; color: white; border-radius: 12px; padding: 16px 20px; margin-bottom: 14px; display: flex; gap: 24px; align-items: center; flex-wrap: wrap; }
+.target-label { font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 0.5px; }
+.target-value { font-size: 20px; font-weight: 700; color: white; }
+.target-sub { font-size: 11px; color: #aaa; }
+
+.rules-section { background: white; border-radius: 12px; padding: 20px 24px; border: 1px solid #e8e8e8; margin-top: 12px; }
+.rules-title { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #999; margin-bottom: 14px; }
+.rule { display: flex; gap: 10px; padding: 10px 0; border-bottom: 1px solid #f5f5f5; font-size: 13px; line-height: 1.5; }
+.rule:last-child { border-bottom: none; }
+.rule-icon { font-size: 16px; flex-shrink: 0; }
+.rule-text { color: #444; }
+.rule-text strong { color: #1a1a1a; }
+
+body.view-adria .qty-esther, body.view-adria .col-label-esther { display: none; }
+body.view-esther .qty-adria, body.view-esther .col-label-adria { display: none; }
+
+/* ===== MOBILE ===== */
+@media (max-width: 640px) {
+  header { padding: 12px 16px; }
+  header h1 { font-size: 16px; }
+
+  .view-bar { padding: 8px 14px; gap: 7px; }
+  .profile-chip { padding: 4px 12px; font-size: 11px; }
+
+  .training-bar { padding: 10px 14px; flex-direction: column; gap: 10px; align-items: flex-start; }
+  .training-person { width: 100%; gap: 8px; flex-wrap: nowrap; }
+  .person-name { min-width: 44px; font-size: 12px; flex-shrink: 0; }
+  .toggle-group { flex: 1; overflow-x: auto; scrollbar-width: none; border-radius: 20px; }
+  .toggle-group::-webkit-scrollbar { display: none; }
+  .toggle-btn { padding: 5px 9px; font-size: 10px; }
+
+  .mode-banner { padding: 5px 14px; font-size: 10px; }
+
+  .days-nav { padding: 0 6px; }
+  .day-tab { padding: 11px 11px; font-size: 12px; }
+
+  .content { padding: 14px 10px; }
+  .day-header { font-size: 18px; margin-bottom: 12px; }
+
+  .macros-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .macros-bar { padding: 10px 12px; gap: 10px; }
+  .macro-value { font-size: 14px; }
+  .macro-label { font-size: 9px; }
+  .macro-who { font-size: 9px; }
+
+  .meals-grid { grid-template-columns: 1fr; gap: 10px; }
+  .meal-card { padding: 13px 14px; }
+  .meal-label { font-size: 9px; }
+  .meal-name { font-size: 14px; margin-bottom: 10px; }
+  .qty-row { font-size: 12px; padding: 4px 0; }
+  .qty-adria, .qty-esther, .qty-single { font-size: 12px; min-width: 46px; }
+  .col-label-adria, .col-label-esther { font-size: 9px; min-width: 46px; }
+  .ctx-note, .note { font-size: 10px; margin-top: 8px; }
+
+  .rules-section { padding: 14px 14px; }
+  .rules-title { font-size: 11px; }
+  .rule { font-size: 12px; padding: 8px 0; }
+  .rule-icon { font-size: 14px; }
+
+  /* Training plan */
+  .target-box { padding: 14px 16px; gap: 14px; }
+  .target-value { font-size: 16px; }
+  .target-label { font-size: 10px; }
+  .target-sub { font-size: 10px; }
+
+  .phase-card { padding: 14px 12px; }
+  .phase-title { font-size: 14px; }
+  .phase-period { font-size: 11px; }
+  .phase-number { width: 28px; height: 28px; font-size: 13px; }
+
+  .phase-table-wrapper { overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 0 -2px; }
+  .phase-table { min-width: 380px; font-size: 12px; }
+  .phase-table th { font-size: 9px; padding-bottom: 6px; }
+  .phase-table td { padding: 6px 6px 6px 0; }
+  .day-name { min-width: 68px; font-size: 12px; }
+  .km-badge { font-size: 10px; }
+  .session-type { font-size: 9px; padding: 2px 5px; margin-right: 4px; }
+}
+
+@media (max-width: 380px) {
+  .macros-grid { grid-template-columns: 1fr; }
+  .toggle-btn { padding: 4px 8px; font-size: 9.5px; }
+}
+
+/* ===== SHOPPING LIST ===== */
+.shop-topbar { display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; flex-wrap:wrap; gap:10px; }
+.shop-progress-wrap { flex:1; min-width:180px; }
+.shop-progress-label { font-size:12px; color:#888; margin-bottom:5px; }
+.shop-progress-bar { height:6px; background:#e5e5e5; border-radius:3px; overflow:hidden; }
+.shop-progress-fill { height:100%; background:#22c55e; border-radius:3px; transition:width 0.3s; }
+.shop-reset { padding:7px 14px; border-radius:20px; border:1.5px solid #e5e5e5; background:white; font-size:12px; font-weight:600; color:#666; cursor:pointer; transition:all 0.15s; }
+.shop-reset:hover { border-color:#ef4444; color:#ef4444; }
+
+.shop-cat { background:white; border-radius:12px; border:1px solid #e8e8e8; margin-bottom:12px; overflow:hidden; }
+.shop-cat-header { display:flex; align-items:center; justify-content:space-between; padding:13px 18px; cursor:pointer; user-select:none; }
+.shop-cat-title { font-size:14px; font-weight:700; }
+.shop-cat-meta { font-size:11px; color:#22c55e; margin-left:8px; font-weight:600; }
+.shop-cat-chevron { font-size:11px; color:#aaa; transition:transform 0.2s; }
+.shop-cat.open .shop-cat-chevron { transform:rotate(180deg); }
+.shop-cat-body { border-top:1px solid #f0f0f0; padding:6px 0; display:none; }
+.shop-cat.open .shop-cat-body { display:block; }
+
+.shop-item { display:flex; align-items:center; gap:11px; padding:9px 18px; cursor:pointer; transition:background 0.1s; }
+.shop-item:hover { background:#fafafa; }
+.shop-check { width:20px; height:20px; border-radius:6px; border:2px solid #d1d5db; flex-shrink:0; display:flex; align-items:center; justify-content:center; transition:all 0.15s; background:white; }
+.shop-item.done .shop-check { background:#22c55e; border-color:#22c55e; }
+.shop-item.done .shop-check::after { content:'\2713'; color:white; font-size:12px; font-weight:700; }
+.shop-item-name { font-size:13px; color:#333; transition:color 0.15s; flex:1; }
+.shop-item-hint { font-size:11px; color:#bbb; margin-left:auto; white-space:nowrap; }
+.shop-item.done .shop-item-name { color:#aaa; text-decoration:line-through; }
+
+@media (max-width:640px) {
+  .shop-item { padding:8px 14px; gap:10px; }
+  .shop-item-name { font-size:12px; }
+  .shop-cat-header { padding:12px 14px; }
+  .shop-cat-title { font-size:13px; }
+}
+.toggle-btn.active-cardio { background: #0891b2; color: white; }
+
+/* ===== FUERZA TAB ===== */
+.fuerza-phase-badge { display:inline-flex; align-items:center; gap:8px; background:#ede9fe; color:#6d28d9; border-radius:20px; padding:6px 14px; font-size:12px; font-weight:700; margin-bottom:16px; }
+.fuerza-subtitle { font-size:13px; color:#888; margin-top:-10px; margin-bottom:18px; }
+.fuerza-block { background:white; border-radius:12px; border:1px solid #e8e8e8; margin-bottom:14px; overflow:hidden; }
+.fuerza-block-header { padding:14px 18px 10px; border-bottom:1px solid #f0f0f0; }
+.fuerza-block-title { font-size:13px; font-weight:700; color:#1a1a1a; }
+.fuerza-block-meta { font-size:11px; color:#aaa; margin-top:2px; }
+.fuerza-block-body { padding:4px 0 8px; }
+.fuerza-ex { display:grid; grid-template-columns:1fr auto; align-items:start; gap:8px; padding:10px 18px; border-bottom:1px solid #f8f8f8; }
+.fuerza-ex:last-child { border-bottom:none; }
+.fuerza-ex-name { font-size:13px; font-weight:600; color:#1a1a1a; }
+.fuerza-ex-cue { font-size:11px; color:#888; margin-top:3px; line-height:1.4; }
+.fuerza-ex-sets { text-align:right; white-space:nowrap; }
+.fuerza-ex-thumb { display:block; margin-top:8px; }
+.fuerza-ex-thumb img { width:160px; border-radius:8px; display:block; border:2px solid #e8e8e8; transition:border-color 0.2s; }
+.fuerza-ex-thumb img:hover { border-color:#7c3aed; }
+.fuerza-sets-badge { display:inline-block; background:#f3f4f6; color:#374151; font-size:12px; font-weight:700; padding:4px 10px; border-radius:8px; }
+.fuerza-superserie-tag { display:inline-block; background:#fef3c7; color:#92400e; font-size:9px; font-weight:700; padding:2px 7px; border-radius:6px; margin-bottom:4px; text-transform:uppercase; letter-spacing:0.5px; }
+.fuerza-rpe-card { background:#1a1a1a; color:white; border-radius:12px; padding:16px 20px; margin-bottom:14px; display:flex; gap:20px; flex-wrap:wrap; align-items:center; }
+.fuerza-rpe-item { text-align:center; }
+.fuerza-rpe-value { font-size:22px; font-weight:700; }
+.fuerza-rpe-label { font-size:10px; color:#888; text-transform:uppercase; letter-spacing:0.5px; margin-top:2px; }
+.fuerza-rpe-desc { font-size:12px; color:#aaa; flex:1; min-width:200px; line-height:1.5; }
+.fuerza-warmup { background:#f0fdf4; border:1px solid #bbf7d0; border-radius:12px; padding:14px 18px; margin-bottom:14px; }
+.fuerza-warmup-title { font-size:12px; font-weight:700; color:#166534; text-transform:uppercase; letter-spacing:0.6px; margin-bottom:10px; }
+.fuerza-warmup-item { font-size:13px; color:#166534; padding:4px 0; display:flex; gap:8px; align-items:baseline; }
+.fuerza-warmup-item::before { content:"·"; font-weight:700; flex-shrink:0; }
+.fuerza-prog { background:white; border-radius:12px; border:1px solid #e8e8e8; padding:16px 18px; margin-bottom:14px; }
+.fuerza-prog-title { font-size:12px; font-weight:700; color:#999; text-transform:uppercase; letter-spacing:0.6px; margin-bottom:12px; }
+.fuerza-prog-row { display:flex; gap:10px; align-items:flex-start; padding:8px 0; border-bottom:1px solid #f5f5f5; font-size:13px; }
+.fuerza-prog-row:last-child { border-bottom:none; }
+.fuerza-prog-phase { font-weight:700; min-width:130px; color:#1a1a1a; }
+.fuerza-prog-detail { color:#666; line-height:1.4; }
+.fuerza-phase-dot { display:inline-block; width:8px; height:8px; border-radius:50%; margin-right:6px; flex-shrink:0; position:relative; top:1px; }
+.dot-1{background:#3b82f6} .dot-2{background:#8b5cf6} .dot-3{background:#f59e0b} .dot-4{background:#10b981}
+@media (max-width:640px) {
+  .fuerza-ex { padding:9px 14px; }
+  .fuerza-ex-name { font-size:12px; }
+  .fuerza-ex-thumb img { width:120px; }
+  .fuerza-ex-cue { font-size:10px; }
+  .fuerza-block-header { padding:12px 14px 8px; }
+  .fuerza-rpe-card { padding:12px 14px; gap:14px; }
+  .fuerza-prog { padding:12px 14px; }
+  .fuerza-warmup { padding:12px 14px; }
+}
+
+/* ── Recipe modal ── */
+.recipe-tag { font-size:10px; font-weight:700; background:#f3e8ff; color:#7c3aed; border-radius:4px; padding:2px 7px; vertical-align:middle; margin-left:7px; white-space:nowrap; }
+.meal-name[data-recipe] { cursor:pointer; }
+.meal-name[data-recipe]:hover .recipe-tag { background:#7c3aed; color:white; }
+#recipe-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.45); z-index:900; }
+#recipe-sheet { display:none; position:fixed; bottom:0; left:0; right:0; max-height:88vh; background:#fff; border-radius:20px 20px 0 0; z-index:901; overflow-y:auto; transform:translateY(100%); transition:transform 0.32s cubic-bezier(.4,0,.2,1); -webkit-overflow-scrolling:touch; }
+#recipe-sheet.open { transform:translateY(0); }
+.rsh-header { padding:16px 18px 14px; border-bottom:1px solid #f0f0f0; display:flex; align-items:flex-start; gap:12px; position:sticky; top:0; background:#fff; z-index:1; }
+.rsh-back { background:none; border:none; font-size:22px; cursor:pointer; color:#666; padding:0; line-height:1; flex-shrink:0; margin-top:2px; }
+.rsh-title { font-size:16px; font-weight:700; color:#1a1a1a; line-height:1.3; }
+.rsh-meta { font-size:11px; color:#999; margin-top:3px; }
+.rsh-body { padding:20px 18px 32px; }
+.rsh-section { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.8px; color:#aaa; margin:0 0 10px; }
+.rsh-steps { margin:0 0 20px; padding-left:20px; color:#333; font-size:14px; line-height:1; }
+.rsh-steps li { margin-bottom:10px; line-height:1.55; }
+.rsh-tip { background:#fdf4ff; border-left:3px solid #7c3aed; border-radius:0 8px 8px 0; padding:13px 15px; font-size:13px; color:#5b21b6; line-height:1.6; margin-top:4px; }
+.rsh-tip strong { display:block; margin-bottom:4px; }
+
+
+.qty-extra-reduced { color:#f97316 !important; font-weight:700; }
+.meal-card-adj { border-color:#fed7aa !important; background:#fffbf5 !important; }
+.meal-adj-badge { font-size:9px; font-weight:700; background:#fed7aa; color:#92400e; border-radius:3px; padding:1px 5px; margin-left:6px; vertical-align:middle; }
+.extras-timing-row { margin:4px 0 12px; }
+.extras-timing-label { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.6px; color:#aaa; margin-bottom:6px; }
+.extras-timing-sel { width:100%; padding:8px 12px; border:1px solid #e0e0e0; border-radius:8px; font-size:13px; background:white; color:#333; outline:none; cursor:pointer; }
+.extras-timing-sel:focus { border-color:#7c3aed; }
+/* ── Extras log ── */
+.extras-section { margin-top:14px; border-radius:12px; border:1px solid #e8e8e8; overflow:visible; }
+.extras-hdr { display:flex; align-items:center; justify-content:space-between; padding:11px 16px; background:#f9f9f9; cursor:pointer; user-select:none; border-radius:12px; }
+.extras-section.open .extras-hdr { border-radius:12px 12px 0 0; }
+.extras-hdr-left { font-size:13px; font-weight:600; color:#555; }
+.extras-hdr-right { display:flex; align-items:center; gap:8px; }
+.extras-hdr-total { font-size:12px; font-weight:700; color:#7c3aed; }
+.extras-chevron { font-size:13px; color:#aaa; transition:transform 0.2s; }
+.extras-section.open .extras-chevron { transform:rotate(180deg); }
+.extras-body { padding:14px 16px 16px; border-top:1px solid #f0f0f0; }
+.extras-search-wrap { position:relative; margin-bottom:12px; }
+.extras-search { width:100%; box-sizing:border-box; padding:9px 14px; border:1px solid #e0e0e0; border-radius:8px; font-size:14px; outline:none; }
+.extras-search:focus { border-color:#7c3aed; box-shadow:0 0 0 2px #f3e8ff; }
+.extras-results { position:absolute; top:calc(100% + 2px); left:0; right:0; background:white; border:1px solid #e0e0e0; border-radius:8px; max-height:220px; overflow-y:auto; z-index:200; display:none; box-shadow:0 4px 16px rgba(0,0,0,0.12); }
+.extras-results.show { display:block; }
+.extras-result-item { padding:9px 14px; cursor:pointer; display:flex; justify-content:space-between; align-items:center; gap:8px; }
+.extras-result-item:hover { background:#f3e8ff; }
+.extras-result-name { font-size:13px; color:#1a1a1a; }
+.extras-result-unit { font-size:11px; color:#aaa; }
+.extras-result-kcal { font-size:12px; font-weight:700; color:#7c3aed; white-space:nowrap; }
+.extras-list { margin-bottom:12px; }
+.extras-empty { font-size:13px; color:#ccc; text-align:center; padding:8px 0; }
+.extras-item { display:flex; align-items:center; gap:8px; padding:8px 0; border-bottom:1px solid #f5f5f5; }
+.extras-item:last-child { border-bottom:none; }
+.extras-item-emoji { font-size:20px; flex-shrink:0; width:28px; text-align:center; }
+.extras-item-info { flex:1; min-width:0; }
+.extras-item-name { font-size:13px; font-weight:600; color:#1a1a1a; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.extras-item-kcal { font-size:11px; color:#999; margin-top:1px; }
+.extras-item-qty { display:flex; align-items:center; gap:5px; flex-shrink:0; }
+.eq-btn { width:26px; height:26px; border:1px solid #e0e0e0; border-radius:50%; background:white; cursor:pointer; font-size:15px; line-height:1; display:flex; align-items:center; justify-content:center; color:#555; padding:0; }
+.eq-btn:hover { border-color:#7c3aed; color:#7c3aed; }
+.eq-val { font-size:13px; font-weight:600; min-width:22px; text-align:center; color:#333; }
+.extras-item-rm { background:none; border:none; cursor:pointer; color:#ddd; font-size:16px; padding:2px 4px; flex-shrink:0; line-height:1; }
+.extras-item-rm:hover { color:#ef4444; }
+.extras-totals { background:#f9f5ff; border-radius:8px; padding:12px 14px; }
+.extras-total-row { font-size:13px; font-weight:600; color:#5b21b6; }
+.extras-remaining { margin-top:10px; padding-top:10px; border-top:1px solid #e9d5ff; }
+.extras-rem-title { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.7px; color:#7c3aed; margin-bottom:7px; }
+.extras-rem-row { font-size:12px; color:#374151; margin-bottom:4px; line-height:1.5; }
+.extras-rem-row strong { color:#1a1a1a; }
+.extras-warn { color:#dc2626; }
+</style>
+</head>
+<body class="view-both">
+
+<header>
+  <div><h1>Menú & Entrenamiento 🥗💪</h1><p>Dra. Nora · Coach Alex</p></div>
+</header>
+
+<div class="view-bar">
+  <span class="view-label">Ver</span>
+  <div class="profile-chip both active" onclick="setView('both')">Ambos</div>
+  <div class="profile-chip adria" onclick="setView('adria')">Solo Adrià</div>
+  <div class="profile-chip esther" onclick="setView('esther')">Solo Esther</div>
+</div>
+
+<div class="training-bar">
+  <div class="training-person">
+    <span class="person-name adria">Adrià</span>
+    <div class="toggle-group">
+      <button class="toggle-btn active" id="adria-normal" onclick="setAdria('normal')">🏃 Carrera+Fuerza</button>
+      <button class="toggle-btn" id="adria-hyrox" onclick="setAdria('hyrox')">🏋️ Hyrox</button>
+      <button class="toggle-btn" id="adria-larga" onclick="setAdria('larga')">🏅 Tirada Larga</button>
+      <button class="toggle-btn" id="adria-rest" onclick="setAdria('rest')">😴 Descanso</button>
+    </div>
+  </div>
+  <div class="training-person">
+    <span class="person-name esther">Esther</span>
+    <div class="toggle-group">
+      <button class="toggle-btn active" id="esther-fuerza" onclick="setEsther('fuerza')">💪 Fuerza</button>
+      <button class="toggle-btn" id="esther-cardio" onclick="setEsther('cardio')">🚴 Cardio</button>
+      <button class="toggle-btn" id="esther-rest" onclick="setEsther('rest')">😴 Descanso</button>
+    </div>
+  </div>
+</div>
+
+<div class="mode-banner" id="mode-banner"></div>
+
+<div class="days-nav">
+  <div class="day-tab active" onclick="setDay(0)">Lunes</div>
+  <div class="day-tab" onclick="setDay(1)">Martes</div>
+  <div class="day-tab" onclick="setDay(2)">Miércoles</div>
+  <div class="day-tab" onclick="setDay(3)">Jueves</div>
+  <div class="day-tab" onclick="setDay(4)">Viernes</div>
+  <div class="day-tab" onclick="setDay(5)">Sábado</div>
+  <div class="day-tab" onclick="setDay(6)">Domingo</div>
+  <div class="day-tab" onclick="setDay(7)">📋 Reglas</div>
+  <div class="day-tab" onclick="setDay(8)">🛒 Compra</div>
+  <div class="day-tab" onclick="setDay(9)">💪 Fuerza</div>
+</div>
+
+<div class="content">
+
+<div class="macros-grid">
+  <div class="macros-bar">
+    <div class="macro-who adria">Adrià — <span id="adria-mode-label">Carrera + Fuerza</span></div>
+    <div class="macro-item"><div class="macro-value macro-adria" id="adria-kcal">2900</div><div class="macro-label">kcal</div></div>
+    <div class="macro-item"><div class="macro-value macro-adria" id="adria-prot">190g</div><div class="macro-label">proteína</div></div>
+    <div class="macro-item"><div class="macro-value macro-adria" id="adria-carbs">310g</div><div class="macro-label">carbs</div></div>
+    <div class="macro-item"><div class="macro-value macro-adria" id="adria-fat">75g</div><div class="macro-label">grasa</div></div>
+  </div>
+  <div class="macros-bar">
+    <div class="macro-who esther">Esther — <span id="esther-mode-label">Entreno</span></div>
+    <div class="macro-item"><div class="macro-value macro-esther" id="esther-kcal">1.750</div><div class="macro-label">kcal</div></div>
+    <div class="macro-item"><div class="macro-value macro-esther" id="esther-prot">138g</div><div class="macro-label">proteína</div></div>
+    <div class="macro-item"><div class="macro-value macro-esther" id="esther-carbs">175g</div><div class="macro-label">carbs</div></div>
+    <div class="macro-item"><div class="macro-value macro-esther" id="esther-fat">58g</div><div class="macro-label">grasa</div></div>
+  </div>
+</div>
+
+<!-- ===== LUNES ===== -->
+<div class="day-panel active" id="day-0">
+  <div class="day-header">Lunes · Adrià: Hyrox 🏋️ · Esther: Descanso 😴</div>
+  <div class="meals-grid">
+    <div class="meal-card">
+      <div class="meal-label">Desayuno · 7:00</div>
+      <div class="meal-name" data-recipe="pan_huevos" onclick="openRecipe('pan_huevos')">Pan de centeno + Huevos + Requesón <span class="recipe-tag">📖 receta</span></div>
+      <div class="quantities">
+        <div class="col-header"><span class="col-label-adria">Adrià</span><span class="col-label-esther">Esther</span></div>
+        <div class="qty-row"><span class="qty-ingredient">Pan de centeno</span><div class="qty-values"><span class="qty-adria" data-base="75" data-unit="g" data-is-carb="true">90 g</span><span class="qty-esther" data-train="55 g" data-rest="40 g">55 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Huevos camperos</span><div class="qty-values"><span class="qty-adria" data-base="2" data-unit="ud">2 ud</span><span class="qty-esther" data-train="2 ud" data-rest="2 ud">2 ud</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Requesón 0%</span><div class="qty-values"><span class="qty-adria" data-base="150" data-unit="g">150 g</span><span class="qty-esther" data-train="—" data-rest="—">—</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Aguacate</span><div class="qty-values"><span class="qty-adria" data-base="0" data-unit="—">—</span><span class="qty-esther" data-train="40 g" data-rest="40 g">40 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Plátano</span><div class="qty-values"><span class="qty-adria" data-base="85" data-unit="g" data-is-carb="true">100 g</span><span class="qty-esther" data-train="—" data-rest="—">—</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Tomate</span><div class="qty-values"><span class="qty-adria" data-base="0" data-unit="—">—</span><span class="qty-esther" data-train="100 g" data-rest="100 g">100 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Mantequilla de cacahuete</span><div class="qty-values"><span class="qty-adria" data-base="20" data-unit="g">20 g</span><span class="qty-esther" data-train="—" data-rest="—">—</span></div></div>
+      </div>
+      <div class="ctx-note hyrox show" data-mode="hyrox">🏋️ Hyrox esta tarde — desayuno cargado para tener energía todo el día.</div>
+    </div>
+    <div class="meal-card">
+      <div class="meal-label">Media Mañana · 10:30</div>
+      <div class="meal-name">Skyr + Arándanos + Anacardos</div>
+      <div class="quantities">
+        <div class="col-header"><span class="col-label-adria">Adrià</span><span class="col-label-esther">Esther</span></div>
+        <div class="qty-row"><span class="qty-ingredient">Skyr</span><div class="qty-values"><span class="qty-adria" data-base="200" data-unit="g">200 g</span><span class="qty-esther" data-train="150 g" data-rest="150 g">150 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Arándanos</span><div class="qty-values"><span class="qty-adria" data-base="85" data-unit="g" data-is-carb="true">100 g</span><span class="qty-esther" data-train="80 g" data-rest="60 g">80 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Anacardos</span><div class="qty-values"><span class="qty-adria" data-base="25" data-unit="g">25 g</span><span class="qty-esther" data-train="12 g" data-rest="12 g">12 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Miel</span><div class="qty-values"><span class="qty-adria" data-base="10" data-unit="g" data-is-carb="true">10 g</span><span class="qty-esther" data-train="—" data-rest="—">—</span></div></div>
+      </div>
+    </div>
+    <div class="meal-card">
+      <div class="meal-label">Comida · 14:00</div>
+      <div class="meal-name" data-recipe="pavo_arroz" onclick="openRecipe('pavo_arroz')">Pavo a la plancha + Arroz basmati + Verduras <span class="recipe-tag">📖 receta</span></div>
+      <div class="quantities">
+        <div class="col-header"><span class="col-label-adria">Adrià</span><span class="col-label-esther">Esther</span></div>
+        <div class="qty-row"><span class="qty-ingredient">Pechuga de pavo</span><div class="qty-values"><span class="qty-adria" data-base="190" data-unit="g">190 g</span><span class="qty-esther" data-train="160 g" data-rest="160 g">160 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Arroz basmati (crudo)</span><div class="qty-values"><span class="qty-adria" data-base="75" data-unit="g" data-is-carb="true">90 g</span><span class="qty-esther" data-train="55 g" data-rest="40 g">55 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Calabacín</span><div class="qty-values"><span class="qty-adria" data-base="150" data-unit="g">150 g</span><span class="qty-esther" data-train="200 g" data-rest="200 g">200 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Pimiento</span><div class="qty-values"><span class="qty-adria" data-base="150" data-unit="g">150 g</span><span class="qty-esther" data-train="—" data-rest="—">—</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">AOVE</span><div class="qty-values"><span class="qty-adria" data-base="12" data-unit="g">12 g</span><span class="qty-esther" data-train="10 g" data-rest="10 g">10 g</span></div></div>
+      </div>
+    </div>
+    <div class="meal-card">
+      <div class="meal-label">Merienda Pre-Hyrox · 17:30</div>
+      <div class="meal-name">Plátano + Tortitas de arroz / Yogur + Kiwi</div>
+      <div class="quantities">
+        <div class="col-header"><span class="col-label-adria">Adrià</span><span class="col-label-esther">Esther</span></div>
+        <div class="qty-row"><span class="qty-ingredient">Plátano</span><div class="qty-values"><span class="qty-adria" data-base="110" data-unit="g" data-is-carb="true">130 g</span><span class="qty-esther" data-train="—" data-rest="—">—</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Tortitas de arroz (3 ud)</span><div class="qty-values"><span class="qty-adria" data-base="35" data-unit="g" data-is-carb="true">40 g</span><span class="qty-esther" data-train="—" data-rest="—">—</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Miel</span><div class="qty-values"><span class="qty-adria" data-base="10" data-unit="g" data-is-carb="true">10 g</span><span class="qty-esther" data-train="—" data-rest="—">—</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Yogur griego 0%</span><div class="qty-values"><span class="qty-adria" data-base="0" data-unit="—">—</span><span class="qty-esther" data-train="150 g" data-rest="150 g">150 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Kiwi</span><div class="qty-values"><span class="qty-adria" data-base="0" data-unit="—">—</span><span class="qty-esther" data-train="150 g" data-rest="110 g">150 g</span></div></div>
+      </div>
+      <div class="ctx-note hyrox show" data-mode="hyrox">🏋️ Adrià: carbos rápidos 45 min antes del Hyrox. Esther: merienda ligera, hoy descansas.</div>
+    </div>
+    <div class="meal-card">
+      <div class="meal-label">Cena Post-Hyrox · 21:00</div>
+      <div class="meal-name" data-recipe="trucha_patata" onclick="openRecipe('trucha_patata')">Trucha + Patata + Judías verdes <span class="recipe-tag">📖 receta</span></div>
+      <div class="quantities">
+        <div class="col-header"><span class="col-label-adria">Adrià</span><span class="col-label-esther">Esther</span></div>
+        <div class="qty-row"><span class="qty-ingredient">Trucha</span><div class="qty-values"><span class="qty-adria" data-base="200" data-unit="g">200 g</span><span class="qty-esther" data-train="130 g" data-rest="130 g">130 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Patata</span><div class="qty-values"><span class="qty-adria" data-base="165" data-unit="g" data-is-carb="true">200 g</span><span class="qty-esther" data-train="90 g" data-rest="70 g">90 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Judías verdes</span><div class="qty-values"><span class="qty-adria" data-base="200" data-unit="g">200 g</span><span class="qty-esther" data-train="200 g" data-rest="200 g">200 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">AOVE</span><div class="qty-values"><span class="qty-adria" data-base="10" data-unit="g">10 g</span><span class="qty-esther" data-train="8 g" data-rest="8 g">8 g</span></div></div>
+      </div>
+      <div class="ctx-note hyrox show" data-mode="hyrox">🏋️ Post-Hyrox: come dentro de 45 min de llegar. Trucha + patata = recuperación perfecta.</div>
+    </div>
+    <div class="meal-card">
+      <div class="meal-label">Postre · 22:00</div>
+      <div class="meal-name">Chocolate negro 85% + Nueces</div>
+      <div class="quantities">
+        <div class="col-header"><span class="col-label-adria">Adrià</span><span class="col-label-esther">Esther</span></div>
+        <div class="qty-row"><span class="qty-ingredient">Chocolate negro 85%</span><div class="qty-values"><span class="qty-adria" data-base="20" data-unit="g">20 g</span><span class="qty-esther" data-train="15 g" data-rest="15 g">15 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Nueces</span><div class="qty-values"><span class="qty-adria" data-base="10" data-unit="g">10 g</span><span class="qty-esther" data-train="—" data-rest="—">—</span></div></div>
+      </div>
+      <p class="note">Total día: Adrià ~3.150 kcal · P ~200g · C ~370g · G ~68g &nbsp;|&nbsp; Esther ~1.980 kcal · P ~125g · C ~255g · G ~44g</p>
+    </div>
+  </div>
+  <div class="extras-section" data-day="0"></div>
+</div>
+<!-- ===== MARTES ===== -->
+<div class="day-panel" id="day-1">
+  <div class="day-header">Martes · Adrià: Carrera 5 km 🏃 · Esther: Mixto fuerza+cardio 🏋️</div>
+  <div style="background:#fef3c7;border:1px solid #f59e0b;border-radius:8px;padding:8px 14px;margin-bottom:12px;font-size:12px;color:#92400e;">🏢 <strong>Solo esta semana:</strong> Adrià desayuna en la oficina (~700 kcal · incluye proteína + fruta o avena · evitar bollería)</div>
+  <div class="meals-grid">
+    <div class="meal-card">
+      <div class="meal-label">Desayuno · 7:00</div>
+      <div class="meal-name">Adrià: Oficina · Esther: Avena + Mango + Chía</div>
+      <div class="quantities">
+        <div class="col-header"><span class="col-label-adria">Adrià</span><span class="col-label-esther">Esther</span></div>
+        <div class="qty-row"><span class="qty-ingredient">Desayuno oficina</span><div class="qty-values"><span class="qty-adria" data-base="0" data-unit="—">~700 kcal</span><span class="qty-esther" data-train="—" data-rest="—">—</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Copos de avena</span><div class="qty-values"><span class="qty-adria" data-base="0" data-unit="—">—</span><span class="qty-esther" data-train="55 g" data-rest="40 g">55 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Leche semidesnatada</span><div class="qty-values"><span class="qty-adria" data-base="0" data-unit="—">—</span><span class="qty-esther" data-train="200 ml" data-rest="200 ml">200 ml</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Mango</span><div class="qty-values"><span class="qty-adria" data-base="0" data-unit="—">—</span><span class="qty-esther" data-train="80 g" data-rest="60 g">80 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Semillas de chía</span><div class="qty-values"><span class="qty-adria" data-base="0" data-unit="—">—</span><span class="qty-esther" data-train="8 g" data-rest="8 g">8 g</span></div></div>
+      </div>
+    </div>
+    <div class="meal-card">
+      <div class="meal-label">Media Mañana · 10:30</div>
+      <div class="meal-name">Requesón + Pera + Pistachos</div>
+      <div class="quantities">
+        <div class="col-header"><span class="col-label-adria">Adrià</span><span class="col-label-esther">Esther</span></div>
+        <div class="qty-row"><span class="qty-ingredient">Requesón 0%</span><div class="qty-values"><span class="qty-adria" data-base="150" data-unit="g">150 g</span><span class="qty-esther" data-train="150 g" data-rest="150 g">150 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Pera</span><div class="qty-values"><span class="qty-adria" data-base="150" data-unit="g" data-is-carb="true">150 g</span><span class="qty-esther" data-train="80 g" data-rest="60 g">80 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Miel</span><div class="qty-values"><span class="qty-adria" data-base="10" data-unit="g" data-is-carb="true">10 g</span><span class="qty-esther" data-train="—" data-rest="—">—</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Pistachos</span><div class="qty-values"><span class="qty-adria" data-base="15" data-unit="g">15 g</span><span class="qty-esther" data-train="10 g" data-rest="10 g">10 g</span></div></div>
+      </div>
+    </div>
+    <div class="meal-card">
+      <div class="meal-label">Comida · 14:00</div>
+      <div class="meal-name" data-recipe="lomo_cuscus" onclick="openRecipe('lomo_cuscus')">Lomo de cerdo + Cuscús + Verduras <span class="recipe-tag">📖 receta</span></div>
+      <div class="quantities">
+        <div class="col-header"><span class="col-label-adria">Adrià</span><span class="col-label-esther">Esther</span></div>
+        <div class="qty-row"><span class="qty-ingredient">Lomo de cerdo</span><div class="qty-values"><span class="qty-adria" data-base="200" data-unit="g">200 g</span><span class="qty-esther" data-train="140 g" data-rest="140 g">140 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Cuscús (crudo)</span><div class="qty-values"><span class="qty-adria" data-base="85" data-unit="g" data-is-carb="true">85 g</span><span class="qty-esther" data-train="55 g" data-rest="40 g">55 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Pimiento rojo + calabacín</span><div class="qty-values"><span class="qty-adria" data-base="200" data-unit="g">200 g</span><span class="qty-esther" data-train="200 g" data-rest="200 g">200 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Rúcula</span><div class="qty-values"><span class="qty-adria" data-base="50" data-unit="g">50 g</span><span class="qty-esther" data-train="50 g" data-rest="50 g">50 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">AOVE</span><div class="qty-values"><span class="qty-adria" data-base="12" data-unit="g">12 g</span><span class="qty-esther" data-train="8 g" data-rest="8 g">8 g</span></div></div>
+      </div>
+    </div>
+    <div class="meal-card">
+      <div class="meal-label">Merienda Pre-carrera · 17:30</div>
+      <div class="meal-name">Plátano + Avena + Proteína / Manzana + Almendras</div>
+      <div class="quantities">
+        <div class="col-header"><span class="col-label-adria">Adrià</span><span class="col-label-esther">Esther</span></div>
+        <div class="qty-row"><span class="qty-ingredient">Plátano</span><div class="qty-values"><span class="qty-adria" data-base="130" data-unit="g" data-is-carb="true">130 g</span><span class="qty-esther" data-train="—" data-rest="—">—</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Copos de avena</span><div class="qty-values"><span class="qty-adria" data-base="40" data-unit="g" data-is-carb="true">40 g</span><span class="qty-esther" data-train="—" data-rest="—">—</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Proteína en polvo</span><div class="qty-values"><span class="qty-adria" data-base="25" data-unit="g">25 g</span><span class="qty-esther" data-train="—" data-rest="—">—</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Manzana</span><div class="qty-values"><span class="qty-adria" data-base="0" data-unit="—">—</span><span class="qty-esther" data-train="150 g" data-rest="110 g">150 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Almendras</span><div class="qty-values"><span class="qty-adria" data-base="0" data-unit="—">—</span><span class="qty-esther" data-train="20 g" data-rest="20 g">20 g</span></div></div>
+      </div>
+    </div>
+    <div class="meal-card">
+      <div class="meal-label">Cena Post-carrera · 21:00</div>
+      <div class="meal-name" data-recipe="atun_quinoa" onclick="openRecipe('atun_quinoa')">Atún fresco + Quinoa + Espinacas <span class="recipe-tag">📖 receta</span></div>
+      <div class="quantities">
+        <div class="col-header"><span class="col-label-adria">Adrià</span><span class="col-label-esther">Esther</span></div>
+        <div class="qty-row"><span class="qty-ingredient">Atún fresco a la plancha</span><div class="qty-values"><span class="qty-adria" data-base="185" data-unit="g">185 g</span><span class="qty-esther" data-train="130 g" data-rest="130 g">130 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Quinoa (cruda)</span><div class="qty-values"><span class="qty-adria" data-base="70" data-unit="g" data-is-carb="true">70 g</span><span class="qty-esther" data-train="50 g" data-rest="40 g">50 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Espinacas</span><div class="qty-values"><span class="qty-adria" data-base="100" data-unit="g">100 g</span><span class="qty-esther" data-train="100 g" data-rest="100 g">100 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Tomate cherry</span><div class="qty-values"><span class="qty-adria" data-base="150" data-unit="g">150 g</span><span class="qty-esther" data-train="120 g" data-rest="120 g">120 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">AOVE</span><div class="qty-values"><span class="qty-adria" data-base="10" data-unit="g">10 g</span><span class="qty-esther" data-train="8 g" data-rest="8 g">8 g</span></div></div>
+      </div>
+    </div>
+    <div class="meal-card">
+      <div class="meal-label">Postre · 22:00</div>
+      <div class="meal-name">Yogur griego + Cacao + Miel</div>
+      <div class="quantities">
+        <div class="col-header"><span class="col-label-adria">Adrià</span><span class="col-label-esther">Esther</span></div>
+        <div class="qty-row"><span class="qty-ingredient">Yogur griego 0%</span><div class="qty-values"><span class="qty-adria" data-base="150" data-unit="g">150 g</span><span class="qty-esther" data-train="120 g" data-rest="120 g">120 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Cacao puro</span><div class="qty-values"><span class="qty-adria" data-base="10" data-unit="g">10 g</span><span class="qty-esther" data-train="8 g" data-rest="8 g">8 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Miel</span><div class="qty-values"><span class="qty-adria" data-base="10" data-unit="g" data-is-carb="true">10 g</span><span class="qty-esther" data-train="8 g" data-rest="5 g">8 g</span></div></div>
+      </div>
+      <p class="note">Total día: Adrià ~2.900 kcal · P ~190g · C ~310g · G ~75g &nbsp;|&nbsp; Esther ~1.820 kcal · P ~119g · C ~213g · G ~49g</p>
+    </div>
+  </div>
+  <div class="extras-section" data-day="1"></div>
+</div>
+<!-- ===== MIÉRCOLES ===== -->
+<div class="day-panel" id="day-2">
+  <div class="day-header">Miércoles · Adrià: Carrera 5 km 🏃 · Esther: Mixto fuerza+cardio 🏋️</div>
+  <div style="background:#fef3c7;border:1px solid #f59e0b;border-radius:8px;padding:8px 14px;margin-bottom:12px;font-size:12px;color:#92400e;">🏢 <strong>Solo esta semana:</strong> Adrià desayuna y come en la oficina todo el día (~700 kcal desayuno + ~780 kcal comida)</div>
+  <div class="meals-grid">
+    <div class="meal-card">
+      <div class="meal-label">Desayuno · 7:00</div>
+      <div class="meal-name">Adrià: Oficina · Esther: Yogur + Avena + Frambuesas</div>
+      <div class="quantities">
+        <div class="col-header"><span class="col-label-adria">Adrià</span><span class="col-label-esther">Esther</span></div>
+        <div class="qty-row"><span class="qty-ingredient">Desayuno oficina</span><div class="qty-values"><span class="qty-adria" data-base="0" data-unit="—">~700 kcal</span><span class="qty-esther" data-train="—" data-rest="—">—</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Yogur griego 0%</span><div class="qty-values"><span class="qty-adria" data-base="0" data-unit="—">—</span><span class="qty-esther" data-train="200 g" data-rest="200 g">200 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Copos de avena</span><div class="qty-values"><span class="qty-adria" data-base="0" data-unit="—">—</span><span class="qty-esther" data-train="40 g" data-rest="30 g">40 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Frambuesas</span><div class="qty-values"><span class="qty-adria" data-base="0" data-unit="—">—</span><span class="qty-esther" data-train="80 g" data-rest="60 g">80 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Miel</span><div class="qty-values"><span class="qty-adria" data-base="0" data-unit="—">—</span><span class="qty-esther" data-train="10 g" data-rest="10 g">10 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Almendras</span><div class="qty-values"><span class="qty-adria" data-base="0" data-unit="—">—</span><span class="qty-esther" data-train="12 g" data-rest="12 g">12 g</span></div></div>
+      </div>
+    </div>
+    <div class="meal-card">
+      <div class="meal-label">Media Mañana · 10:30</div>
+      <div class="meal-name">Manzana + Pistachos + Fiambre pavo + Queso fresco</div>
+      <div class="quantities">
+        <div class="col-header"><span class="col-label-adria">Adrià</span><span class="col-label-esther">Esther</span></div>
+        <div class="qty-row"><span class="qty-ingredient">Manzana</span><div class="qty-values"><span class="qty-adria" data-base="180" data-unit="g" data-is-carb="true">180 g</span><span class="qty-esther" data-train="130 g" data-rest="100 g">130 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Pistachos</span><div class="qty-values"><span class="qty-adria" data-base="25" data-unit="g">25 g</span><span class="qty-esther" data-train="—" data-rest="—">—</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Nueces</span><div class="qty-values"><span class="qty-adria" data-base="0" data-unit="—">—</span><span class="qty-esther" data-train="15 g" data-rest="15 g">15 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Fiambre de pavo</span><div class="qty-values"><span class="qty-adria" data-base="80" data-unit="g">80 g</span><span class="qty-esther" data-train="—" data-rest="—">—</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Queso fresco 0%</span><div class="qty-values"><span class="qty-adria" data-base="150" data-unit="g">150 g</span><span class="qty-esther" data-train="150 g" data-rest="150 g">150 g</span></div></div>
+      </div>
+    </div>
+    <div class="meal-card" style="border-color:#f59e0b;">
+      <div style="display:inline-block;background:#fef3c7;color:#92400e;font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;margin-bottom:8px;">🏢 Adrià: Oficina</div>
+      <div class="meal-label">Comida · 14:00</div>
+      <div class="meal-name">Adrià: Oficina · Esther: Dorada + Patata + Espárragos</div>
+      <div class="quantities">
+        <div class="col-header"><span class="col-label-adria">Adrià</span><span class="col-label-esther">Esther</span></div>
+        <div class="qty-row"><span class="qty-ingredient">Comida oficina (proteína+arroz/pasta)</span><div class="qty-values"><span class="qty-adria" data-base="0" data-unit="—">~780 kcal</span><span class="qty-esther" data-train="—" data-rest="—">—</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Dorada</span><div class="qty-values"><span class="qty-adria" data-base="0" data-unit="—">—</span><span class="qty-esther" data-train="200 g" data-rest="200 g">200 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Patata</span><div class="qty-values"><span class="qty-adria" data-base="0" data-unit="—">—</span><span class="qty-esther" data-train="160 g" data-rest="120 g">160 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Espárragos</span><div class="qty-values"><span class="qty-adria" data-base="0" data-unit="—">—</span><span class="qty-esther" data-train="200 g" data-rest="200 g">200 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">AOVE</span><div class="qty-values"><span class="qty-adria" data-base="0" data-unit="—">—</span><span class="qty-esther" data-train="10 g" data-rest="10 g">10 g</span></div></div>
+      </div>
+      <p class="note">Adrià: evita fritos, salsas y refrescos. Intenta tomar proteína a la plancha + carbohidrato + ensalada.</p>
+    </div>
+    <div class="meal-card">
+      <div class="meal-label">Merienda Pre-carrera · 17:30</div>
+      <div class="meal-name">Plátano + Tortitas / Yogur + Pera</div>
+      <div class="quantities">
+        <div class="col-header"><span class="col-label-adria">Adrià</span><span class="col-label-esther">Esther</span></div>
+        <div class="qty-row"><span class="qty-ingredient">Plátano</span><div class="qty-values"><span class="qty-adria" data-base="130" data-unit="g" data-is-carb="true">130 g</span><span class="qty-esther" data-train="—" data-rest="—">—</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Tortitas de arroz (3 ud)</span><div class="qty-values"><span class="qty-adria" data-base="40" data-unit="g" data-is-carb="true">40 g</span><span class="qty-esther" data-train="—" data-rest="—">—</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Miel</span><div class="qty-values"><span class="qty-adria" data-base="10" data-unit="g" data-is-carb="true">10 g</span><span class="qty-esther" data-train="—" data-rest="—">—</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Yogur griego 0%</span><div class="qty-values"><span class="qty-adria" data-base="0" data-unit="—">—</span><span class="qty-esther" data-train="150 g" data-rest="150 g">150 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Pera</span><div class="qty-values"><span class="qty-adria" data-base="0" data-unit="—">—</span><span class="qty-esther" data-train="150 g" data-rest="110 g">150 g</span></div></div>
+      </div>
+    </div>
+    <div class="meal-card">
+      <div class="meal-label">Cena Post-carrera · 21:00</div>
+      <div class="meal-name" data-recipe="pollo_lentejas" onclick="openRecipe('pollo_lentejas')">Pollo + Lentejas + Ensalada grande <span class="recipe-tag">📖 receta</span></div>
+      <div class="quantities">
+        <div class="col-header"><span class="col-label-adria">Adrià</span><span class="col-label-esther">Esther</span></div>
+        <div class="qty-row"><span class="qty-ingredient">Pechuga de pollo</span><div class="qty-values"><span class="qty-adria" data-base="160" data-unit="g">160 g</span><span class="qty-esther" data-train="110 g" data-rest="110 g">110 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Lentejas cocidas</span><div class="qty-values"><span class="qty-adria" data-base="200" data-unit="g" data-is-carb="true">200 g</span><span class="qty-esther" data-train="110 g" data-rest="80 g">110 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Lechuga</span><div class="qty-values"><span class="qty-adria" data-base="100" data-unit="g">100 g</span><span class="qty-esther" data-train="100 g" data-rest="100 g">100 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Tomate + Pepino + Zanahoria</span><div class="qty-values"><span class="qty-adria" data-base="330" data-unit="g">330 g</span><span class="qty-esther" data-train="310 g" data-rest="310 g">310 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">AOVE</span><div class="qty-values"><span class="qty-adria" data-base="12" data-unit="g">12 g</span><span class="qty-esther" data-train="8 g" data-rest="8 g">8 g</span></div></div>
+      </div>
+      <p class="note">Cena proteica para compensar si la comida de oficina fue pobre.</p>
+    </div>
+    <div class="meal-card">
+      <div class="meal-label">Postre · 22:00</div>
+      <div class="meal-name">Pera + Nueces</div>
+      <div class="quantities">
+        <div class="col-header"><span class="col-label-adria">Adrià</span><span class="col-label-esther">Esther</span></div>
+        <div class="qty-row"><span class="qty-ingredient">Pera</span><div class="qty-values"><span class="qty-adria" data-base="160" data-unit="g" data-is-carb="true">160 g</span><span class="qty-esther" data-train="120 g" data-rest="90 g">120 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Nueces</span><div class="qty-values"><span class="qty-adria" data-base="10" data-unit="g">10 g</span><span class="qty-esther" data-train="8 g" data-rest="8 g">8 g</span></div></div>
+      </div>
+      <p class="note">Total día: Adrià ~2.925 kcal · P ~190g · C ~312g · G ~75g &nbsp;|&nbsp; Esther ~1.840 kcal · P ~119g · C ~215g · G ~49g</p>
+    </div>
+  </div>
+  <div class="extras-section" data-day="2"></div>
+</div>
+<!-- ===== JUEVES ===== -->
+<div class="day-panel" id="day-3">
+  <div class="day-header">Jueves · Adrià: Hyrox 🏋️ · Esther: Mixto fuerza+cardio 🏋️</div>
+  <div class="meals-grid">
+    <div class="meal-card">
+      <div class="meal-label">Desayuno · 7:00</div>
+      <div class="meal-name" data-recipe="tortitas_avena" onclick="openRecipe('tortitas_avena')">Tortitas de avena + Plátano + Arándanos <span class="recipe-tag">📖 receta</span></div>
+      <div class="quantities">
+        <div class="col-header"><span class="col-label-adria">Adrià</span><span class="col-label-esther">Esther</span></div>
+        <div class="qty-row"><span class="qty-ingredient">Avena (en tortitas)</span><div class="qty-values"><span class="qty-adria" data-base="75" data-unit="g" data-is-carb="true">90 g</span><span class="qty-esther" data-train="50 g" data-rest="40 g">50 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Claras de huevo</span><div class="qty-values"><span class="qty-adria" data-base="150" data-unit="g">150 g</span><span class="qty-esther" data-train="130 g" data-rest="130 g">130 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Plátano</span><div class="qty-values"><span class="qty-adria" data-base="85" data-unit="g" data-is-carb="true">100 g</span><span class="qty-esther" data-train="60 g" data-rest="45 g">60 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Arándanos</span><div class="qty-values"><span class="qty-adria" data-base="85" data-unit="g" data-is-carb="true">100 g</span><span class="qty-esther" data-train="—" data-rest="—">—</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Miel</span><div class="qty-values"><span class="qty-adria" data-base="10" data-unit="g" data-is-carb="true">10 g</span><span class="qty-esther" data-train="—" data-rest="—">—</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Nueces / Almendras</span><div class="qty-values"><span class="qty-adria" data-base="25" data-unit="g">25 g</span><span class="qty-esther" data-train="5 g" data-rest="5 g">5 g</span></div></div>
+      </div>
+      <div class="ctx-note hyrox show" data-mode="hyrox">🏋️ Desayuno cargado — Hyrox esta tarde. Esther: post-entreno mañana, carga bien.</div>
+    </div>
+    <div class="meal-card">
+      <div class="meal-label">Media Mañana · 10:30</div>
+      <div class="meal-name">Plátano + Requesón + Miel</div>
+      <div class="quantities">
+        <div class="col-header"><span class="col-label-adria">Adrià</span><span class="col-label-esther">Esther</span></div>
+        <div class="qty-row"><span class="qty-ingredient">Plátano</span><div class="qty-values"><span class="qty-adria" data-base="100" data-unit="g" data-is-carb="true">120 g</span><span class="qty-esther" data-train="80 g" data-rest="60 g">80 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Requesón 0%</span><div class="qty-values"><span class="qty-adria" data-base="200" data-unit="g">200 g</span><span class="qty-esther" data-train="200 g" data-rest="200 g">200 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Miel</span><div class="qty-values"><span class="qty-adria" data-base="10" data-unit="g" data-is-carb="true">10 g</span><span class="qty-esther" data-train="—" data-rest="—">—</span></div></div>
+      </div>
+    </div>
+    <div class="meal-card">
+      <div class="meal-label">Comida · 14:00</div>
+      <div class="meal-name" data-recipe="dorada_bulgur" onclick="openRecipe('dorada_bulgur')">Dorada + Bulgur + Espinacas <span class="recipe-tag">📖 receta</span></div>
+      <div class="quantities">
+        <div class="col-header"><span class="col-label-adria">Adrià</span><span class="col-label-esther">Esther</span></div>
+        <div class="qty-row"><span class="qty-ingredient">Dorada</span><div class="qty-values"><span class="qty-adria" data-base="190" data-unit="g">190 g</span><span class="qty-esther" data-train="140 g" data-rest="140 g">140 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Bulgur (crudo)</span><div class="qty-values"><span class="qty-adria" data-base="85" data-unit="g" data-is-carb="true">100 g</span><span class="qty-esther" data-train="55 g" data-rest="40 g">55 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Espinacas baby</span><div class="qty-values"><span class="qty-adria" data-base="150" data-unit="g">150 g</span><span class="qty-esther" data-train="150 g" data-rest="150 g">150 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Tomate</span><div class="qty-values"><span class="qty-adria" data-base="100" data-unit="g">100 g</span><span class="qty-esther" data-train="100 g" data-rest="100 g">100 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">AOVE</span><div class="qty-values"><span class="qty-adria" data-base="12" data-unit="g">12 g</span><span class="qty-esther" data-train="8 g" data-rest="8 g">8 g</span></div></div>
+      </div>
+    </div>
+    <div class="meal-card">
+      <div class="meal-label">Merienda Pre-Hyrox · 17:30</div>
+      <div class="meal-name">Plátano + Avena + Proteína / Yogur + Fruta + Almendras</div>
+      <div class="quantities">
+        <div class="col-header"><span class="col-label-adria">Adrià</span><span class="col-label-esther">Esther</span></div>
+        <div class="qty-row"><span class="qty-ingredient">Plátano</span><div class="qty-values"><span class="qty-adria" data-base="110" data-unit="g" data-is-carb="true">130 g</span><span class="qty-esther" data-train="—" data-rest="—">—</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Copos de avena</span><div class="qty-values"><span class="qty-adria" data-base="35" data-unit="g" data-is-carb="true">40 g</span><span class="qty-esther" data-train="—" data-rest="—">—</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Proteína en polvo</span><div class="qty-values"><span class="qty-adria" data-base="25" data-unit="g">25 g</span><span class="qty-esther" data-train="—" data-rest="—">—</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Yogur griego 0%</span><div class="qty-values"><span class="qty-adria" data-base="0" data-unit="—">—</span><span class="qty-esther" data-train="150 g" data-rest="150 g">150 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Fruta de temporada</span><div class="qty-values"><span class="qty-adria" data-base="0" data-unit="—">—</span><span class="qty-esther" data-train="100 g" data-rest="75 g">100 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Almendras</span><div class="qty-values"><span class="qty-adria" data-base="0" data-unit="—">—</span><span class="qty-esther" data-train="15 g" data-rest="15 g">15 g</span></div></div>
+      </div>
+      <div class="ctx-note hyrox show" data-mode="hyrox">🏋️ Adrià: carbos rápidos antes del Hyrox. No llegues con el estómago vacío.</div>
+    </div>
+    <div class="meal-card">
+      <div class="meal-label">Cena Post-Hyrox · 21:00</div>
+      <div class="meal-name" data-recipe="ternera_patata" onclick="openRecipe('ternera_patata')">Ternera picada + Patata + Pimiento <span class="recipe-tag">📖 receta</span></div>
+      <div class="quantities">
+        <div class="col-header"><span class="col-label-adria">Adrià</span><span class="col-label-esther">Esther</span></div>
+        <div class="qty-row"><span class="qty-ingredient">Ternera magra picada</span><div class="qty-values"><span class="qty-adria" data-base="200" data-unit="g">200 g</span><span class="qty-esther" data-train="150 g" data-rest="150 g">150 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Patata</span><div class="qty-values"><span class="qty-adria" data-base="210" data-unit="g" data-is-carb="true">250 g</span><span class="qty-esther" data-train="110 g" data-rest="80 g">110 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Pimiento rojo</span><div class="qty-values"><span class="qty-adria" data-base="150" data-unit="g">150 g</span><span class="qty-esther" data-train="150 g" data-rest="150 g">150 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Cebolla</span><div class="qty-values"><span class="qty-adria" data-base="50" data-unit="g">50 g</span><span class="qty-esther" data-train="40 g" data-rest="40 g">40 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">AOVE</span><div class="qty-values"><span class="qty-adria" data-base="8" data-unit="g">8 g</span><span class="qty-esther" data-train="6 g" data-rest="6 g">6 g</span></div></div>
+      </div>
+      <div class="ctx-note hyrox show" data-mode="hyrox">🏋️ Post-Hyrox: come dentro de 45 min. Proteína + patata = recuperación completa.</div>
+    </div>
+    <div class="meal-card">
+      <div class="meal-label">Postre · 22:00</div>
+      <div class="meal-name">Chocolate negro 85% + Nueces</div>
+      <div class="quantities">
+        <div class="col-header"><span class="col-label-adria">Adrià</span><span class="col-label-esther">Esther</span></div>
+        <div class="qty-row"><span class="qty-ingredient">Chocolate negro 85%</span><div class="qty-values"><span class="qty-adria" data-base="20" data-unit="g">20 g</span><span class="qty-esther" data-train="15 g" data-rest="15 g">15 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Nueces</span><div class="qty-values"><span class="qty-adria" data-base="10" data-unit="g">10 g</span><span class="qty-esther" data-train="—" data-rest="—">—</span></div></div>
+      </div>
+      <p class="note">Total día: Adrià ~3.150 kcal · P ~200g · C ~370g · G ~68g &nbsp;|&nbsp; Esther ~1.980 kcal · P ~125g · C ~255g · G ~44g</p>
+    </div>
+  </div>
+  <div class="extras-section" data-day="3"></div>
+</div>
+<!-- ===== VIERNES ===== -->
+<div class="day-panel" id="day-4">
+  <div class="day-header">Viernes · Adrià: Descanso 😴 · Esther: Mixto fuerza+cardio 🏋️</div>
+  <div style="background:#fef9c3;border:1px solid #f59e0b;border-radius:8px;padding:8px 14px;margin-bottom:12px;font-size:12px;color:#92400e;">🍕 <strong>Noche de pizza:</strong> resto del día ajustado para compensar la cena libre</div>
+  <div class="meals-grid">
+    <div class="meal-card">
+      <div class="meal-label">Desayuno · 7:00</div>
+      <div class="meal-name" data-recipe="salmon_tostada" onclick="openRecipe('salmon_tostada')">Tostada integral + Salmón + Huevos + Aguacate <span class="recipe-tag">📖 receta</span></div>
+      <div class="quantities">
+        <div class="col-header"><span class="col-label-adria">Adrià</span><span class="col-label-esther">Esther</span></div>
+        <div class="qty-row"><span class="qty-ingredient">Tostada integral</span><div class="qty-values"><span class="qty-adria" data-base="145" data-unit="g" data-is-carb="true">110 g</span><span class="qty-esther" data-train="55 g" data-rest="40 g">55 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Salmón ahumado</span><div class="qty-values"><span class="qty-adria" data-base="70" data-unit="g">70 g</span><span class="qty-esther" data-train="50 g" data-rest="50 g">50 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Huevos camperos</span><div class="qty-values"><span class="qty-adria" data-base="2" data-unit="ud">2 ud</span><span class="qty-esther" data-train="1 ud" data-rest="1 ud">1 ud</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Aguacate</span><div class="qty-values"><span class="qty-adria" data-base="60" data-unit="g">60 g</span><span class="qty-esther" data-train="40 g" data-rest="40 g">40 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Tomate</span><div class="qty-values"><span class="qty-adria" data-base="100" data-unit="g">100 g</span><span class="qty-esther" data-train="100 g" data-rest="100 g">100 g</span></div></div>
+      </div>
+    </div>
+    <div class="meal-card">
+      <div class="meal-label">Media Mañana · 10:30</div>
+      <div class="meal-name">Skyr + Fruta</div>
+      <div class="quantities">
+        <div class="col-header"><span class="col-label-adria">Adrià</span><span class="col-label-esther">Esther</span></div>
+        <div class="qty-row"><span class="qty-ingredient">Skyr</span><div class="qty-values"><span class="qty-adria" data-base="200" data-unit="g">200 g</span><span class="qty-esther" data-train="150 g" data-rest="150 g">150 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Manzana / Fruta temporada</span><div class="qty-values"><span class="qty-adria" data-base="200" data-unit="g" data-is-carb="true">150 g</span><span class="qty-esther" data-train="100 g" data-rest="75 g">100 g</span></div></div>
+      </div>
+    </div>
+    <div class="meal-card">
+      <div class="meal-label">Comida Ligera · 14:00</div>
+      <div class="meal-name" data-recipe="pavo_patata_jv" onclick="openRecipe('pavo_patata_jv')">Pechuga de pavo + Patata + Judías verdes <span class="recipe-tag">📖 receta</span></div>
+      <div class="quantities">
+        <div class="col-header"><span class="col-label-adria">Adrià</span><span class="col-label-esther">Esther</span></div>
+        <div class="qty-row"><span class="qty-ingredient">Pechuga de pavo</span><div class="qty-values"><span class="qty-adria" data-base="200" data-unit="g">200 g</span><span class="qty-esther" data-train="130 g" data-rest="130 g">130 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Patata</span><div class="qty-values"><span class="qty-adria" data-base="265" data-unit="g" data-is-carb="true">200 g</span><span class="qty-esther" data-train="110 g" data-rest="80 g">110 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Judías verdes</span><div class="qty-values"><span class="qty-adria" data-base="200" data-unit="g">200 g</span><span class="qty-esther" data-train="200 g" data-rest="200 g">200 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">AOVE</span><div class="qty-values"><span class="qty-adria" data-base="10" data-unit="g">10 g</span><span class="qty-esther" data-train="8 g" data-rest="8 g">8 g</span></div></div>
+      </div>
+    </div>
+    <div class="meal-card">
+      <div class="meal-label">Merienda Ligera · 16:30</div>
+      <div class="meal-name">Yogur griego + Naranja</div>
+      <div class="quantities">
+        <div class="col-header"><span class="col-label-adria">Adrià</span><span class="col-label-esther">Esther</span></div>
+        <div class="qty-row"><span class="qty-ingredient">Yogur griego 0%</span><div class="qty-values"><span class="qty-adria" data-base="150" data-unit="g">150 g</span><span class="qty-esther" data-train="120 g" data-rest="120 g">120 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Naranja</span><div class="qty-values"><span class="qty-adria" data-base="160" data-unit="g" data-is-carb="true">120 g</span><span class="qty-esther" data-train="100 g" data-rest="75 g">100 g</span></div></div>
+      </div>
+    </div>
+    <div class="meal-card family-card">
+      <div class="family-badge">🍕 Cena libre</div>
+      <div class="meal-label">Cena · 20:30</div>
+      <div class="meal-name">Pizza a gusto — masa fina preferiblemente</div>
+      <div class="quantities">
+        <div class="col-header"><span class="col-label-adria">Adrià</span><span class="col-label-esther">Esther</span></div>
+        <div class="qty-row"><span class="qty-ingredient">Pizza (porciones)</span><div class="qty-values"><span class="qty-adria" data-base="0" data-unit="—">~3 porciones</span><span class="qty-esther" data-train="~2 porciones" data-rest="~2 porciones">~2 porciones</span></div></div>
+      </div>
+      <p class="note">Preferir toppings proteicos: jamón, pollo, atún. Adrià ~950 kcal · Esther ~600 kcal.</p>
+      <p class="note">Total día: Adrià ~2.457 kcal · P ~182g · C ~253g · G ~78g &nbsp;|&nbsp; Esther ~1.540 kcal · P ~114g · C ~174g · G ~51g</p>
+    </div>
+  </div>
+  <div class="extras-section" data-day="4"></div>
+</div>
+<!-- ===== SÁBADO ===== -->
+<div class="day-panel" id="day-5">
+  <div class="day-header">Sábado · Adrià: Carrera larga 🏅 · Esther: Descanso 😴</div>
+  <div style="background:#fdf2f8;border:1px solid #f0abfc;border-radius:10px;padding:10px 14px;margin-bottom:14px;font-size:13px;color:#7e22ce;">
+    🍔 <strong>Cheat meal del finde:</strong> elige una comida o cena este sábado o el domingo para salirte del plan. Disfruta sin culpa y el lunes volvemos.
+  </div>
+  <div class="meals-grid">
+    <div class="meal-card">
+      <div class="meal-label">Desayuno · 7:00 — 2h antes de salir</div>
+      <div class="meal-name">Yogur + Avena + Plátano + Miel</div>
+      <div class="quantities">
+        <div class="col-header"><span class="col-label-adria">Adrià</span><span class="col-label-esther">Esther</span></div>
+        <div class="qty-row"><span class="qty-ingredient">Yogur griego 0%</span><div class="qty-values"><span class="qty-adria" data-base="300" data-unit="g">300 g</span><span class="qty-esther" data-train="200 g" data-rest="200 g">200 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Copos de avena</span><div class="qty-values"><span class="qty-adria" data-base="60" data-unit="g" data-is-carb="true">70 g</span><span class="qty-esther" data-train="40 g" data-rest="30 g">40 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Miel</span><div class="qty-values"><span class="qty-adria" data-base="15" data-unit="g" data-is-carb="true">20 g</span><span class="qty-esther" data-train="10 g" data-rest="10 g">10 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Plátano</span><div class="qty-values"><span class="qty-adria" data-base="125" data-unit="g" data-is-carb="true">150 g</span><span class="qty-esther" data-train="80 g" data-rest="60 g">80 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Mantequilla de cacahuete / Almendras</span><div class="qty-values"><span class="qty-adria" data-base="15" data-unit="g">15 g</span><span class="qty-esther" data-train="10 g" data-rest="10 g">10 g</span></div></div>
+      </div>
+      <div class="ctx-note larga show" data-mode="larga">🏅 Pre-tirada: come 2h antes de salir. Si corres +75 min, toma 30-45 g carbos cada 45 min (gel, dátil o plátano).</div>
+    </div>
+    <div class="meal-card">
+      <div class="meal-label">Post-Carrera · 10:30 (30-45 min tras llegar)</div>
+      <div class="meal-name">Adrià: Batido recuperación · Esther: Plátano + Yogur</div>
+      <div class="quantities">
+        <div class="col-header"><span class="col-label-adria">Adrià</span><span class="col-label-esther">Esther</span></div>
+        <div class="qty-row"><span class="qty-ingredient">Proteína en polvo</span><div class="qty-values"><span class="qty-adria" data-base="30" data-unit="g">30 g</span><span class="qty-esther" data-train="—" data-rest="—">—</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Plátano</span><div class="qty-values"><span class="qty-adria" data-base="125" data-unit="g" data-is-carb="true">150 g</span><span class="qty-esther" data-train="100 g" data-rest="75 g">100 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Leche semidesnatada</span><div class="qty-values"><span class="qty-adria" data-base="300" data-unit="ml">300 ml</span><span class="qty-esther" data-train="—" data-rest="—">—</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Yogur griego 0%</span><div class="qty-values"><span class="qty-adria" data-base="0" data-unit="—">—</span><span class="qty-esther" data-train="150 g" data-rest="150 g">150 g</span></div></div>
+      </div>
+    </div>
+    <div class="meal-card family-card">
+      <div class="family-badge">🍔 Comida libre</div>
+      <div class="meal-label">Comida · 14:00</div>
+      <div class="meal-name">Lo que queráis — sin restricción</div>
+      <div class="quantities">
+        <div class="col-header"><span class="col-label-adria">Adrià</span><span class="col-label-esther">Esther</span></div>
+        <div class="qty-row"><span class="qty-ingredient">Comida libre</span><div class="qty-values"><span class="qty-adria" data-base="0" data-unit="—">~1.000 kcal</span><span class="qty-esther" data-train="~720 kcal" data-rest="~720 kcal">~720 kcal</span></div></div>
+      </div>
+      <p class="note">Intentad incluir proteína. Si esta es el cheat meal, disfrutad sin culpa.</p>
+    </div>
+    <div class="meal-card">
+      <div class="meal-label">Merienda · 17:30</div>
+      <div class="meal-name">Manzana + Queso fresco / Manzana + Almendras</div>
+      <div class="quantities">
+        <div class="col-header"><span class="col-label-adria">Adrià</span><span class="col-label-esther">Esther</span></div>
+        <div class="qty-row"><span class="qty-ingredient">Manzana</span><div class="qty-values"><span class="qty-adria" data-base="125" data-unit="g" data-is-carb="true">150 g</span><span class="qty-esther" data-train="130 g" data-rest="100 g">130 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Queso fresco 0%</span><div class="qty-values"><span class="qty-adria" data-base="150" data-unit="g">150 g</span><span class="qty-esther" data-train="—" data-rest="—">—</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Almendras</span><div class="qty-values"><span class="qty-adria" data-base="0" data-unit="—">—</span><span class="qty-esther" data-train="15 g" data-rest="15 g">15 g</span></div></div>
+      </div>
+    </div>
+    <div class="meal-card">
+      <div class="meal-label">Cena Ligera · 21:00</div>
+      <div class="meal-name" data-recipe="revuelto" onclick="openRecipe('revuelto')">Revuelto de huevos + Calabacín + Pimiento <span class="recipe-tag">📖 receta</span></div>
+      <div class="quantities">
+        <div class="col-header"><span class="col-label-adria">Adrià</span><span class="col-label-esther">Esther</span></div>
+        <div class="qty-row"><span class="qty-ingredient">Huevos</span><div class="qty-values"><span class="qty-adria" data-base="3" data-unit="ud">3 ud</span><span class="qty-esther" data-train="2 ud" data-rest="2 ud">2 ud</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Claras de huevo</span><div class="qty-values"><span class="qty-adria" data-base="90" data-unit="g">90 g</span><span class="qty-esther" data-train="60 g" data-rest="60 g">60 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Calabacín</span><div class="qty-values"><span class="qty-adria" data-base="150" data-unit="g">150 g</span><span class="qty-esther" data-train="150 g" data-rest="150 g">150 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Pimiento</span><div class="qty-values"><span class="qty-adria" data-base="100" data-unit="g">100 g</span><span class="qty-esther" data-train="80 g" data-rest="80 g">80 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">AOVE</span><div class="qty-values"><span class="qty-adria" data-base="8" data-unit="g">8 g</span><span class="qty-esther" data-train="6 g" data-rest="6 g">6 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Pan integral</span><div class="qty-values"><span class="qty-adria" data-base="35" data-unit="g" data-is-carb="true">40 g</span><span class="qty-esther" data-train="—" data-rest="—">—</span></div></div>
+      </div>
+    </div>
+    <div class="meal-card">
+      <div class="meal-label">Postre · 22:00</div>
+      <div class="meal-name">Frambuesas + Yogur</div>
+      <div class="quantities">
+        <div class="col-header"><span class="col-label-adria">Adrià</span><span class="col-label-esther">Esther</span></div>
+        <div class="qty-row"><span class="qty-ingredient">Frambuesas</span><div class="qty-values"><span class="qty-adria" data-base="125" data-unit="g" data-is-carb="true">150 g</span><span class="qty-esther" data-train="120 g" data-rest="90 g">120 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Yogur griego 0%</span><div class="qty-values"><span class="qty-adria" data-base="100" data-unit="g">100 g</span><span class="qty-esther" data-train="80 g" data-rest="80 g">80 g</span></div></div>
+      </div>
+      <p class="note">Total día: Adrià ~3.100 kcal · P ~190g · C ~380g · G ~72g &nbsp;|&nbsp; Esther ~1.950 kcal · P ~119g · C ~262g · G ~47g</p>
+    </div>
+  </div>
+  <div class="extras-section" data-day="5"></div>
+</div>
+<!-- ===== DOMINGO ===== -->
+<div class="day-panel" id="day-6">
+  <div class="day-header">Domingo · Adrià: Descanso activo 😴 · Esther: Descanso 😴</div>
+  <div class="meals-grid">
+    <div class="meal-card">
+      <div class="meal-label">Desayuno · 8:30</div>
+      <div class="meal-name" data-recipe="tortitas_avena" onclick="openRecipe('tortitas_avena')">Tortitas de avena + Plátano / Fresas <span class="recipe-tag">📖 receta</span></div>
+      <div class="quantities">
+        <div class="col-header"><span class="col-label-adria">Adrià</span><span class="col-label-esther">Esther</span></div>
+        <div class="qty-row"><span class="qty-ingredient">Avena (en tortitas)</span><div class="qty-values"><span class="qty-adria" data-base="120" data-unit="g" data-is-carb="true">90 g</span><span class="qty-esther" data-train="55 g" data-rest="40 g">55 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Claras de huevo</span><div class="qty-values"><span class="qty-adria" data-base="150" data-unit="g">150 g</span><span class="qty-esther" data-train="120 g" data-rest="120 g">120 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Huevo entero (solo él)</span><div class="qty-values"><span class="qty-adria" data-base="1" data-unit="ud">1 ud</span><span class="qty-esther" data-train="—" data-rest="—">—</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Plátano</span><div class="qty-values"><span class="qty-adria" data-base="135" data-unit="g" data-is-carb="true">100 g</span><span class="qty-esther" data-train="—" data-rest="—">—</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Fresas</span><div class="qty-values"><span class="qty-adria" data-base="0" data-unit="—">—</span><span class="qty-esther" data-train="100 g" data-rest="75 g">100 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Miel</span><div class="qty-values"><span class="qty-adria" data-base="20" data-unit="g" data-is-carb="true">15 g</span><span class="qty-esther" data-train="8 g" data-rest="5 g">8 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Nueces</span><div class="qty-values"><span class="qty-adria" data-base="15" data-unit="g">15 g</span><span class="qty-esther" data-train="—" data-rest="—">—</span></div></div>
+      </div>
+    </div>
+    <div class="meal-card">
+      <div class="meal-label">Media Mañana · 11:30</div>
+      <div class="meal-name">Plátano + Almendras + Queso fresco</div>
+      <div class="quantities">
+        <div class="col-header"><span class="col-label-adria">Adrià</span><span class="col-label-esther">Esther</span></div>
+        <div class="qty-row"><span class="qty-ingredient">Plátano</span><div class="qty-values"><span class="qty-adria" data-base="200" data-unit="g" data-is-carb="true">150 g</span><span class="qty-esther" data-train="100 g" data-rest="75 g">100 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Almendras</span><div class="qty-values"><span class="qty-adria" data-base="30" data-unit="g">30 g</span><span class="qty-esther" data-train="20 g" data-rest="20 g">20 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Queso fresco 0%</span><div class="qty-values"><span class="qty-adria" data-base="150" data-unit="g">150 g</span><span class="qty-esther" data-train="—" data-rest="—">—</span></div></div>
+      </div>
+    </div>
+    <div class="meal-card">
+      <div class="meal-label">Comida · 14:30</div>
+      <div class="meal-name" data-recipe="merluza_arroz" onclick="openRecipe('merluza_arroz')">Merluza + Arroz basmati + Espinacas <span class="recipe-tag">📖 receta</span></div>
+      <div class="quantities">
+        <div class="col-header"><span class="col-label-adria">Adrià</span><span class="col-label-esther">Esther</span></div>
+        <div class="qty-row"><span class="qty-ingredient">Merluza</span><div class="qty-values"><span class="qty-adria" data-base="230" data-unit="g">230 g</span><span class="qty-esther" data-train="150 g" data-rest="150 g">150 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Arroz basmati (crudo)</span><div class="qty-values"><span class="qty-adria" data-base="135" data-unit="g" data-is-carb="true">100 g</span><span class="qty-esther" data-train="70 g" data-rest="50 g">70 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Espinacas</span><div class="qty-values"><span class="qty-adria" data-base="200" data-unit="g">200 g</span><span class="qty-esther" data-train="200 g" data-rest="200 g">200 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Tomate</span><div class="qty-values"><span class="qty-adria" data-base="150" data-unit="g">150 g</span><span class="qty-esther" data-train="100 g" data-rest="100 g">100 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">AOVE</span><div class="qty-values"><span class="qty-adria" data-base="12" data-unit="g">12 g</span><span class="qty-esther" data-train="8 g" data-rest="8 g">8 g</span></div></div>
+      </div>
+    </div>
+    <div class="meal-card">
+      <div class="meal-label">Merienda · 17:30</div>
+      <div class="meal-name">Yogur + Pistachos / Yogur + Fruta + Nueces</div>
+      <div class="quantities">
+        <div class="col-header"><span class="col-label-adria">Adrià</span><span class="col-label-esther">Esther</span></div>
+        <div class="qty-row"><span class="qty-ingredient">Yogur griego 0%</span><div class="qty-values"><span class="qty-adria" data-base="200" data-unit="g">200 g</span><span class="qty-esther" data-train="150 g" data-rest="150 g">150 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Miel</span><div class="qty-values"><span class="qty-adria" data-base="15" data-unit="g" data-is-carb="true">10 g</span><span class="qty-esther" data-train="—" data-rest="—">—</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Pistachos</span><div class="qty-values"><span class="qty-adria" data-base="15" data-unit="g">15 g</span><span class="qty-esther" data-train="—" data-rest="—">—</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Fruta de temporada</span><div class="qty-values"><span class="qty-adria" data-base="0" data-unit="—">—</span><span class="qty-esther" data-train="100 g" data-rest="75 g">100 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Nueces</span><div class="qty-values"><span class="qty-adria" data-base="0" data-unit="—">—</span><span class="qty-esther" data-train="10 g" data-rest="10 g">10 g</span></div></div>
+      </div>
+    </div>
+    <div class="meal-card">
+      <div class="meal-label">Cena · 21:00</div>
+      <div class="meal-name" data-recipe="pollo_horno" onclick="openRecipe('pollo_horno')">Pollo al horno + Verduras asadas <span class="recipe-tag">📖 receta</span></div>
+      <div class="quantities">
+        <div class="col-header"><span class="col-label-adria">Adrià</span><span class="col-label-esther">Esther</span></div>
+        <div class="qty-row"><span class="qty-ingredient">Pechuga de pollo al horno</span><div class="qty-values"><span class="qty-adria" data-base="160" data-unit="g">160 g</span><span class="qty-esther" data-train="120 g" data-rest="120 g">120 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Berenjena</span><div class="qty-values"><span class="qty-adria" data-base="200" data-unit="g">200 g</span><span class="qty-esther" data-train="150 g" data-rest="150 g">150 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Calabacín</span><div class="qty-values"><span class="qty-adria" data-base="150" data-unit="g">150 g</span><span class="qty-esther" data-train="150 g" data-rest="150 g">150 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Pimiento + Tomate</span><div class="qty-values"><span class="qty-adria" data-base="250" data-unit="g">250 g</span><span class="qty-esther" data-train="180 g" data-rest="180 g">180 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">AOVE</span><div class="qty-values"><span class="qty-adria" data-base="12" data-unit="g">12 g</span><span class="qty-esther" data-train="10 g" data-rest="10 g">10 g</span></div></div>
+      </div>
+    </div>
+    <div class="meal-card">
+      <div class="meal-label">Postre · 22:00</div>
+      <div class="meal-name">Requesón + Miel + Canela</div>
+      <div class="quantities">
+        <div class="col-header"><span class="col-label-adria">Adrià</span><span class="col-label-esther">Esther</span></div>
+        <div class="qty-row"><span class="qty-ingredient">Requesón 0%</span><div class="qty-values"><span class="qty-adria" data-base="150" data-unit="g">150 g</span><span class="qty-esther" data-train="100 g" data-rest="100 g">100 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Miel</span><div class="qty-values"><span class="qty-adria" data-base="15" data-unit="g" data-is-carb="true">10 g</span><span class="qty-esther" data-train="8 g" data-rest="5 g">8 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Canela</span><div class="qty-values"><span class="qty-adria" data-base="0" data-unit="—">al gusto</span><span class="qty-esther" data-train="al gusto" data-rest="al gusto">al gusto</span></div></div>
+      </div>
+      <p class="note">Total día: Adrià ~2.620 kcal · P ~195g · C ~288g · G ~77g &nbsp;|&nbsp; Esther ~1.644 kcal · P ~122g · C ~198g · G ~50g</p>
+    </div>
+  </div>
+  <div class="extras-section" data-day="6"></div>
+</div>
+<!-- ===== REGLAS ===== -->
+<div class="day-panel" id="day-7">
+  <div class="day-header">Reglas de flexibilidad</div>
+  <div class="rules-section">
+    <div class="rules-title">Adrià — 4 modos</div>
+    <div class="rule"><span class="rule-icon">🏃</span><div class="rule-text"><strong>Carrera + Fuerza (Lun/Mié):</strong> Cantidades base. Merienda pre-entreno con plátano si vas cargado de trabajo.</div></div>
+    <div class="rule"><span class="rule-icon">🏋️</span><div class="rule-text"><strong>Hyrox (Mar):</strong> Carbs +20% — pasta, arroz y pan suben. Merienda con plátano + miel obligatorio. Cena dentro de 45 min post-sesión.</div></div>
+    <div class="rule"><span class="rule-icon">🏅</span><div class="rule-text"><strong>Tirada Larga (Sáb):</strong> Carbs +20% con foco en el desayuno pre-carrera (come 90 min antes). Paella post-tirada es recuperación ideal. Hidratación con electrolitos si corres +60 min.</div></div>
+    <div class="rule"><span class="rule-icon">😴</span><div class="rule-text"><strong>Descanso (Vie/Dom):</strong> Carbs -25%. Proteína siempre igual — repara músculo incluso en reposo.</div></div>
+  </div>
+  <div class="rules-section" style="margin-top:12px;">
+    <div class="rules-title">Esther — 2 modos</div>
+    <div class="rule"><span class="rule-icon">🏋️</span><div class="rule-text"><strong>Entreno (mañanas antes de 8h):</strong> Desayuno post-entreno más alto en carbs (+30 g avena o 1 plátano extra). Es la recarga más importante del día.</div></div>
+    <div class="rule"><span class="rule-icon">😴</span><div class="rule-text"><strong>Descanso:</strong> Carbs -25% en pan, avena, arroz y pasta. Proteína sin tocar.</div></div>
+  </div>
+  <div class="rules-section" style="margin-top:12px;">
+    <div class="rules-title">Reglas generales</div>
+    <div class="rule"><span class="rule-icon">🍕</span><div class="rule-text"><strong>Viernes — Pizza siempre:</strong> La pizza del viernes es fija. Adrià ~40% · Esther ~28% · Niña ~22%. En modo descanso, Adrià se queda en ~30%.</div></div>
+    <div class="rule"><span class="rule-icon">🍔</span><div class="rule-text"><strong>Cheat meal fin de semana:</strong> Una comida o cena del sábado o domingo es libre. Elige la que más te apetezca y disfruta sin culpa. El lunes se retoma el menú sin compensar.</div></div>
+    <div class="rule"><span class="rule-icon">🏢</span><div class="rule-text"><strong>Adrià miércoles — Oficina:</strong> Come lo que le pongan. Si el menú es procesado o pobre en proteína, compensa con una cena más proteica ese día.</div></div>
+    <div class="rule"><span class="rule-icon">🍎</span><div class="rule-text"><strong>Fruta de temporada:</strong> Siempre que el menú diga "fruta", elige la de temporada. Primavera/verano: fresas, melocotón, sandía, melón, cerezas. Otoño/invierno: mandarina, naranja, pera, granada, kiwi.</div></div>
+    <div class="rule"><span class="rule-icon">🎉</span><div class="rule-text"><strong>Evento social:</strong> Come proteína + verdura antes. Disfruta sin obsesionarte. Al día siguiente, menú normal sin compensar.</div></div>
+    <div class="rule"><span class="rule-icon">😓</span><div class="rule-text"><strong>Mal día:</strong> Cena comodín — tortilla + yogur griego + fruta. Rápido, completo, sin culpa.</div></div>
+    <div class="rule"><span class="rule-icon">📏</span><div class="rule-text"><strong>Pesos:</strong> Cereales y legumbres siempre en seco. Huevos por unidades (~50 g/ud). Aguacate = pulpa sin hueso.</div></div>
+  </div>
+</div>
+
+<!-- ===== ENTRENAMIENTO ===== -->
+
+<!-- ===== COMPRA ===== -->
+<div class="day-panel" id="day-8">
+  <div class="day-header">Lista de la compra &#128722;</div>
+  <div class="shop-topbar">
+    <div class="shop-progress-wrap">
+      <div class="shop-progress-label"><span id="shop-done">0</span> / 64 productos marcados</div>
+      <div class="shop-progress-bar"><div class="shop-progress-fill" id="shop-bar" style="width:0%"></div></div>
+    </div>
+    <button class="shop-reset" onclick="resetShop()">&#8635; Resetear lista</button>
+  </div>
+  <div class="shop-cat open" id="cat_carnes">
+    <div class="shop-cat-header" onclick="toggleCat('cat_carnes')">
+      <span class="shop-cat-title">🥩 Carnes <span class="shop-cat-meta" id="cat_carnes_meta"></span></span>
+      <span class="shop-cat-chevron">&#9660;</span>
+    </div>
+    <div class="shop-cat-body">
+    <label class="shop-item" id="shop_pechuga_de_pollo_label" onclick="toggleShop('shop_pechuga_de_pollo')">
+      <div class="shop-check"></div>
+      <span class="shop-item-name">Pechuga de pollo</span>
+      <span class="shop-item-hint">≈ 550g</span>
+    </label>
+    <label class="shop-item" id="shop_pechuga_de_pavo_label" onclick="toggleShop('shop_pechuga_de_pavo')">
+      <div class="shop-check"></div>
+      <span class="shop-item-name">Pechuga de pavo</span>
+      <span class="shop-item-hint">≈ 680g</span>
+    </label>
+    <label class="shop-item" id="shop_lomo_de_cerdo_label" onclick="toggleShop('shop_lomo_de_cerdo')">
+      <div class="shop-check"></div>
+      <span class="shop-item-name">Lomo de cerdo</span>
+      <span class="shop-item-hint">≈ 340g</span>
+    </label>
+    <label class="shop-item" id="shop_ternera_magra_picada_label" onclick="toggleShop('shop_ternera_magra_picada')">
+      <div class="shop-check"></div>
+      <span class="shop-item-name">Ternera magra picada</span>
+      <span class="shop-item-hint">≈ 350g</span>
+    </label>
+    <label class="shop-item" id="shop_fiambre_de_pavo_label" onclick="toggleShop('shop_fiambre_de_pavo')">
+      <div class="shop-check"></div>
+      <span class="shop-item-name">Fiambre de pavo</span>
+      <span class="shop-item-hint">≈ 80g</span>
+    </label>
+    </div>
+  </div>
+  <div class="shop-cat open" id="cat_pescado">
+    <div class="shop-cat-header" onclick="toggleCat('cat_pescado')">
+      <span class="shop-cat-title">🐟 Pescado <span class="shop-cat-meta" id="cat_pescado_meta"></span></span>
+      <span class="shop-cat-chevron">&#9660;</span>
+    </div>
+    <div class="shop-cat-body">
+    <label class="shop-item" id="shop_dorada_label" onclick="toggleShop('shop_dorada')">
+      <div class="shop-check"></div>
+      <span class="shop-item-name">Dorada</span>
+      <span class="shop-item-hint">≈ 530g · 2 und</span>
+    </label>
+    <label class="shop-item" id="shop_trucha_label" onclick="toggleShop('shop_trucha')">
+      <div class="shop-check"></div>
+      <span class="shop-item-name">Trucha</span>
+      <span class="shop-item-hint">≈ 330g</span>
+    </label>
+    <label class="shop-item" id="shop_merluza_label" onclick="toggleShop('shop_merluza')">
+      <div class="shop-check"></div>
+      <span class="shop-item-name">Merluza</span>
+      <span class="shop-item-hint">≈ 380g</span>
+    </label>
+    <label class="shop-item" id="shop_atun_fresco_label" onclick="toggleShop('shop_atun_fresco')">
+      <div class="shop-check"></div>
+      <span class="shop-item-name">Atún fresco</span>
+      <span class="shop-item-hint">≈ 320g</span>
+    </label>
+    <label class="shop-item" id="shop_salmon_ahumado_label" onclick="toggleShop('shop_salmon_ahumado')">
+      <div class="shop-check"></div>
+      <span class="shop-item-name">Salmón ahumado</span>
+      <span class="shop-item-hint">≈ 120g</span>
+    </label>
+    </div>
+  </div>
+  <div class="shop-cat open" id="cat_huevos">
+    <div class="shop-cat-header" onclick="toggleCat('cat_huevos')">
+      <span class="shop-cat-title">🥚 Huevos y lacteos <span class="shop-cat-meta" id="cat_huevos_meta"></span></span>
+      <span class="shop-cat-chevron">&#9660;</span>
+    </div>
+    <div class="shop-cat-body">
+    <label class="shop-item" id="shop_huevos_camperos_label" onclick="toggleShop('shop_huevos_camperos')">
+      <div class="shop-check"></div>
+      <span class="shop-item-name">Huevos camperos</span>
+      <span class="shop-item-hint">≈ 1 docena · 13 ud</span>
+    </label>
+    <label class="shop-item" id="shop_claras_de_huevo_label" onclick="toggleShop('shop_claras_de_huevo')">
+      <div class="shop-check"></div>
+      <span class="shop-item-name">Claras de huevo</span>
+      <span class="shop-item-hint">≈ 2 briks · 700g</span>
+    </label>
+    <label class="shop-item" id="shop_yogur_griego_0pct_label" onclick="toggleShop('shop_yogur_griego_0pct')">
+      <div class="shop-check"></div>
+      <span class="shop-item-name">Yogur griego 0%</span>
+      <span class="shop-item-hint">≈ 5 botes · 2.4 kg</span>
+    </label>
+    <label class="shop-item" id="shop_requeson_0pct_label" onclick="toggleShop('shop_requeson_0pct')">
+      <div class="shop-check"></div>
+      <span class="shop-item-name">Requesón 0%</span>
+      <span class="shop-item-hint">≈ 2 tarrinas · 1.1 kg</span>
+    </label>
+    <label class="shop-item" id="shop_queso_fresco_0pct_label" onclick="toggleShop('shop_queso_fresco_0pct')">
+      <div class="shop-check"></div>
+      <span class="shop-item-name">Queso fresco 0%</span>
+      <span class="shop-item-hint">≈ 2 tarrinas · 600g</span>
+    </label>
+    <label class="shop-item" id="shop_skyr_label" onclick="toggleShop('shop_skyr')">
+      <div class="shop-check"></div>
+      <span class="shop-item-name">Skyr</span>
+      <span class="shop-item-hint">≈ 2 botes · 700g</span>
+    </label>
+    <label class="shop-item" id="shop_leche_semidesnatada_label" onclick="toggleShop('shop_leche_semidesnatada')">
+      <div class="shop-check"></div>
+      <span class="shop-item-name">Leche semidesnatada</span>
+      <span class="shop-item-hint">≈ 1 brik · 500 ml</span>
+    </label>
+    <label class="shop-item" id="shop_proteina_en_polvo_label" onclick="toggleShop('shop_proteina_en_polvo')">
+      <div class="shop-check"></div>
+      <span class="shop-item-name">Proteína en polvo</span>
+      <span class="shop-item-hint">≈ 80g</span>
+    </label>
+    </div>
+  </div>
+  <div class="shop-cat open" id="cat_carbohidratos">
+    <div class="shop-cat-header" onclick="toggleCat('cat_carbohidratos')">
+      <span class="shop-cat-title">🌾 Carbohidratos <span class="shop-cat-meta" id="cat_carbohidratos_meta"></span></span>
+      <span class="shop-cat-chevron">&#9660;</span>
+    </div>
+    <div class="shop-cat-body">
+    <label class="shop-item" id="shop_pan_de_centeno_label" onclick="toggleShop('shop_pan_de_centeno')">
+      <div class="shop-check"></div>
+      <span class="shop-item-name">Pan de centeno</span>
+      <span class="shop-item-hint">≈ 130g</span>
+    </label>
+    <label class="shop-item" id="shop_pan_integral_label" onclick="toggleShop('shop_pan_integral')">
+      <div class="shop-check"></div>
+      <span class="shop-item-name">Pan integral</span>
+      <span class="shop-item-hint">≈ 35g</span>
+    </label>
+    <label class="shop-item" id="shop_tostada_integral_label" onclick="toggleShop('shop_tostada_integral')">
+      <div class="shop-check"></div>
+      <span class="shop-item-name">Tostada integral</span>
+      <span class="shop-item-hint">≈ 200g</span>
+    </label>
+    <label class="shop-item" id="shop_tortitas_de_arroz_label" onclick="toggleShop('shop_tortitas_de_arroz')">
+      <div class="shop-check"></div>
+      <span class="shop-item-name">Tortitas de arroz</span>
+      <span class="shop-item-hint">≈ 75g</span>
+    </label>
+    <label class="shop-item" id="shop_copos_de_avena_label" onclick="toggleShop('shop_copos_de_avena')">
+      <div class="shop-check"></div>
+      <span class="shop-item-name">Copos de avena</span>
+      <span class="shop-item-hint">≈ 570g</span>
+    </label>
+    <label class="shop-item" id="shop_arroz_basmati_label" onclick="toggleShop('shop_arroz_basmati')">
+      <div class="shop-check"></div>
+      <span class="shop-item-name">Arroz basmati</span>
+      <span class="shop-item-hint">≈ 335g</span>
+    </label>
+    <label class="shop-item" id="shop_bulgur_label" onclick="toggleShop('shop_bulgur')">
+      <div class="shop-check"></div>
+      <span class="shop-item-name">Bulgur</span>
+      <span class="shop-item-hint">≈ 140g</span>
+    </label>
+    <label class="shop-item" id="shop_cuscus_label" onclick="toggleShop('shop_cuscus')">
+      <div class="shop-check"></div>
+      <span class="shop-item-name">Cuscús</span>
+      <span class="shop-item-hint">≈ 140g</span>
+    </label>
+    <label class="shop-item" id="shop_quinoa_label" onclick="toggleShop('shop_quinoa')">
+      <div class="shop-check"></div>
+      <span class="shop-item-name">Quinoa</span>
+      <span class="shop-item-hint">≈ 120g</span>
+    </label>
+    <label class="shop-item" id="shop_lentejas_cocidas_label" onclick="toggleShop('shop_lentejas_cocidas')">
+      <div class="shop-check"></div>
+      <span class="shop-item-name">Lentejas cocidas</span>
+      <span class="shop-item-hint">≈ 310g</span>
+    </label>
+    </div>
+  </div>
+  <div class="shop-cat open" id="cat_verduras">
+    <div class="shop-cat-header" onclick="toggleCat('cat_verduras')">
+      <span class="shop-cat-title">🥦 Verduras <span class="shop-cat-meta" id="cat_verduras_meta"></span></span>
+      <span class="shop-cat-chevron">&#9660;</span>
+    </div>
+    <div class="shop-cat-body">
+    <label class="shop-item" id="shop_patata_label" onclick="toggleShop('shop_patata')">
+      <div class="shop-check"></div>
+      <span class="shop-item-name">Patata</span>
+      <span class="shop-item-hint">≈ 5-6 ud · 1.1 kg</span>
+    </label>
+    <label class="shop-item" id="shop_calabacin_label" onclick="toggleShop('shop_calabacin')">
+      <div class="shop-check"></div>
+      <span class="shop-item-name">Calabacín</span>
+      <span class="shop-item-hint">≈ 4-5 ud · 1.1 kg</span>
+    </label>
+    <label class="shop-item" id="shop_berenjena_label" onclick="toggleShop('shop_berenjena')">
+      <div class="shop-check"></div>
+      <span class="shop-item-name">Berenjena</span>
+      <span class="shop-item-hint">≈ 1 ud · 350g</span>
+    </label>
+    <label class="shop-item" id="shop_pimiento_rojo_label" onclick="toggleShop('shop_pimiento_rojo')">
+      <div class="shop-check"></div>
+      <span class="shop-item-name">Pimiento rojo</span>
+      <span class="shop-item-hint">≈ 5-6 ud · 1.0 kg</span>
+    </label>
+    <label class="shop-item" id="shop_tomate_label" onclick="toggleShop('shop_tomate')">
+      <div class="shop-check"></div>
+      <span class="shop-item-name">Tomate</span>
+      <span class="shop-item-hint">≈ 4-5 ud · 750g</span>
+    </label>
+    <label class="shop-item" id="shop_tomate_cherry_label" onclick="toggleShop('shop_tomate_cherry')">
+      <div class="shop-check"></div>
+      <span class="shop-item-name">Tomate cherry</span>
+      <span class="shop-item-hint">≈ 1 bandeja · 270g</span>
+    </label>
+    <label class="shop-item" id="shop_pepino_label" onclick="toggleShop('shop_pepino')">
+      <div class="shop-check"></div>
+      <span class="shop-item-name">Pepino</span>
+      <span class="shop-item-hint">≈ 1 ud · 200g</span>
+    </label>
+    <label class="shop-item" id="shop_zanahoria_label" onclick="toggleShop('shop_zanahoria')">
+      <div class="shop-check"></div>
+      <span class="shop-item-name">Zanahoria</span>
+      <span class="shop-item-hint">≈ 2 ud · 200g</span>
+    </label>
+    <label class="shop-item" id="shop_judias_verdes_label" onclick="toggleShop('shop_judias_verdes')">
+      <div class="shop-check"></div>
+      <span class="shop-item-name">Judías verdes</span>
+      <span class="shop-item-hint">≈ 800g</span>
+    </label>
+    <label class="shop-item" id="shop_espinacas_label" onclick="toggleShop('shop_espinacas')">
+      <div class="shop-check"></div>
+      <span class="shop-item-name">Espinacas</span>
+      <span class="shop-item-hint">≈ 2 bolsas · 600g</span>
+    </label>
+    <label class="shop-item" id="shop_espinacas_baby_label" onclick="toggleShop('shop_espinacas_baby')">
+      <div class="shop-check"></div>
+      <span class="shop-item-name">Espinacas baby</span>
+      <span class="shop-item-hint">≈ 1 bolsa · 300g</span>
+    </label>
+    <label class="shop-item" id="shop_lechuga_label" onclick="toggleShop('shop_lechuga')">
+      <div class="shop-check"></div>
+      <span class="shop-item-name">Lechuga</span>
+      <span class="shop-item-hint">≈ 1 ud · 200g</span>
+    </label>
+    <label class="shop-item" id="shop_rucula_label" onclick="toggleShop('shop_rucula')">
+      <div class="shop-check"></div>
+      <span class="shop-item-name">Rúcula</span>
+      <span class="shop-item-hint">≈ 1 bolsa · 100g</span>
+    </label>
+    <label class="shop-item" id="shop_cebolla_label" onclick="toggleShop('shop_cebolla')">
+      <div class="shop-check"></div>
+      <span class="shop-item-name">Cebolla</span>
+      <span class="shop-item-hint">≈ 1 ud · 90g</span>
+    </label>
+    <label class="shop-item" id="shop_esparragos_label" onclick="toggleShop('shop_esparragos')">
+      <div class="shop-check"></div>
+      <span class="shop-item-name">Espárragos</span>
+      <span class="shop-item-hint">≈ 1 manojo · 200g</span>
+    </label>
+    <label class="shop-item" id="shop_aguacate_label" onclick="toggleShop('shop_aguacate')">
+      <div class="shop-check"></div>
+      <span class="shop-item-name">Aguacate</span>
+      <span class="shop-item-hint">≈ 2 ud · 140g</span>
+    </label>
+    </div>
+  </div>
+  <div class="shop-cat open" id="cat_frutas">
+    <div class="shop-cat-header" onclick="toggleCat('cat_frutas')">
+      <span class="shop-cat-title">🍎 Frutas <span class="shop-cat-meta" id="cat_frutas_meta"></span></span>
+      <span class="shop-cat-chevron">&#9660;</span>
+    </div>
+    <div class="shop-cat-body">
+    <label class="shop-item" id="shop_platano_label" onclick="toggleShop('shop_platano')">
+      <div class="shop-check"></div>
+      <span class="shop-item-name">Plátano</span>
+      <span class="shop-item-hint">≈ 12 ud · 1.8 kg</span>
+    </label>
+    <label class="shop-item" id="shop_manzana_label" onclick="toggleShop('shop_manzana')">
+      <div class="shop-check"></div>
+      <span class="shop-item-name">Manzana</span>
+      <span class="shop-item-hint">≈ 5 ud · 1.0 kg</span>
+    </label>
+    <label class="shop-item" id="shop_pera_label" onclick="toggleShop('shop_pera')">
+      <div class="shop-check"></div>
+      <span class="shop-item-name">Pera</span>
+      <span class="shop-item-hint">≈ 3-4 ud · 660g</span>
+    </label>
+    <label class="shop-item" id="shop_naranja_label" onclick="toggleShop('shop_naranja')">
+      <div class="shop-check"></div>
+      <span class="shop-item-name">Naranja</span>
+      <span class="shop-item-hint">≈ 2 ud · 260g</span>
+    </label>
+    <label class="shop-item" id="shop_arandanos_label" onclick="toggleShop('shop_arandanos')">
+      <div class="shop-check"></div>
+      <span class="shop-item-name">Arándanos</span>
+      <span class="shop-item-hint">≈ 1 caja · 250g</span>
+    </label>
+    <label class="shop-item" id="shop_frambuesas_label" onclick="toggleShop('shop_frambuesas')">
+      <div class="shop-check"></div>
+      <span class="shop-item-name">Frambuesas</span>
+      <span class="shop-item-hint">≈ 2 barquetas · 325g</span>
+    </label>
+    <label class="shop-item" id="shop_fresas_label" onclick="toggleShop('shop_fresas')">
+      <div class="shop-check"></div>
+      <span class="shop-item-name">Fresas</span>
+      <span class="shop-item-hint">≈ 100g</span>
+    </label>
+    <label class="shop-item" id="shop_kiwi_label" onclick="toggleShop('shop_kiwi')">
+      <div class="shop-check"></div>
+      <span class="shop-item-name">Kiwi</span>
+      <span class="shop-item-hint">≈ 2 ud · 150g</span>
+    </label>
+    <label class="shop-item" id="shop_mango_label" onclick="toggleShop('shop_mango')">
+      <div class="shop-check"></div>
+      <span class="shop-item-name">Mango</span>
+      <span class="shop-item-hint">≈ ½ ud · 80g</span>
+    </label>
+    </div>
+  </div>
+  <div class="shop-cat open" id="cat_frutos">
+    <div class="shop-cat-header" onclick="toggleCat('cat_frutos')">
+      <span class="shop-cat-title">🥜 Frutos secos <span class="shop-cat-meta" id="cat_frutos_meta"></span></span>
+      <span class="shop-cat-chevron">&#9660;</span>
+    </div>
+    <div class="shop-cat-body">
+    <label class="shop-item" id="shop_nueces_label" onclick="toggleShop('shop_nueces')">
+      <div class="shop-check"></div>
+      <span class="shop-item-name">Nueces</span>
+      <span class="shop-item-hint">≈ 95g</span>
+    </label>
+    <label class="shop-item" id="shop_almendras_label" onclick="toggleShop('shop_almendras')">
+      <div class="shop-check"></div>
+      <span class="shop-item-name">Almendras</span>
+      <span class="shop-item-hint">≈ 140g</span>
+    </label>
+    <label class="shop-item" id="shop_pistachos_label" onclick="toggleShop('shop_pistachos')">
+      <div class="shop-check"></div>
+      <span class="shop-item-name">Pistachos</span>
+      <span class="shop-item-hint">≈ 65g</span>
+    </label>
+    <label class="shop-item" id="shop_anacardos_label" onclick="toggleShop('shop_anacardos')">
+      <div class="shop-check"></div>
+      <span class="shop-item-name">Anacardos</span>
+      <span class="shop-item-hint">≈ 37g</span>
+    </label>
+    <label class="shop-item" id="shop_mantequilla_de_cacahuete_label" onclick="toggleShop('shop_mantequilla_de_cacahuete')">
+      <div class="shop-check"></div>
+      <span class="shop-item-name">Mantequilla de cacahuete</span>
+      <span class="shop-item-hint">≈ 45g</span>
+    </label>
+    <label class="shop-item" id="shop_chocolate_negro_85pct_label" onclick="toggleShop('shop_chocolate_negro_85pct')">
+      <div class="shop-check"></div>
+      <span class="shop-item-name">Chocolate negro 85%</span>
+      <span class="shop-item-hint">≈ 70g</span>
+    </label>
+    </div>
+  </div>
+  <div class="shop-cat open" id="cat_basicos">
+    <div class="shop-cat-header" onclick="toggleCat('cat_basicos')">
+      <span class="shop-cat-title">🫙 Basicos <span class="shop-cat-meta" id="cat_basicos_meta"></span></span>
+      <span class="shop-cat-chevron">&#9660;</span>
+    </div>
+    <div class="shop-cat-body">
+    <label class="shop-item" id="shop_aove_label" onclick="toggleShop('shop_aove')">
+      <div class="shop-check"></div>
+      <span class="shop-item-name">AOVE</span>
+      <span class="shop-item-hint">≈ 220g</span>
+    </label>
+    <label class="shop-item" id="shop_miel_label" onclick="toggleShop('shop_miel')">
+      <div class="shop-check"></div>
+      <span class="shop-item-name">Miel</span>
+      <span class="shop-item-hint">≈ 180g</span>
+    </label>
+    <label class="shop-item" id="shop_canela_label" onclick="toggleShop('shop_canela')">
+      <div class="shop-check"></div>
+      <span class="shop-item-name">Canela</span>
+      <span class="shop-item-hint">al gusto</span>
+    </label>
+    <label class="shop-item" id="shop_cacao_puro_label" onclick="toggleShop('shop_cacao_puro')">
+      <div class="shop-check"></div>
+      <span class="shop-item-name">Cacao puro</span>
+      <span class="shop-item-hint">≈ 18g</span>
+    </label>
+    <label class="shop-item" id="shop_semillas_de_chia_label" onclick="toggleShop('shop_semillas_de_chia')">
+      <div class="shop-check"></div>
+      <span class="shop-item-name">Semillas de chía</span>
+      <span class="shop-item-hint">≈ 10g</span>
+    </label>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ===== FUERZA ===== -->
+<div class="day-panel" id="day-9">
+  <div class="day-header">Rutina de fuerza &#128170;</div>
+  <div class="fuerza-phase-badge">&#128197; Fase 1 &mdash; Base &nbsp;&middot;&nbsp; Jun&ndash;Ago 2026</div>
+  <p class="fuerza-subtitle">Lunes y Mi&eacute;rcoles &middot; despu&eacute;s del Z2 &middot; ~40 min &middot; mancuernas</p>
+
+  <div class="fuerza-rpe-card">
+    <div class="fuerza-rpe-item">
+      <div class="fuerza-rpe-value">7<span style="font-size:14px;color:#666">/10</span></div>
+      <div class="fuerza-rpe-label">RPE objetivo</div>
+    </div>
+    <div class="fuerza-rpe-item">
+      <div class="fuerza-rpe-value">90<span style="font-size:14px;color:#666">s</span></div>
+      <div class="fuerza-rpe-label">Descanso</div>
+    </div>
+    <div class="fuerza-rpe-item">
+      <div class="fuerza-rpe-value">3</div>
+      <div class="fuerza-rpe-label">Series</div>
+    </div>
+    <div class="fuerza-rpe-desc">Terminas cada serie pudiendo hacer 3 reps m&aacute;s. <strong style="color:white">Nunca al fallo.</strong> Si las 3 series salen limpias al RPE&nbsp;7, sube el peso la semana siguiente.</div>
+  </div>
+
+  <div class="fuerza-warmup">
+    <div class="fuerza-warmup-title">&#128293; Calentamiento &mdash; 5 min</div>
+    <div class="fuerza-warmup-item">20 sentadillas con peso corporal</div>
+    <div class="fuerza-warmup-item">10 bisagras de cadera sin peso (hip hinge)</div>
+    <div class="fuerza-warmup-item">10 rotaciones de hombro por brazo</div>
+    <div class="fuerza-warmup-item">30 s plancha est&aacute;tica</div>
+  </div>
+
+  <div class="fuerza-block">
+    <div class="fuerza-block-header">
+      <div class="fuerza-block-title">Bloque A &mdash; Tren inferior</div>
+      <div class="fuerza-block-meta">~15 min &middot; A1+A2 en superserie &rarr; 90 s descanso &rarr; repetir 3 veces</div>
+    </div>
+    <div class="fuerza-block-body">
+      <div class="fuerza-ex">
+        <div>
+          <div style="margin-bottom:4px"><span class="fuerza-superserie-tag">Superserie A</span></div>
+          <div class="fuerza-ex-name">A1 &middot; Goblet Squat</div>
+          <div class="fuerza-ex-cue">Mancuerna en el pecho &middot; rodillas hacia fuera &middot; talones en el suelo &middot; baja hasta paralelo</div>
+          <a href="https://youtube.com/watch?v=2LnkzQ7paAc" target="_blank" class="fuerza-ex-thumb"><img src="https://img.youtube.com/vi/2LnkzQ7paAc/mqdefault.jpg" alt="Goblet Squat · ver tutorial" loading="lazy"></a>
+        </div>
+        <div class="fuerza-ex-sets"><span class="fuerza-sets-badge">3 &times; 10</span></div>
+      </div>
+      <div class="fuerza-ex">
+        <div>
+          <div style="margin-bottom:4px"><span class="fuerza-superserie-tag">Superserie A</span></div>
+          <div class="fuerza-ex-name">A2 &middot; Romanian Deadlift</div>
+          <div class="fuerza-ex-cue">Bisagra de cadera &middot; espalda neutra &middot; mancuernas pegadas a los muslos &middot; siente los isquios</div>
+          <a href="https://youtube.com/watch?v=aa57T45iFSE" target="_blank" class="fuerza-ex-thumb"><img src="https://img.youtube.com/vi/aa57T45iFSE/mqdefault.jpg" alt="Romanian Deadlift · ver tutorial" loading="lazy"></a>
+        </div>
+        <div class="fuerza-ex-sets"><span class="fuerza-sets-badge">3 &times; 10</span></div>
+      </div>
+      <div class="fuerza-ex">
+        <div>
+          <div class="fuerza-ex-name">B &middot; Zancadas alternas</div>
+          <div class="fuerza-ex-cue">Paso largo &middot; rodilla trasera roza el suelo &middot; torso recto &middot; empuja con el tal&oacute;n delantero</div>
+          <a href="https://youtube.com/watch?v=Tc_w71tB7Hw" target="_blank" class="fuerza-ex-thumb"><img src="https://img.youtube.com/vi/Tc_w71tB7Hw/mqdefault.jpg" alt="Zancadas · ver tutorial" loading="lazy"></a>
+        </div>
+        <div class="fuerza-ex-sets"><span class="fuerza-sets-badge">3 &times; 8/p</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="fuerza-block">
+    <div class="fuerza-block-header">
+      <div class="fuerza-block-title">Bloque B &mdash; Tren superior</div>
+      <div class="fuerza-block-meta">~12 min &middot; C1+C2 en superserie &rarr; 90 s descanso &rarr; repetir 3 veces</div>
+    </div>
+    <div class="fuerza-block-body">
+      <div class="fuerza-ex">
+        <div>
+          <div style="margin-bottom:4px"><span class="fuerza-superserie-tag">Superserie C</span></div>
+          <div class="fuerza-ex-name">C1 &middot; Floor Press</div>
+          <div class="fuerza-ex-cue">Tumbado en el suelo &middot; codos a 45&deg; del torso &middot; pausa 1 s abajo &middot; empuja recto arriba</div>
+          <a href="https://youtube.com/watch?v=AqYFvc9t_vU" target="_blank" class="fuerza-ex-thumb"><img src="https://img.youtube.com/vi/AqYFvc9t_vU/mqdefault.jpg" alt="Floor Press · ver tutorial" loading="lazy"></a>
+        </div>
+        <div class="fuerza-ex-sets"><span class="fuerza-sets-badge">3 &times; 10</span></div>
+      </div>
+      <div class="fuerza-ex">
+        <div>
+          <div style="margin-bottom:4px"><span class="fuerza-superserie-tag">Superserie C</span></div>
+          <div class="fuerza-ex-name">C2 &middot; Remo 1 brazo</div>
+          <div class="fuerza-ex-cue">Rodilla en banco o silla &middot; espalda plana &middot; codo hacia atr&aacute;s y arriba &middot; pausa 1 s arriba</div>
+          <a href="https://youtube.com/watch?v=fURsHPHgssI" target="_blank" class="fuerza-ex-thumb"><img src="https://img.youtube.com/vi/fURsHPHgssI/mqdefault.jpg" alt="Remo 1 brazo · ver tutorial" loading="lazy"></a>
+        </div>
+        <div class="fuerza-ex-sets"><span class="fuerza-sets-badge">3 &times; 10/b</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="fuerza-block">
+    <div class="fuerza-block-header">
+      <div class="fuerza-block-title">Bloque C &mdash; Hombro &middot; B&iacute;ceps &middot; Core</div>
+      <div class="fuerza-block-meta">~8 min &middot; ejercicios seguidos &middot; 60 s descanso entre series</div>
+    </div>
+    <div class="fuerza-block-body">
+      <div class="fuerza-ex">
+        <div>
+          <div class="fuerza-ex-name">D1 &middot; Press hombro sentado</div>
+          <div class="fuerza-ex-cue">Desde la oreja hacia arriba &middot; no arquear la espalda &middot; core apretado</div>
+          <a href="https://youtube.com/watch?v=qEwKCR5JCog" target="_blank" class="fuerza-ex-thumb"><img src="https://img.youtube.com/vi/qEwKCR5JCog/mqdefault.jpg" alt="Press hombro · ver tutorial" loading="lazy"></a>
+        </div>
+        <div class="fuerza-ex-sets"><span class="fuerza-sets-badge">3 &times; 10</span></div>
+      </div>
+      <div class="fuerza-ex">
+        <div>
+          <div class="fuerza-ex-name">D2 &middot; Curl b&iacute;ceps</div>
+          <div class="fuerza-ex-cue">Codos fijos a los costados &middot; sin balanceo &middot; supinaci&oacute;n completa arriba</div>
+          <a href="https://youtube.com/watch?v=nBzLCE-dcRQ" target="_blank" class="fuerza-ex-thumb"><img src="https://img.youtube.com/vi/nBzLCE-dcRQ/mqdefault.jpg" alt="Curl b&iacute;ceps · ver tutorial" loading="lazy"></a>
+        </div>
+        <div class="fuerza-ex-sets"><span class="fuerza-sets-badge">3 &times; 12</span></div>
+      </div>
+      <div class="fuerza-ex">
+        <div>
+          <div class="fuerza-ex-name">D3 &middot; Plancha</div>
+          <div class="fuerza-ex-cue">Gl&uacute;teos apretados &middot; caderas neutras &middot; mirada al suelo &middot; respiraci&oacute;n constante</div>
+          <a href="https://youtube.com/watch?v=mwlp75MS6Rg" target="_blank" class="fuerza-ex-thumb"><img src="https://img.youtube.com/vi/mwlp75MS6Rg/mqdefault.jpg" alt="Plancha · ver tutorial" loading="lazy"></a>
+        </div>
+        <div class="fuerza-ex-sets"><span class="fuerza-sets-badge">3 &times; 35s</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="fuerza-prog">
+    <div class="fuerza-prog-title">Evoluci&oacute;n del plan</div>
+    <div class="fuerza-prog-row">
+      <div><span class="fuerza-phase-dot dot-1"></span><span class="fuerza-prog-phase">Fase 1 &middot; Jun&ndash;Ago</span></div>
+      <div class="fuerza-prog-detail">3&times;10 &middot; RPE 7 &middot; aprender patrones &middot; base de fuerza</div>
+    </div>
+    <div class="fuerza-prog-row">
+      <div><span class="fuerza-phase-dot dot-2"></span><span class="fuerza-prog-phase">Fase 2 &middot; Sep&ndash;Nov</span></div>
+      <div class="fuerza-prog-detail">4&times;10 &middot; RPE 8 &middot; m&aacute;s volumen &middot; zancadas m&aacute;s largas</div>
+    </div>
+    <div class="fuerza-prog-row">
+      <div><span class="fuerza-phase-dot dot-3"></span><span class="fuerza-prog-phase">Fase 3 &middot; Dic&ndash;Ene</span></div>
+      <div class="fuerza-prog-detail">3&times;6-8 &middot; RPE 8-9 &middot; m&aacute;s peso &middot; RDL unilateral (estabilidad tobillo)</div>
+    </div>
+    <div class="fuerza-prog-row">
+      <div><span class="fuerza-phase-dot dot-4"></span><span class="fuerza-prog-phase">Taper &middot; Feb</span></div>
+      <div class="fuerza-prog-detail">1&times;/semana &middot; carga &minus;40% &middot; mantener movimientos &middot; sin fatiga</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- /content -->
+
+<script>
+const adriaMode = { current: 'normal' };
+const estherMode = { current: 'fuerza' };
+
+// Day → default Adrià mode (semana 2 PDF: hyrox lun/jue, carrera mar/mié)
+const dayModes = ['hyrox','normal','normal','hyrox','rest','larga','rest','rest','rest'];
+
+const modeConfig = {
+  normal: { label: 'Carrera + Fuerza', kcal: '2.900', prot: '190g', carbs: '310g', fat: '75g', mult: 1.0, btnClass: 'active', bannerClass: 'normal', bannerText: '🏃 Hoy: Carrera zona 2 (20 min) + Fuerza (40 min)' },
+  hyrox:  { label: 'Hyrox', kcal: '3.150', prot: '200g', carbs: '370g', fat: '68g', mult: 1.2, btnClass: 'active-hyrox', bannerClass: 'hyrox', bannerText: '🏋️ Hoy: Hyrox funcional — más carbs, cena dentro de 45 min post-sesión' },
+  larga:  { label: 'Tirada Larga', kcal: '3.100', prot: '190g', carbs: '390g', fat: '72g', mult: 1.2, btnClass: 'active-larga', bannerClass: 'larga', bannerText: '🏅 Hoy: Tirada larga — carga pre-carrera, paella de recuperación post' },
+  rest:   { label: 'Descanso', kcal: '2.300', prot: '190g', carbs: '235g', fat: '75g', mult: 0.75, btnClass: 'active-rest', bannerClass: 'rest', bannerText: '😴 Hoy: Descanso — carbs reducidos, proteína igual' }
+};
+
+function applyAdria(mode) {
+  const cfg = modeConfig[mode];
+  const mult = cfg.mult;
+
+  // Update macros
+  document.getElementById('adria-mode-label').textContent = cfg.label;
+  document.getElementById('adria-kcal').textContent = cfg.kcal;
+  document.getElementById('adria-prot').textContent = cfg.prot;
+  document.getElementById('adria-carbs').textContent = cfg.carbs;
+  document.getElementById('adria-fat').textContent = cfg.fat;
+
+  // Update banner
+  const banner = document.getElementById('mode-banner');
+  banner.className = 'mode-banner show ' + cfg.bannerClass;
+  banner.textContent = cfg.bannerText;
+
+  // Update toggle buttons
+  ['normal','hyrox','larga','rest'].forEach(m => {
+    const btn = document.getElementById('adria-' + m);
+    btn.className = 'toggle-btn' + (m === mode ? ' ' + modeConfig[m].btnClass : '');
+  });
+
+  // Update qty-adria spans
+  document.querySelectorAll('.qty-adria').forEach(span => {
+    const base = parseFloat(span.dataset.base);
+    const unit = span.dataset.unit || '';
+    if (unit === 'libre' || unit === '—' || isNaN(base) || base === 0) {
+      span.textContent = unit || '—';
+      span.classList.remove('is-reduced','is-boosted');
+      return;
+    }
+    const isCarb = span.dataset.isCarb === 'true';
+    const factor = isCarb ? mult : 1.0;
+    let val;
+    if (unit === 'ud') {
+      val = Math.round(base * factor) + ' ud';
+    } else if (unit === 'ml') {
+      val = Math.round(base * factor / 10) * 10 + ' ml';
+    } else {
+      val = Math.round(base * factor / 5) * 5 + ' g';
+    }
+    span.textContent = val;
+    span.classList.remove('is-reduced','is-boosted');
+    if (isCarb && factor < 1) span.classList.add('is-reduced');
+    if (isCarb && factor > 1) span.classList.add('is-boosted');
+  });
+
+  // Show/hide ctx notes
+  document.querySelectorAll('.ctx-note[data-mode]').forEach(n => {
+    n.classList.toggle('show', n.dataset.mode === mode);
+  });
+}
+
+function setAdria(mode) {
+  adriaMode.current = mode;
+  applyAdria(mode);
+}
+
+function setEsther(mode) {
+  estherMode.current = mode;
+
+  // Toggle button styles
+  const btnMap = { fuerza: 'active', cardio: 'active-cardio', rest: 'active-rest' };
+  ['fuerza','cardio','rest'].forEach(m => {
+    const btn = document.getElementById('esther-' + m);
+    if (btn) btn.className = 'toggle-btn' + (m === mode ? ' ' + btnMap[m] : '');
+  });
+
+  // Macros bar
+  const estherMacros = {
+    fuerza: { label: 'Fuerza',    kcal: '1.750', prot: '140g', carbs: '170g', fat: '58g' },
+    cardio: { label: 'Cardio',    kcal: '1.850', prot: '133g', carbs: '205g', fat: '58g' },
+    rest:   { label: 'Descanso',  kcal: '1.500', prot: '130g', carbs: '130g', fat: '52g' }
+  };
+  const em = estherMacros[mode];
+  document.getElementById('esther-mode-label').textContent = em.label;
+  document.getElementById('esther-kcal').textContent   = em.kcal;
+  document.getElementById('esther-prot').textContent   = em.prot;
+  document.getElementById('esther-carbs').textContent  = em.carbs;
+  document.getElementById('esther-fat').textContent    = em.fat;
+
+  // Food quantities: fuerza + cardio use data-train, rest uses data-rest
+  const qtyMode = (mode === 'rest') ? 'rest' : 'train';
+  document.querySelectorAll('.qty-esther').forEach(span => {
+    const val = span.dataset[qtyMode];
+    if (val === undefined) return;
+    span.textContent = val;
+    span.classList.remove('is-reduced');
+    if (qtyMode === 'rest' && span.dataset.train !== span.dataset.rest
+        && span.dataset.rest !== 'libre' && span.dataset.rest !== '—') {
+      span.classList.add('is-reduced');
+    }
+  });
+}
+
+function setDay(index) {
+  document.querySelectorAll('.day-panel').forEach((p, i) => p.classList.toggle('active', i === index));
+  document.querySelectorAll('.day-tab').forEach((t, i) => t.classList.toggle('active', i === index));
+  // Auto-set Adrià mode
+  if (index < dayModes.length) {
+    const auto = dayModes[index];
+    adriaMode.current = auto;
+    applyAdria(auto);
+  }
+}
+
+function setView(who) {
+  document.body.classList.remove('view-adria','view-esther','view-both');
+  document.body.classList.add('view-' + who);
+  document.querySelectorAll('.profile-chip').forEach(c => c.classList.remove('active'));
+  if (who === 'both') document.querySelectorAll('.profile-chip').forEach(c => c.classList.add('active'));
+  else document.querySelector('.profile-chip.' + who)?.classList.add('active');
+}
+
+// Init
+const todayJS = new Date().getDay();
+const todayIdx = todayJS === 0 ? 6 : todayJS - 1;
+setDay(todayIdx);
+setEsther('fuerza');
+updateShopUI();
+  [0,1,2,3,4,5,6].forEach(d => initExtras(d));
+
+// ===== SHOPPING LIST =====
+const SHOP_KEY = 'shop_checked_v1';
+
+function getShopState() {
+  try { return new Set(JSON.parse(localStorage.getItem(SHOP_KEY) || '[]')); }
+  catch(e) { return new Set(); }
+}
+function saveShopState(set) {
+  localStorage.setItem(SHOP_KEY, JSON.stringify([...set]));
+}
+
+function updateShopUI() {
+  const checked = getShopState();
+  let totalItems = 0, doneCount = 0;
+  document.querySelectorAll('.shop-item').forEach(label => {
+    const id = label.id.replace('_label','');
+    const isDone = checked.has(id);
+    label.classList.toggle('done', isDone);
+    totalItems++;
+    if (isDone) doneCount++;
+  });
+  const el = document.getElementById('shop-done');
+  const bar = document.getElementById('shop-bar');
+  if (el) el.textContent = doneCount;
+  if (bar) bar.style.width = (totalItems > 0 ? Math.round(doneCount/totalItems*100) : 0) + '%';
+  document.querySelectorAll('.shop-cat').forEach(cat => {
+    const items = cat.querySelectorAll('.shop-item');
+    const catDone = [...items].filter(i => i.classList.contains('done')).length;
+    const meta = cat.querySelector('.shop-cat-meta');
+    if (meta) {
+      if (catDone === items.length && items.length > 0) meta.textContent = '\u2713 todo';
+      else if (catDone > 0) meta.textContent = catDone + '/' + items.length;
+      else meta.textContent = '';
+    }
+  });
+}
+
+function toggleShop(id) {
+  const checked = getShopState();
+  if (checked.has(id)) checked.delete(id); else checked.add(id);
+  saveShopState(checked);
+  updateShopUI();
+}
+
+function resetShop() {
+  if (!confirm('\u00bfResetear toda la lista?')) return;
+  saveShopState(new Set());
+  updateShopUI();
+}
+
+function toggleCat(catId) {
+  const el = document.getElementById(catId);
+  if (el) el.classList.toggle('open');
+}
+
+
+// ── Recipes ──────────────────────────────────────────────────────────────────
+const RECIPES = {
+  pan_huevos: {
+    title: 'Pan de centeno + Huevos + Requesón',
+    tiempo: '10 min',
+    steps: [
+      'Tuesta las rebanadas de pan de centeno hasta que queden bien crujientes.',
+      'Cocina los huevos a tu gusto: revueltos suaves a fuego bajo removiendo despacio, pochados (agua con vinagre + remolino) o a la plancha.',
+      'Saca el requesón de la nevera 5 min antes — a temperatura ambiente se extiende mucho mejor.',
+      'Monta: pan → requesón → huevos. Termina con pimienta negra, cebollino picado y unas escamas de sal.'
+    ],
+    tip: 'El pan de centeno tostado aguanta la humedad sin empapars — ideal para desayunos que hay que preparar rápido. Añade unas gotas de Tabasco o pimentón ahumado si quieres un toque de sabor extra sin calorías.'
+  },
+  pavo_arroz: {
+    title: 'Pavo a la plancha + Arroz basmati + Verduras',
+    tiempo: '20 min',
+    steps: [
+      'Salpimenta los filetes de pavo. Frota con ajo en polvo, orégano y un chorrito de limón. Deja reposar 5 min.',
+      'Pon el arroz en agua fría salada (doble de agua que de arroz). Lleva a ebullición, baja a fuego medio y cuece 10 min. Apaga y deja reposar tapado 5 min.',
+      'Calienta la sartén sin aceite a fuego alto. Cocina el pavo 3-4 min por cada lado hasta que esté bien dorado. Deja reposar 2 min tapado.',
+      'En la misma sartén, saltea las verduras (calabacín, pimiento, cebolla) con un hilo de aceite y pimentón dulce, 5 min.'
+    ],
+    tip: 'El secreto del pavo jugoso: sácalo de la nevera 10 min antes y sella a fuego muy alto. El limón en la marinada rompe las fibras y lo deja muy tierno. Si lo dejas reposar tapado, los jugos se redistribuyen y no se seca.'
+  },
+  trucha_patata: {
+    title: 'Trucha + Patata + Judías verdes',
+    tiempo: '25 min',
+    steps: [
+      'Cuece las patatas troceadas en agua salada con un hilo de aceite, 15-18 min hasta que estén tiernas. Escurre.',
+      'Cuece las judías al vapor o en agua salada 5-7 min (deben quedar al dente). Enfría rápido con agua fría para mantener el color verde.',
+      'Seca muy bien los filetes de trucha con papel de cocina. Salpimenta.',
+      'Calienta sartén con aceite a fuego medio-alto. Cocina la trucha con la piel hacia abajo 3-4 min, luego gira y 1-2 min más. Sirve con limón y perejil.'
+    ],
+    tip: 'El secreto de una trucha perfecta: cocina el 70% del tiempo con la piel hacia abajo. La piel queda crujiente y protege la carne de secarse. Cuando la carne cambia de color hasta la mitad del grosor, ya está lista para girar.'
+  },
+  lomo_cuscus: {
+    title: 'Lomo de cerdo + Cuscús + Verduras',
+    tiempo: '20 min',
+    steps: [
+      'Corta el lomo en medallones de 2 cm. Sazona con sal, pimienta, comino y pimentón ahumado.',
+      'Cuscús: vierte agua hirviendo salada (misma cantidad que cuscús) sobre el cuscús en un bol, tapa y deja reposar 5 min. Suelta con tenedor y añade un hilo de aceite.',
+      'Calienta sartén a fuego alto. Sella los medallones 2-3 min por lado hasta que estén dorados. Retira y deja reposar 3 min.',
+      'En la misma sartén saltea las verduras (pimiento, cebolla, calabacín) 5 min con una pizca de cúrcuma.'
+    ],
+    tip: 'El lomo de cerdo se seca muy fácil — debe quedar ligeramente rosado por dentro. El truco es sellar fuerte y corto, y SIEMPRE dejar reposar antes de cortar. El pimentón ahumado le da una profundidad de sabor que parece que lleva horas cocinando.'
+  },
+  atun_quinoa: {
+    title: 'Atún fresco + Quinoa + Espinacas',
+    tiempo: '20 min',
+    steps: [
+      'Lava la quinoa bajo el grifo 1 min. Cuece en el doble de agua salada 12-15 min hasta que aparezca el "anillo" blanco. Escurre.',
+      'Salpimenta el atún y unta con sésamo tostado y jengibre en polvo.',
+      'Calienta la sartén SIN aceite a fuego muy alto. Marca el atún 1 min por cada lado — el interior debe quedar rosado.',
+      'En sartén con aceite, saltea espinacas frescas con ajo laminado 1-2 min. Mezcla con la quinoa.',
+      'Sirve el atún encima con unas gotas de salsa de soja y lima.'
+    ],
+    tip: 'El atún fresco es un ingrediente premium — no lo cocines como el de lata. Fuego muy alto, muy poco tiempo, interior rojo-rosado. Si lo cocinas del todo, pierde su textura sedosa y todo su sabor. Piensa en un tataki, no en un filete.'
+  },
+  dorada_bulgur: {
+    title: 'Dorada + Bulgur + Espinacas',
+    tiempo: '25 min',
+    steps: [
+      'Hidrata el bulgur: vierte agua hirviendo salada (1 parte bulgur : 1.5 agua) en un bol, tapa con un plato y deja 10 min. Suelta con tenedor.',
+      'Seca muy bien la dorada. Haz 3 cortes en el lomo, sazona y mete una rodaja de limón en cada corte.',
+      'Calienta sartén con aceite a fuego medio-alto. Cocina la dorada con la piel hacia abajo 4-5 min SIN moverla. Da la vuelta y 2-3 min más.',
+      'Saltea las espinacas con ajo y una pizca de chile en la misma sartén.'
+    ],
+    tip: 'Para piel de dorada crujiente: sécala muy bien, sala justo antes de la sartén (la sal extrae la humedad en segundos) y NO muevas el pescado los primeros 4-5 min. Al principio se pega — si esperas, se suelta sola cuando está lista. Es la señal de que la piel está perfecta.'
+  },
+  pollo_lentejas: {
+    title: 'Pollo + Lentejas + Ensalada grande',
+    tiempo: '25 min',
+    steps: [
+      'Si usas lentejas en bote: escurre y enjuaga bien. Si son secas: cuece 20-25 min con laurel y sal.',
+      'Sofríe cebolla y ajo picados en aceite 4 min. Añade pimentón dulce y comino FUERA del fuego para que no amargue.',
+      'Añade las lentejas al sofrito, saltea 2 min a fuego medio. Rectifica de sal.',
+      'Para el pollo: filetea fino (1 cm), sazona con ajo en polvo y orégano. Cocina 2-3 min por lado en sartén bien caliente.',
+      'Sirve el pollo sobre las lentejas con hojas verdes, pepino, tomate cherry y aliño de limón + mostaza + aceite.'
+    ],
+    tip: 'Las lentejas solas pueden ser sosas — el sofrito con pimentón ahumado y comino las transforma. Clave: añade las especias siempre fuera del fuego o a fuego muy bajo para que no amarguen. Si tienes 1 min extra, añade un chorrito de vinagre de Jerez al final.'
+  },
+  ternera_patata: {
+    title: 'Ternera picada + Patata + Pimiento',
+    tiempo: '25 min',
+    steps: [
+      'Cuece las patatas en dados en agua salada 10-12 min. Escurre y reserva.',
+      'Sofríe cebolla y pimiento rojo y verde picados en aceite 5-6 min a fuego medio.',
+      'Sube el fuego, añade la ternera picada y NO la muevas 2 min. Deja que se forme costra en la base antes de romperla. Cocina 5 min total.',
+      'Añade tomate triturado (2 cucharadas), pimentón ahumado y sal. Integra las patatas y cocina 3 min más para que todo se integre.'
+    ],
+    tip: 'El secreto del picado sabroso: NO lo muevas al principio. Deja que se forme una costra dorada en la base — ese Maillard es sabor puro. Si lo remueves constantemente desde el principio, el picado queda pálido y aguado.'
+  },
+  pavo_patata_jv: {
+    title: 'Pechuga de pavo + Patata + Judías verdes',
+    tiempo: '25 min',
+    steps: [
+      'Cuece las patatas en dados en agua salada 12-15 min hasta tiernas. Cuece las judías al vapor 5 min al dente.',
+      'Abre la pechuga en mariposa (corta por la mitad sin separar y abre como un libro) o filetea fino a 1 cm.',
+      'Sazona con sal, pimienta, ajo en polvo y hierbas provenzales. Sella en sartén caliente 3-4 min por lado.',
+      'Deja reposar 2 min. En la misma sartén, saltea patatas y judías con una nuez de mantequilla y ajo laminado 2 min.'
+    ],
+    tip: 'La pechuga en mariposa reduce el tiempo de cocción a la mitad y evita que quede seca. La mantequilla al final en las verduras (en lugar de aceite) aporta un sabor muchísimo más rico — y las calorías son casi iguales en la cantidad que se usa.'
+  },
+  merluza_arroz: {
+    title: 'Merluza + Arroz basmati + Espinacas',
+    tiempo: '20 min',
+    steps: [
+      'Arroz basmati: agua fría salada (1 parte arroz : 1.5 agua), lleva a ebullición, fuego bajo y cuece 10 min tapado. Apaga y reposa 5 min.',
+      'Seca muy bien los lomos de merluza. Salpimenta.',
+      'Sartén con aceite a fuego medio-alto. Cocina la merluza 3-4 min por la parte de la piel, luego 1-2 min por el otro lado.',
+      'Saltea las espinacas frescas con ajo laminado y una pizca de guindilla opcional, 2 min.',
+      'Sirve con unas gotas de limón y un hilo de aceite de oliva en crudo.'
+    ],
+    tip: 'La merluza está lista cuando la carne se separa en láminas al presionar suavemente con un dedo. Si esperas a que esté "bien hecha", ya está seca. El aceite en crudo al emplatar potencia el sabor del pescado más que cualquier salsa.'
+  },
+  pollo_horno: {
+    title: 'Pollo al horno + Verduras asadas',
+    tiempo: '45 min',
+    steps: [
+      'Precalienta el horno a 200°C. Corta las verduras (pimiento, calabacín, cebolla roja, tomate cherry) en trozos grandes. Pon en bandeja con aceite, sal y romero.',
+      'Seca muy bien el pollo con papel. Frota con ajo picado, pimentón dulce, una cucharadita de miel y sal.',
+      'Coloca el pollo con la piel hacia arriba sobre las verduras en la bandeja.',
+      'Hornea 35-40 min. Los últimos 5 min sube a 220°C para que la piel quede dorada y crujiente.'
+    ],
+    tip: 'Dos claves para piel crujiente: seca el pollo antes de aliñar y no cubras la bandeja durante el horneado. La miel carameliza y da ese color dorado. Bonus: añade unas aceitunas y alcaparras los últimos 15 min — transforma el plato.'
+  },
+  salmon_tostada: {
+    title: 'Tostada integral + Salmón + Huevos + Aguacate',
+    tiempo: '10 min',
+    steps: [
+      'Tuesta bien el pan integral hasta que quede firme y crujiente.',
+      'Chafa el aguacate maduro con tenedor. Añade sal, limón, pimienta negra y una gota de Tabasco.',
+      'Para huevo pochado: agua hirviendo suave + chorrito de vinagre. Crea un remolino y vierte el huevo en el centro. 3 min. (O frito si prefieres.)',
+      'Monta: pan → aguacate → salmón ahumado → huevo → pimienta negra y semillas de sésamo o eneldo.'
+    ],
+    tip: 'El aguacate con limón no solo evita que se oxide — el ácido equilibra la grasa y lo hace más fresco. Añade escamas de sal Maldon encima justo antes de comer: la textura crujiente y el sabor salino hacen que el desayuno parezca de restaurante.'
+  },
+  revuelto: {
+    title: 'Revuelto de huevos + Calabacín + Pimiento',
+    tiempo: '15 min',
+    steps: [
+      'Corta calabacín y pimiento en daditos. Saltea en sartén con aceite a fuego medio-alto 6-8 min hasta tiernos y con algo de color.',
+      'Baja el fuego a BAJO. Bate los huevos con sal y una cucharada de agua (queda más esponjoso que con leche).',
+      'Vierte los huevos sobre las verduras. Con espátula de silicona, mueve suavemente desde los bordes hacia el centro.',
+      'Retira del fuego cuando aún estén ligeramente crudos — el calor residual termina la cocción en el plato.'
+    ],
+    tip: 'El revuelto perfecto requiere fuego bajo y paciencia. El error clásico: hacerlo a fuego alto removiendo rápido — queda gomoso y seco. Si quieres unos huevos muy cremosos, añade una cucharada de requesón justo antes de apagar el fuego.'
+  },
+  tortitas_avena: {
+    title: 'Tortitas de avena + Plátano',
+    tiempo: '10 min',
+    steps: [
+      'Mezcla en un bol: 80g de copos de avena finos, 1 huevo, 1 plátano muy maduro chafado, 50ml de leche y una pizca de canela. Deja reposar 2 min.',
+      'Calienta sartén antiadherente a fuego medio-bajo con unas gotas de aceite o spray.',
+      'Vierte porciones de masa (2-3 cucharadas). Cuece 2-3 min hasta que aparezcan burbujas en la superficie. Da la vuelta y 1-2 min más.',
+      'Sirve con fruta fresca encima y miel o sirope de arce si quieres.'
+    ],
+    tip: 'El plátano muy maduro (con manchas negras) es el secreto: tiene más fructosa y endulza naturalmente sin añadir azúcar. Para tortitas más esponjosas, NO las aplastes con la espátula al cocinarlas — pierden el aire que las hincha.'
+  }
+};
+
+function openRecipe(key) {
+  const r = RECIPES[key];
+  if (!r) return;
+  document.getElementById('rsh-title').textContent = r.title;
+  document.getElementById('rsh-meta').textContent = '⏱ ' + r.tiempo + '  ·  2 personas';
+  let h = '<p class="rsh-section">Preparación</p><ol class="rsh-steps">';
+  r.steps.forEach(s => { h += '<li>' + s + '</li>'; });
+  h += '</ol>';
+  if (r.tip) {
+    h += '<div class="rsh-tip"><strong>💡 El toque del chef</strong>' + r.tip + '</div>';
+  }
+  document.getElementById('rsh-body').innerHTML = h;
+  const overlay = document.getElementById('recipe-overlay');
+  const sheet   = document.getElementById('recipe-sheet');
+  overlay.style.display = 'block';
+  sheet.style.display   = 'block';
+  requestAnimationFrame(() => requestAnimationFrame(() => sheet.classList.add('open')));
+  document.body.style.overflow = 'hidden';
+}
+
+function closeRecipe() {
+  const sheet = document.getElementById('recipe-sheet');
+  sheet.classList.remove('open');
+  setTimeout(() => {
+    document.getElementById('recipe-overlay').style.display = 'none';
+    sheet.style.display = 'none';
+    document.body.style.overflow = '';
+  }, 320);
+}
+
+// ── Extras log ────────────────────────────────────────────────────────────────
+const FOODS = [
+  {id:'f1',e:'🍌',name:'Plátano mediano',unit:'1 unidad (100g)',kcal:89,prot:1.1,carbs:23,fat:0.3},
+  {id:'f2',e:'🍎',name:'Manzana mediana',unit:'1 unidad (150g)',kcal:78,prot:0.4,carbs:20,fat:0.3},
+  {id:'f3',e:'🍊',name:'Naranja mediana',unit:'1 unidad (180g)',kcal:65,prot:1.3,carbs:16,fat:0.2},
+  {id:'f4',e:'🍇',name:'Uvas (puñado)',unit:'~100g',kcal:69,prot:0.7,carbs:18,fat:0.2},
+  {id:'f5',e:'🥭',name:'Mango (porción)',unit:'~150g',kcal:90,prot:1.2,carbs:22,fat:0.4},
+  {id:'f6',e:'🍓',name:'Fresas (bol)',unit:'~150g',kcal:48,prot:1,carbs:11,fat:0.4},
+  {id:'f7',e:'🍑',name:'Melocotón',unit:'1 unidad (150g)',kcal:58,prot:1.4,carbs:14,fat:0.4},
+  {id:'f8',e:'🫐',name:'Arándanos (puñado)',unit:'~80g',kcal:45,prot:0.6,carbs:11,fat:0.2},
+  {id:'p1',e:'🥐',name:'Croissant mantequilla',unit:'1 unidad (80g)',kcal:310,prot:6,carbs:32,fat:18},
+  {id:'p2',e:'🥖',name:'Barra de pan (trozo)',unit:'50g',kcal:130,prot:4,carbs:26,fat:1},
+  {id:'p3',e:'🍞',name:'Rebanada pan blanco',unit:'1 rebanada (30g)',kcal:80,prot:2.5,carbs:15,fat:0.8},
+  {id:'p4',e:'🍫',name:'Napolitana de chocolate',unit:'1 unidad (80g)',kcal:290,prot:5,carbs:38,fat:13},
+  {id:'p5',e:'🧁',name:'Magdalena',unit:'1 unidad (50g)',kcal:190,prot:3,carbs:26,fat:8},
+  {id:'p6',e:'🍩',name:'Donut glaseado',unit:'1 unidad (75g)',kcal:270,prot:4,carbs:35,fat:13},
+  {id:'p7',e:'🍪',name:'Galleta María (3 uds)',unit:'3 galletas (20g)',kcal:90,prot:2,carbs:16,fat:2.5},
+  {id:'p8',e:'🍪',name:'Oreo (3 galletas)',unit:'3 galletas (34g)',kcal:160,prot:2,carbs:24,fat:7},
+  {id:'p9',e:'🥖',name:'Biscote',unit:'1 unidad (10g)',kcal:40,prot:1,carbs:8,fat:0.5},
+  {id:'p10',e:'🥐',name:'Pain au chocolat',unit:'1 unidad (90g)',kcal:340,prot:6,carbs:38,fat:18},
+  {id:'l1',e:'🥛',name:'Vaso de leche entera',unit:'250ml',kcal:150,prot:8,carbs:12,fat:8},
+  {id:'l2',e:'🥛',name:'Vaso de leche semi',unit:'250ml',kcal:115,prot:8,carbs:12,fat:4},
+  {id:'l3',e:'🧀',name:'Queso en lonchas',unit:'2 lonchas (40g)',kcal:130,prot:8,carbs:0.5,fat:10},
+  {id:'l4',e:'🧀',name:'Queso brie o camembert',unit:'1 porción (40g)',kcal:135,prot:8,carbs:0.3,fat:11},
+  {id:'l5',e:'🍦',name:'Helado (bola)',unit:'1 bola (80g)',kcal:160,prot:3,carbs:22,fat:7},
+  {id:'l6',e:'🍦',name:'Helado (tarrina 125g)',unit:'125g',kcal:250,prot:4,carbs:32,fat:12},
+  {id:'b1',e:'🍺',name:'Cerveza caña',unit:'200ml',kcal:83,prot:0.7,carbs:6,fat:0},
+  {id:'b2',e:'🍺',name:'Cerveza botellín',unit:'330ml',kcal:145,prot:1.2,carbs:11,fat:0},
+  {id:'b3',e:'🍺',name:'Cerveza pinta',unit:'500ml',kcal:215,prot:1.8,carbs:17,fat:0},
+  {id:'b4',e:'🍷',name:'Copa de vino tinto',unit:'150ml',kcal:125,prot:0.1,carbs:4,fat:0},
+  {id:'b5',e:'🍷',name:'Copa de vino blanco',unit:'150ml',kcal:120,prot:0.1,carbs:4,fat:0},
+  {id:'b6',e:'🥂',name:'Copa de cava o prosecco',unit:'150ml',kcal:110,prot:0.4,carbs:5,fat:0},
+  {id:'b7',e:'🥃',name:'Chupito / shot',unit:'40ml',kcal:90,prot:0,carbs:0,fat:0},
+  {id:'b8',e:'🥃',name:'Gin tonic',unit:'1 copa',kcal:195,prot:0,carbs:15,fat:0},
+  {id:'b9',e:'🥤',name:'Refresco (lata 330ml)',unit:'1 lata',kcal:140,prot:0,carbs:35,fat:0},
+  {id:'b10',e:'🥤',name:'Refresco zero (lata)',unit:'1 lata',kcal:2,prot:0,carbs:0,fat:0},
+  {id:'b11',e:'🍊',name:'Zumo naranja natural',unit:'1 vaso (200ml)',kcal:88,prot:1.3,carbs:20,fat:0.2},
+  {id:'b12',e:'☕',name:'Café con leche',unit:'1 taza',kcal:55,prot:3,carbs:5,fat:2},
+  {id:'b13',e:'☕',name:'Café con leche y azúcar',unit:'1 taza',kcal:75,prot:3,carbs:10,fat:2},
+  {id:'s1',e:'🥔',name:'Patatas fritas bolsa pequeña',unit:'30g',kcal:160,prot:2,carbs:18,fat:9},
+  {id:'s2',e:'🥔',name:'Patatas fritas bolsa mediana',unit:'50g',kcal:265,prot:3,carbs:30,fat:15},
+  {id:'s3',e:'🫒',name:'Aceitunas (puñado)',unit:'~50g',kcal:70,prot:0.5,carbs:1,fat:7},
+  {id:'s4',e:'🥜',name:'Cacahuetes (puñado)',unit:'30g',kcal:170,prot:7,carbs:5,fat:14},
+  {id:'s5',e:'🥜',name:'Almendras (puñado)',unit:'30g',kcal:175,prot:6,carbs:5,fat:15},
+  {id:'s6',e:'🥜',name:'Frutos secos mixtos',unit:'30g',kcal:180,prot:5,carbs:7,fat:15},
+  {id:'s7',e:'🍿',name:'Palomitas (bol pequeño)',unit:'30g',kcal:110,prot:3,carbs:19,fat:3},
+  {id:'s8',e:'🧆',name:'Croquetas',unit:'2 unidades',kcal:160,prot:6,carbs:14,fat:9},
+  {id:'s9',e:'🥚',name:'Tortilla de patata (porción)',unit:'100g',kcal:185,prot:9,carbs:15,fat:10},
+  {id:'s10',e:'🥓',name:'Lonchas de jamón serrano',unit:'2 lonchas (30g)',kcal:90,prot:9,carbs:0.3,fat:6},
+  {id:'d1',e:'🍫',name:'Chocolate negro 85%',unit:'2 onzas (20g)',kcal:120,prot:2,carbs:5,fat:10},
+  {id:'d2',e:'🍫',name:'Chocolate con leche',unit:'2 onzas (20g)',kcal:110,prot:1.5,carbs:12,fat:6},
+  {id:'d3',e:'🎂',name:'Porción de tarta o pastel',unit:'1 porción (100g)',kcal:350,prot:4,carbs:48,fat:16},
+  {id:'d4',e:'🍮',name:'Brownie',unit:'1 porción (70g)',kcal:290,prot:4,carbs:40,fat:14},
+  {id:'d5',e:'🍭',name:'Caramelos o golosinas',unit:'50g',kcal:185,prot:0,carbs:46,fat:0},
+  {id:'d6',e:'🍮',name:'Natillas o flan',unit:'1 tarrina (125g)',kcal:165,prot:5,carbs:27,fat:5},
+  {id:'q1',e:'🍕',name:'Pizza porción grande',unit:'1 slice (150g)',kcal:360,prot:15,carbs:40,fat:15},
+  {id:'q2',e:'🍕',name:'Pizza porción pequeña',unit:'1 slice (100g)',kcal:240,prot:10,carbs:27,fat:10},
+  {id:'q3',e:'🍔',name:'Hamburguesa completa',unit:'1 unidad (~220g)',kcal:560,prot:30,carbs:40,fat:28},
+  {id:'q4',e:'🌯',name:'Bocadillo jamón serrano',unit:'1 bocadillo mediano',kcal:320,prot:22,carbs:35,fat:9},
+  {id:'q5',e:'🥪',name:'Sándwich mixto jamón y queso',unit:'1 sándwich',kcal:290,prot:16,carbs:28,fat:12},
+  {id:'q6',e:'🌮',name:'Kebab (pan de pita)',unit:'1 unidad',kcal:500,prot:28,carbs:45,fat:20},
+  {id:'q7',e:'🥙',name:'Wrap de pollo',unit:'1 unidad',kcal:380,prot:25,carbs:38,fat:14},
+  {id:'pr1',e:'🥚',name:'Huevo cocido o frito',unit:'1 unidad',kcal:78,prot:6,carbs:0.6,fat:5},
+  {id:'pr2',e:'🐟',name:'Lata de atún en agua',unit:'1 lata (80g escurrido)',kcal:88,prot:20,carbs:0,fat:1},
+  {id:'pr3',e:'🍗',name:'Pechuga de pollo a la plancha',unit:'100g',kcal:165,prot:31,carbs:0,fat:4},
+  {id:'r1',e:'🍝',name:'Pasta hervida (ración)',unit:'200g cocida',kcal:280,prot:10,carbs:56,fat:1.5},
+  {id:'r2',e:'🍚',name:'Arroz blanco (ración)',unit:'200g cocido',kcal:260,prot:5,carbs:57,fat:0.5},
+  {id:'r3',e:'🥞',name:'Tortita (1 grande)',unit:'1 tortita grande',kcal:175,prot:5,carbs:30,fat:4},
+  // BEBIDAS DE MARCA
+  {id:'bm1',e:'🥤',name:'Coca-Cola (lata 330ml)',unit:'1 lata',kcal:139,prot:0,carbs:35,fat:0},
+  {id:'bm2',e:'🥤',name:'Coca-Cola Zero (lata)',unit:'1 lata',kcal:1,prot:0,carbs:0.1,fat:0},
+  {id:'bm3',e:'🥤',name:'Fanta naranja (lata)',unit:'1 lata 330ml',kcal:149,prot:0,carbs:37,fat:0},
+  {id:'bm4',e:'🥤',name:'Fanta limón (lata)',unit:'1 lata 330ml',kcal:132,prot:0,carbs:33,fat:0},
+  {id:'bm5',e:'⚡',name:'Red Bull (lata 250ml)',unit:'1 lata',kcal:113,prot:1,carbs:27,fat:0},
+  {id:'bm6',e:'⚡',name:'Monster Energy (lata 500ml)',unit:'1 lata',kcal:225,prot:1,carbs:54,fat:0},
+  {id:'bm7',e:'🥤',name:'Aquarius naranja (500ml)',unit:'1 botella',kcal:100,prot:0,carbs:25,fat:0},
+  {id:'bm8',e:'🍵',name:'Nestea (500ml)',unit:'1 botella',kcal:95,prot:0,carbs:23,fat:0},
+  {id:'bm9',e:'🥤',name:'Schweppes tónica (200ml)',unit:'1 vaso',kcal:72,prot:0,carbs:18,fat:0},
+  {id:'bm10',e:'🧃',name:'Zumo brick (200ml)',unit:'1 brick',kcal:90,prot:0.7,carbs:22,fat:0.2},
+  // SNACKS DE MARCA
+  {id:'sn1',e:'🥔',name:'Pringles original (tubo pequeño)',unit:'40g',kcal:208,prot:2,carbs:21,fat:13},
+  {id:'sn2',e:'🌽',name:'Gusanitos (bolsa pequeña)',unit:'28g',kcal:140,prot:1.7,carbs:17,fat:7},
+  {id:'sn3',e:'🌮',name:'Doritos (puñado)',unit:'30g',kcal:150,prot:2,carbs:20,fat:7},
+  {id:'sn4',e:'🥨',name:'Ritz (5 galletas)',unit:'15g',kcal:72,prot:1,carbs:9,fat:3.5},
+  {id:'sn5',e:'🥜',name:'Cacahuetes JayCee / Mani',unit:'bolsa 45g',kcal:265,prot:11,carbs:8,fat:22},
+  // CHOCOLATE Y DULCES DE MARCA
+  {id:'ch1',e:'🍫',name:'Kit Kat (2 fingers)',unit:'1 pack 41g',kcal:213,prot:2.7,carbs:28,fat:10},
+  {id:'ch2',e:'🍫',name:'Kinder Bueno (2 barras)',unit:'1 pack 43g',kcal:228,prot:3.7,carbs:25,fat:13},
+  {id:'ch3',e:'🍫',name:'Twix (2 barritas)',unit:'1 pack 50g',kcal:256,prot:2.5,carbs:34,fat:12},
+  {id:'ch4',e:'🍫',name:'Ferrero Rocher (2 uds)',unit:'25g',kcal:148,prot:2,carbs:14,fat:9.5},
+  {id:'ch5',e:'🍫',name:'Nocilla / Nutella (cucharada)',unit:'15g',kcal:81,prot:0.9,carbs:8.5,fat:4.7},
+  {id:'ch6',e:'☕',name:'Cola Cao (cucharada)',unit:'15g',kcal:60,prot:1,carbs:12,fat:1},
+  {id:'ch7',e:'🍫',name:'Milka (2 cuadrados)',unit:'20g',kcal:107,prot:1.6,carbs:13,fat:5.5},
+  // COMIDA ESPAÑOLA
+  {id:'es1',e:'🥐',name:'Churros (ración 3 uds)',unit:'~80g',kcal:240,prot:4,carbs:33,fat:10},
+  {id:'es2',e:'🍅',name:'Pan con tomate y aceite',unit:'1 rebanada',kcal:180,prot:4,carbs:28,fat:6},
+  {id:'es3',e:'🥘',name:'Empanada (porción)',unit:'1 porción 100g',kcal:270,prot:9,carbs:30,fat:13},
+  {id:'es4',e:'🥔',name:'Patatas bravas (ración)',unit:'1 ración',kcal:250,prot:3,carbs:30,fat:13},
+  {id:'es5',e:'🐟',name:'Boquerones en vinagre (ración)',unit:'1 ración',kcal:130,prot:15,carbs:2,fat:7},
+  {id:'es6',e:'🥘',name:'Paella (ración)',unit:'300g',kcal:450,prot:22,carbs:65,fat:12},
+  {id:'es7',e:'🌮',name:'Pincho de tortilla',unit:'1 pincho',kcal:130,prot:6,carbs:11,fat:7},
+  {id:'es8',e:'🍖',name:'Jamón ibérico (2 lonchas)',unit:'30g',kcal:110,prot:10,carbs:0,fat:7.5},
+  {id:'es9',e:'🌮',name:'Montadito de jamón y queso',unit:'1 unidad',kcal:150,prot:8,carbs:14,fat:7},
+  {id:'es10',e:'🥘',name:'Caldo / sopa (bol)',unit:'250ml',kcal:40,prot:3,carbs:5,fat:0.5},
+  // BEBIDAS ALCOHÓLICAS ESPAÑOLAS
+  {id:'alc1',e:'🍺',name:'Clara (cerveza con limón)',unit:'330ml',kcal:100,prot:0.7,carbs:12,fat:0},
+  {id:'alc2',e:'🍷',name:'Tinto de verano (copa)',unit:'200ml',kcal:110,prot:0.3,carbs:15,fat:0},
+  {id:'alc3',e:'🍷',name:'Calimocho (copa)',unit:'200ml',kcal:130,prot:0.3,carbs:18,fat:0},
+  {id:'alc4',e:'🍹',name:'Sangría (copa)',unit:'200ml',kcal:160,prot:0.4,carbs:22,fat:0},
+  {id:'alc5',e:'🍸',name:'Vermut (copa)',unit:'100ml',kcal:90,prot:0,carbs:14,fat:0},
+  // CEREALES Y DESAYUNOS
+  {id:'cer1',e:'🥣',name:'Corn Flakes',unit:'30g (un bol)',kcal:113,prot:2,carbs:25,fat:0.3},
+  {id:'cer2',e:'🥣',name:'Cereales con miel',unit:'30g',kcal:116,prot:2.5,carbs:26,fat:0.5},
+  {id:'cer3',e:'🥣',name:'Granola',unit:'40g',kcal:180,prot:4,carbs:26,fat:6},
+  {id:'cer4',e:'🥣',name:'Müesli',unit:'45g',kcal:168,prot:5,carbs:30,fat:3},
+  // COMIDA RÁPIDA EXTRA
+  {id:'ff1',e:'🍔',name:'Big Mac',unit:'1 hamburguesa',kcal:508,prot:25,carbs:43,fat:26},
+  {id:'ff2',e:'🍟',name:'Patatas fritas McDonalds (M)',unit:'1 ración mediana',kcal:350,prot:4,carbs:44,fat:17},
+  {id:'ff3',e:'🌮',name:'Burrito Tex-Mex (pequeño)',unit:'1 unidad',kcal:340,prot:16,carbs:38,fat:13},
+  // PROTEÍNAS Y PESCADOS EXTRA
+  {id:'pe1',e:'🐟',name:'Lata sardinas en aceite',unit:'1 lata 85g',kcal:200,prot:20,carbs:0,fat:13},
+  {id:'pe2',e:'🐟',name:'Lata caballa en aceite',unit:'1 lata 85g',kcal:185,prot:18,carbs:0,fat:12},
+  {id:'pe3',e:'🥩',name:'Filete de ternera (a la plancha)',unit:'150g',kcal:250,prot:34,carbs:0,fat:12},
+  {id:'pe4',e:'🥩',name:'Salchichón (2 lonchas)',unit:'30g',kcal:135,prot:7,carbs:0.3,fat:12},
+  {id:'pe5',e:'🥩',name:'Chorizo (2 lonchas)',unit:'30g',kcal:145,prot:7,carbs:0.5,fat:13},
+  // SALSAS Y EXTRAS
+  {id:'ex1',e:'🧄',name:'Hummus (porción)',unit:'50g',kcal:95,prot:4,carbs:8,fat:5.5},
+  {id:'ex2',e:'🧅',name:'Guacamole (porción)',unit:'50g',kcal:80,prot:1,carbs:4,fat:7},
+  {id:'ex3',e:'🍦',name:'Yogur griego natural',unit:'125g',kcal:135,prot:7,carbs:5,fat:10},
+  {id:'ex4',e:'🥛',name:'Batido proteína (scoop)',unit:'1 scoop ~30g',kcal:118,prot:24,carbs:4,fat:1.5},
+];
+
+const EXTRAS_KEY     = 'extras_v1';
+const EXTRAS_TIM_KEY = 'extras_timing_v1';
+let _xActDay = 0;
+const MEAL_W         = [0.22, 0.10, 0.32, 0.13, 0.20, 0.03];
+const MEAL_NAMES_REM = [
+  ['Media mañana','Comida','Merienda','Cena','Postre'],
+  ['Comida','Merienda','Cena','Postre'],
+  ['Merienda','Cena','Postre'],
+  ['Cena','Postre'],
+  ['Postre'],
+  [],
+];
+
+function _getExtrasLog()    { try { return JSON.parse(localStorage.getItem(EXTRAS_KEY)||'{}'); } catch(e){ return {}; } }
+function _saveExtrasLog(lg) { localStorage.setItem(EXTRAS_KEY, JSON.stringify(lg)); }
+function _getDayExtras(d)   { return _getExtrasLog()[d] || []; }
+function _getTiming(d)      { try { const t=JSON.parse(localStorage.getItem(EXTRAS_TIM_KEY)||'{}'); return t[d]!==undefined?parseInt(t[d]):-1; } catch(e){ return -1; } }
+function setExtrasTiming(d, v) {
+  try { const t=JSON.parse(localStorage.getItem(EXTRAS_TIM_KEY)||'{}'); t[d]=parseInt(v); localStorage.setItem(EXTRAS_TIM_KEY,JSON.stringify(t)); } catch(e){}
+  applyExtrasReduction(d); _renderExtras(d);
+}
+
+function addExtraFood(d, foodId, qty) {
+  const food=FOODS.find(f=>f.id===foodId); if (!food) return;
+  const lg=_getExtrasLog(); if (!lg[d]) lg[d]=[];
+  lg[d].push({uid:Date.now(), foodId, e:food.e, name:food.name, unit:food.unit,
+    qty, baseKcal:food.kcal, baseProt:food.prot, baseCarbs:food.carbs, baseFat:food.fat});
+  _saveExtrasLog(lg); _renderExtras(d);
+}
+function changeExtraQty(d, uid, delta) {
+  const lg=_getExtrasLog(); if (!lg[d]) return;
+  const it=lg[d].find(i=>i.uid===uid); if (!it) return;
+  it.qty=Math.max(0.5, Math.round((it.qty+delta)*2)/2);
+  _saveExtrasLog(lg); _renderExtras(d);
+}
+function removeExtra(d, uid) {
+  const lg=_getExtrasLog(); if (!lg[d]) return;
+  lg[d]=lg[d].filter(i=>i.uid!==uid);
+  _saveExtrasLog(lg); _renderExtras(d);
+}
+
+function _extrasTotals(d) {
+  return _getDayExtras(d).reduce((a,e)=>({
+    kcal:a.kcal+Math.round(e.baseKcal*e.qty), prot:a.prot+e.baseProt*e.qty,
+    carbs:a.carbs+e.baseCarbs*e.qty, fat:a.fat+e.baseFat*e.qty
+  }), {kcal:0,prot:0,carbs:0,fat:0});
+}
+function _parseKcal(id) { const t=(document.getElementById(id)||{}).textContent||'0'; return parseInt(t.replace(/\./g,''))||0; }
+function _parseG(id)    { const t=(document.getElementById(id)||{}).textContent||'0g'; return parseFloat(t)||0; }
+
+function applyExtrasReduction(d) {
+  const dp=document.querySelector('#day-'+d); if (!dp) return;
+  dp.querySelectorAll('.qty-extra-reduced').forEach(s=>s.classList.remove('qty-extra-reduced'));
+  dp.querySelectorAll('.meal-adj-badge').forEach(b=>b.remove());
+  dp.querySelectorAll('.meal-card-adj').forEach(c=>c.classList.remove('meal-card-adj'));
+  const timing=_getTiming(d); if (timing<0) return;
+  const tot=_extrasTotals(d); if (tot.kcal===0) return;
+  const aDay=_parseKcal('adria-kcal'), eDay=_parseKcal('esther-kcal');
+  const remFrac=MEAL_W.slice(timing+1).reduce((a,b)=>a+b, 0); if (remFrac<=0) return;
+  const aF=Math.max(0.5, 1-tot.kcal/(aDay*remFrac));
+  const eF=Math.max(0.5, 1-tot.kcal/(eDay*remFrac));
+  const pct=Math.round((1-Math.min(aF,eF))*100);
+  dp.querySelectorAll('.meal-card').forEach((card, idx) => {
+    if (idx<=timing) return;
+    card.classList.add('meal-card-adj');
+    const lbl=card.querySelector('.meal-label');
+    if (lbl&&!lbl.querySelector('.meal-adj-badge')) {
+      const b=document.createElement('span'); b.className='meal-adj-badge'; b.textContent='−'+pct+'%'; lbl.appendChild(b);
+    }
+    card.querySelectorAll('.qty-adria').forEach(sp => {
+      const t=sp.textContent.trim();
+      if (!t||t==='—'||t==='libre'||t.includes('kcal')) return;
+      const m=t.match(/^(\d+(?:\.\d+)?)(.*)$/); if (!m) return;
+      const nv=Math.round(parseFloat(m[1])*aF);
+      sp.dataset.preEx=t; sp.textContent=nv+m[2]; sp.classList.add('qty-extra-reduced');
+    });
+    card.querySelectorAll('.qty-esther').forEach(sp => {
+      const t=sp.textContent.trim();
+      if (!t||t==='—'||t==='libre'||t.includes('kcal')) return;
+      const m=t.match(/^(\d+(?:\.\d+)?)(.*)$/); if (!m) return;
+      const nv=Math.round(parseFloat(m[1])*eF);
+      sp.dataset.preEx=t; sp.textContent=nv+m[2]; sp.classList.add('qty-extra-reduced');
+    });
+  });
+}
+
+const _xSetDayOrig=setDay;
+setDay=function(i){_xActDay=i;_xSetDayOrig(i);if(i>=0&&i<=6)applyExtrasReduction(i);};
+const _xSetEstherOrig=setEsther;
+setEsther=function(m){_xSetEstherOrig(m);if(_xActDay>=0&&_xActDay<=6)applyExtrasReduction(_xActDay);};
+
+function _renderExtras(d) {
+  const sec=document.querySelector('.extras-section[data-day="'+d+'"]'); if (!sec) return;
+  const extras=_getDayExtras(d), totals=_extrasTotals(d), timing=_getTiming(d);
+  const r=n=>Math.round(n);
+  const hd=sec.querySelector('.extras-hdr-total');
+  if (hd) hd.textContent=extras.length?'+'+totals.kcal+' kcal':'';
+  const lst=sec.querySelector('.extras-list');
+  if (lst) {
+    lst.innerHTML=extras.length===0
+      ?'<div class="extras-empty">Sin extras aún</div>'
+      :extras.map(it=>{
+        const ik=Math.round(it.baseKcal*it.qty);
+        return `<div class="extras-item">
+          <span class="extras-item-emoji">${it.e}</span>
+          <div class="extras-item-info">
+            <div class="extras-item-name">${it.name}</div>
+            <div class="extras-item-kcal">${it.qty!==1?'×'+it.qty+' ':''}${it.unit} &middot; <strong>${ik} kcal</strong></div>
+          </div>
+          <div class="extras-item-qty">
+            <button class="eq-btn" onclick="changeExtraQty(${d},${it.uid},-0.5)">−</button>
+            <span class="eq-val">${it.qty}</span>
+            <button class="eq-btn" onclick="changeExtraQty(${d},${it.uid},0.5)">+</button>
+          </div>
+          <button class="extras-item-rm" onclick="removeExtra(${d},${it.uid})" title="Eliminar">✕</button>
+        </div>`;
+      }).join('');
+  }
+  const tot=sec.querySelector('.extras-totals');
+  if (tot) {
+    if (!extras.length) { tot.style.display='none'; applyExtrasReduction(d); return; }
+    tot.style.display='block';
+    const aK=_parseKcal('adria-kcal')-totals.kcal, aP=_parseG('adria-prot')-r(totals.prot),
+          aC=_parseG('adria-carbs')-r(totals.carbs), aG=_parseG('adria-fat')-r(totals.fat);
+    const eK=_parseKcal('esther-kcal')-totals.kcal, eP=_parseG('esther-prot')-r(totals.prot),
+          eC=_parseG('esther-carbs')-r(totals.carbs), eG=_parseG('esther-fat')-r(totals.fat);
+    const fmt=n=>n<=0?`<span class="extras-warn">${n}</span>`:n.toLocaleString('es-ES');
+    let remHtml='';
+    if (timing>=0&&timing<MEAL_NAMES_REM.length) {
+      const rem=MEAL_NAMES_REM[timing];
+      remHtml=rem.length>0
+        ?`<div style="font-size:11px;color:#7c3aed;margin-top:5px;">Ajustando: ${rem.join(' &middot; ')}</div>`
+        :`<div style="font-size:11px;color:#aaa;margin-top:5px;">No quedan comidas que ajustar</div>`;
+    }
+    tot.innerHTML=`
+      <div class="extras-total-row">Extras: +${totals.kcal} kcal &middot; P +${r(totals.prot)}g &middot; C +${r(totals.carbs)}g &middot; G +${r(totals.fat)}g</div>
+      ${remHtml}
+      <div class="extras-remaining">
+        <div class="extras-rem-title">Te queda del plan de hoy</div>
+        <div class="extras-rem-row"><strong>Adrià:</strong> ${fmt(aK)} kcal &middot; P ${aP}g &middot; C ${aC}g &middot; G ${aG}g</div>
+        <div class="extras-rem-row"><strong>Esther:</strong> ${fmt(eK)} kcal &middot; P ${eP}g &middot; C ${eC}g &middot; G ${eG}g</div>
+      </div>`;
+  }
+  applyExtrasReduction(d);
+}
+
+function toggleExtras(d) {
+  const sec=document.querySelector('.extras-section[data-day="'+d+'"]'); if (!sec) return;
+  sec.classList.toggle('open');
+  const body=sec.querySelector('.extras-body');
+  if (body) body.style.display=sec.classList.contains('open')?'block':'none';
+}
+function searchExtras(d, q) {
+  const res=document.getElementById('ex-res-'+d); if (!res) return;
+  if (!q.trim()) { res.classList.remove('show'); return; }
+  const norm=s=>s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
+  const nq=norm(q);
+  const hits=FOODS.filter(f=>norm(f.name).includes(nq)).slice(0,8);
+  res.innerHTML=hits.length===0
+    ?'<div style="padding:10px 14px;font-size:13px;color:#aaa">Sin resultados</div>'
+    :hits.map(f=>`<div class="extras-result-item" onclick="addExtraFood(${d},'${f.id}',1);clearExSearch(${d})">
+        <span>${f.e} <span class="extras-result-name">${f.name}</span> <span class="extras-result-unit">${f.unit}</span></span>
+        <span class="extras-result-kcal">${f.kcal} kcal</span>
+      </div>`).join('');
+  res.classList.add('show');
+}
+function clearExSearch(d) {
+  const inp=document.getElementById('ex-inp-'+d), res=document.getElementById('ex-res-'+d);
+  if (inp) inp.value=''; if (res) res.classList.remove('show');
+}
+
+function initExtras(d) {
+  const sec=document.querySelector('.extras-section[data-day="'+d+'"]'); if (!sec) return;
+  sec.innerHTML=`
+    <div class="extras-hdr" onclick="toggleExtras(${d})">
+      <span class="extras-hdr-left">📝 Extras de hoy</span>
+      <span class="extras-hdr-right"><span class="extras-hdr-total"></span><span class="extras-chevron">▾</span></span>
+    </div>
+    <div class="extras-body" style="display:none">
+      <div class="extras-search-wrap">
+        <input id="ex-inp-${d}" type="text" class="extras-search" placeholder="🔍 Buscar alimento..." autocomplete="off"
+               oninput="searchExtras(${d},this.value)">
+        <div id="ex-res-${d}" class="extras-results"></div>
+      </div>
+      <div class="extras-list"></div>
+      <div class="extras-timing-row">
+        <div class="extras-timing-label">¿Entre qué comidas?</div>
+        <select class="extras-timing-sel" id="ex-tim-${d}" onchange="setExtrasTiming(${d},this.value)">
+          <option value="-1">— sin especificar —</option>
+          <option value="0">Después del desayuno</option>
+          <option value="1">Después de media mañana</option>
+          <option value="2">Después de la comida</option>
+          <option value="3">Después de la merienda</option>
+          <option value="4">Después de cenar</option>
+        </select>
+      </div>
+      <div class="extras-totals" style="display:none"></div>
+    </div>`;
+  const ts=document.getElementById('ex-tim-'+d); if (ts) ts.value=_getTiming(d);
+  _renderExtras(d);
+  document.addEventListener('click', function(e){
+    const res=document.getElementById('ex-res-'+d), inp=document.getElementById('ex-inp-'+d);
+    if (res&&inp&&!inp.contains(e.target)&&!res.contains(e.target)) res.classList.remove('show');
+  },{passive:true});
+}
+
+</script>
+
+<!-- Recipe sheet -->
+<div id="recipe-overlay" onclick="closeRecipe()"></div>
+<div id="recipe-sheet">
+  <div class="rsh-header">
+    <button class="rsh-back" onclick="closeRecipe()">&#8592;</button>
+    <div>
+      <div class="rsh-title" id="rsh-title"></div>
+      <div class="rsh-meta" id="rsh-meta"></div>
+    </div>
+  </div>
+  <div class="rsh-body" id="rsh-body"></div>
+</div>
+</body>
+</html>
