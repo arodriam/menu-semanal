@@ -349,25 +349,87 @@ body.view-esther .qty-adria, body.view-esther .col-label-adria { display: none; 
 .extras-rem-row { font-size:12px; color:#374151; margin-bottom:4px; line-height:1.5; }
 .extras-rem-row strong { color:#1a1a1a; }
 .extras-warn { color:#dc2626; }
+
+/* ===== UI polish & accesibilidad ===== */
+html { scroll-behavior:smooth; }
+::selection { background:#ede9fe; }
+
+/* Header con gradiente sutil */
+header { background:linear-gradient(120deg,#16161b 0%,#27233d 100%); }
+
+/* Contraste de textos (AA) */
+.view-label { color:#9b9ba3; }
+.toggle-btn { color:#a6a6ae; padding:6px 12px; }
+.macro-label, .meal-label, .phase-period, .phase-table th, .km-badge, .rules-title,
+.rsh-meta, .fuerza-block-meta, .fuerza-ex-cue, .extras-item-kcal, .shop-progress-label,
+.fuerza-prog-title { color:#6b7280; }
+.note { color:#737373; }
+.shop-item-hint { color:#8a909a; }
+.extras-empty { color:#9ca3af; }
+.extras-result-unit { color:#868c96; }
+.extras-chevron, .shop-cat-chevron { color:#6b7280; }
+.extras-timing-label { color:#6b7280; display:block; }
+
+/* day-tab y profile-chip ahora son <button> */
+.day-tab { background:none; border:none; border-bottom:2px solid transparent; font-family:inherit; color:#5b6470; }
+.profile-chip { font-family:inherit; appearance:none; }
+
+/* Tarjetas: sombra sutil y hover */
+.meal-card, .macros-bar, .phase-card, .shop-cat, .fuerza-block, .fuerza-prog,
+.rules-section, .extras-section { box-shadow:0 1px 2px rgba(16,24,40,0.05); }
+.meal-card { transition:box-shadow 0.2s, border-color 0.2s; }
+.meal-card:hover { box-shadow:0 4px 14px rgba(16,24,40,0.08); border-color:#ddd; }
+#recipe-sheet { box-shadow:0 -8px 30px rgba(0,0,0,0.18); }
+
+/* Objetivos táctiles más grandes */
+.eq-btn { width:30px; height:30px; }
+.extras-item-rm { font-size:18px; padding:5px 6px; }
+
+/* Foco visible para teclado */
+:focus-visible { outline:2px solid #7c3aed; outline-offset:2px; border-radius:4px; }
+.day-tab:focus-visible { outline-offset:-2px; }
+.shop-item:focus-visible, .shop-cat-header:focus-visible, .extras-hdr:focus-visible { outline-offset:-2px; }
+
+/* Skip link */
+.skip-link { position:absolute; left:-9999px; top:0; background:#7c3aed; color:#fff; padding:10px 16px; border-radius:0 0 8px 0; z-index:1000; font-weight:600; font-size:13px; text-decoration:none; }
+.skip-link:focus { left:0; }
+
+/* Legibilidad mínima en móvil */
+@media (max-width:640px) {
+  .meal-label, .macro-label, .macro-who, .col-label-adria, .col-label-esther,
+  .phase-table th, .session-type { font-size:10px; }
+  .ctx-note, .note { font-size:11px; }
+  .km-badge { font-size:11px; }
+  .toggle-btn { padding:6px 10px; }
+}
+@media (max-width:380px) { .toggle-btn { padding:5px 9px; font-size:10px; } }
+
+/* Respetar preferencia de movimiento reducido */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration:0.01ms !important; transition-duration:0.01ms !important; }
+  html { scroll-behavior:auto; }
+}
 </style>
 </head>
 <body class="view-both">
+
+<a href="#main-content" class="skip-link">Saltar al contenido</a>
 
 <header>
   <div><h1>Menú & Entrenamiento 🥗💪</h1><p>Dra. Nora · Coach Alex</p></div>
 </header>
 
-<div class="view-bar">
-  <span class="view-label">Ver</span>
-  <div class="profile-chip both active" onclick="setView('both')">Ambos</div>
-  <div class="profile-chip adria" onclick="setView('adria')">Solo Adrià</div>
-  <div class="profile-chip esther" onclick="setView('esther')">Solo Esther</div>
+<div class="view-bar" role="group" aria-label="Filtro de vista">
+  <span class="view-label" id="view-label">Ver</span>
+  <button class="profile-chip both active" onclick="setView('both')" aria-pressed="true">Ambos</button>
+  <button class="profile-chip adria" onclick="setView('adria')" aria-pressed="false">Solo Adrià</button>
+  <button class="profile-chip esther" onclick="setView('esther')" aria-pressed="false">Solo Esther</button>
 </div>
 
 <div class="training-bar">
   <div class="training-person">
     <span class="person-name adria">Adrià</span>
-    <div class="toggle-group">
+    <div class="toggle-group" role="group" aria-label="Modo de entrenamiento de Adrià">
       <button class="toggle-btn active" id="adria-normal" onclick="setAdria('normal')">🏃 Carrera+Fuerza</button>
       <button class="toggle-btn" id="adria-hyrox" onclick="setAdria('hyrox')">🏋️ Hyrox</button>
       <button class="toggle-btn" id="adria-larga" onclick="setAdria('larga')">🏅 Tirada Larga</button>
@@ -376,7 +438,7 @@ body.view-esther .qty-adria, body.view-esther .col-label-adria { display: none; 
   </div>
   <div class="training-person">
     <span class="person-name esther">Esther</span>
-    <div class="toggle-group">
+    <div class="toggle-group" role="group" aria-label="Modo de entrenamiento de Esther">
       <button class="toggle-btn active" id="esther-fuerza" onclick="setEsther('fuerza')">💪 Fuerza</button>
       <button class="toggle-btn" id="esther-cardio" onclick="setEsther('cardio')">🚴 Cardio</button>
       <button class="toggle-btn" id="esther-rest" onclick="setEsther('rest')">😴 Descanso</button>
@@ -384,22 +446,22 @@ body.view-esther .qty-adria, body.view-esther .col-label-adria { display: none; 
   </div>
 </div>
 
-<div class="mode-banner" id="mode-banner"></div>
+<div class="mode-banner" id="mode-banner" role="status" aria-live="polite"></div>
 
-<div class="days-nav">
-  <div class="day-tab active" onclick="setDay(0)">Lunes</div>
-  <div class="day-tab" onclick="setDay(1)">Martes</div>
-  <div class="day-tab" onclick="setDay(2)">Miércoles</div>
-  <div class="day-tab" onclick="setDay(3)">Jueves</div>
-  <div class="day-tab" onclick="setDay(4)">Viernes</div>
-  <div class="day-tab" onclick="setDay(5)">Sábado</div>
-  <div class="day-tab" onclick="setDay(6)">Domingo</div>
-  <div class="day-tab" onclick="setDay(7)">📋 Reglas</div>
-  <div class="day-tab" onclick="setDay(8)">🛒 Compra</div>
-  <div class="day-tab" onclick="setDay(9)">💪 Fuerza</div>
+<div class="days-nav" role="tablist" aria-label="Días de la semana y secciones">
+  <button class="day-tab active" role="tab" aria-selected="true" onclick="setDay(0)">Lunes</button>
+  <button class="day-tab" role="tab" aria-selected="false" onclick="setDay(1)">Martes</button>
+  <button class="day-tab" role="tab" aria-selected="false" onclick="setDay(2)">Miércoles</button>
+  <button class="day-tab" role="tab" aria-selected="false" onclick="setDay(3)">Jueves</button>
+  <button class="day-tab" role="tab" aria-selected="false" onclick="setDay(4)">Viernes</button>
+  <button class="day-tab" role="tab" aria-selected="false" onclick="setDay(5)">Sábado</button>
+  <button class="day-tab" role="tab" aria-selected="false" onclick="setDay(6)">Domingo</button>
+  <button class="day-tab" role="tab" aria-selected="false" onclick="setDay(7)">📋 Reglas</button>
+  <button class="day-tab" role="tab" aria-selected="false" onclick="setDay(8)">🛒 Compra</button>
+  <button class="day-tab" role="tab" aria-selected="false" onclick="setDay(9)">💪 Fuerza</button>
 </div>
 
-<div class="content">
+<div class="content" id="main-content" role="main">
 
 <div class="macros-grid">
   <div class="macros-bar">
@@ -1682,6 +1744,7 @@ function updateShopUI() {
     const id = label.id.replace('_label','');
     const isDone = checked.has(id);
     label.classList.toggle('done', isDone);
+    label.setAttribute('aria-checked', isDone ? 'true' : 'false');
     totalItems++;
     if (isDone) doneCount++;
   });
@@ -1716,7 +1779,10 @@ function resetShop() {
 
 function toggleCat(catId) {
   const el = document.getElementById(catId);
-  if (el) el.classList.toggle('open');
+  if (!el) return;
+  el.classList.toggle('open');
+  const h = el.querySelector('.shop-cat-header');
+  if (h) h.setAttribute('aria-expanded', el.classList.contains('open') ? 'true' : 'false');
 }
 
 
@@ -2153,11 +2219,11 @@ function _renderExtras(d) {
             <div class="extras-item-kcal">${it.qty!==1?'×'+it.qty+' ':''}${it.unit} &middot; <strong>${ik} kcal</strong></div>
           </div>
           <div class="extras-item-qty">
-            <button class="eq-btn" onclick="changeExtraQty(${d},${it.uid},-0.5)">−</button>
+            <button class="eq-btn" onclick="changeExtraQty(${d},${it.uid},-0.5)" aria-label="Reducir cantidad de ${it.name}">−</button>
             <span class="eq-val">${it.qty}</span>
-            <button class="eq-btn" onclick="changeExtraQty(${d},${it.uid},0.5)">+</button>
+            <button class="eq-btn" onclick="changeExtraQty(${d},${it.uid},0.5)" aria-label="Aumentar cantidad de ${it.name}">+</button>
           </div>
-          <button class="extras-item-rm" onclick="removeExtra(${d},${it.uid})" title="Eliminar">✕</button>
+          <button class="extras-item-rm" onclick="removeExtra(${d},${it.uid})" title="Eliminar" aria-label="Eliminar ${it.name}">✕</button>
         </div>`;
       }).join('');
   }
@@ -2194,6 +2260,8 @@ function toggleExtras(d) {
   sec.classList.toggle('open');
   const body=sec.querySelector('.extras-body');
   if (body) body.style.display=sec.classList.contains('open')?'block':'none';
+  const hdr=sec.querySelector('.extras-hdr');
+  if (hdr) hdr.setAttribute('aria-expanded', sec.classList.contains('open')?'true':'false');
 }
 function searchExtras(d, q) {
   const res=document.getElementById('ex-res-'+d); if (!res) return;
@@ -2217,19 +2285,20 @@ function clearExSearch(d) {
 function initExtras(d) {
   const sec=document.querySelector('.extras-section[data-day="'+d+'"]'); if (!sec) return;
   sec.innerHTML=`
-    <div class="extras-hdr" onclick="toggleExtras(${d})">
+    <div class="extras-hdr" onclick="toggleExtras(${d})" role="button" tabindex="0" aria-expanded="false"
+         onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleExtras(${d})}">
       <span class="extras-hdr-left">📝 Extras de hoy</span>
-      <span class="extras-hdr-right"><span class="extras-hdr-total"></span><span class="extras-chevron">▾</span></span>
+      <span class="extras-hdr-right"><span class="extras-hdr-total"></span><span class="extras-chevron" aria-hidden="true">▾</span></span>
     </div>
     <div class="extras-body" style="display:none">
       <div class="extras-search-wrap">
         <input id="ex-inp-${d}" type="text" class="extras-search" placeholder="🔍 Buscar alimento..." autocomplete="off"
-               oninput="searchExtras(${d},this.value)">
+               aria-label="Buscar alimento" oninput="searchExtras(${d},this.value)">
         <div id="ex-res-${d}" class="extras-results"></div>
       </div>
       <div class="extras-list"></div>
       <div class="extras-timing-row">
-        <div class="extras-timing-label">¿Entre qué comidas?</div>
+        <label class="extras-timing-label" for="ex-tim-${d}">¿Entre qué comidas?</label>
         <select class="extras-timing-sel" id="ex-tim-${d}" onchange="setExtrasTiming(${d},this.value)">
           <option value="-1">— sin especificar —</option>
           <option value="0">Después del desayuno</option>
@@ -2249,13 +2318,56 @@ function initExtras(d) {
   },{passive:true});
 }
 
+// ── Accesibilidad ─────────────────────────────────────────────────────────────
+function _kbAct(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); e.currentTarget.click(); } }
+
+document.querySelectorAll('.meal-name[data-recipe]').forEach(el=>{
+  el.setAttribute('role','button'); el.setAttribute('tabindex','0');
+  el.setAttribute('aria-haspopup','dialog');
+  el.addEventListener('keydown',_kbAct);
+});
+document.querySelectorAll('.shop-cat-header').forEach(el=>{
+  el.setAttribute('role','button'); el.setAttribute('tabindex','0');
+  el.setAttribute('aria-expanded', el.closest('.shop-cat')?.classList.contains('open')?'true':'false');
+  el.addEventListener('keydown',_kbAct);
+});
+document.querySelectorAll('.shop-item').forEach(el=>{
+  el.setAttribute('role','checkbox'); el.setAttribute('tabindex','0');
+  el.setAttribute('aria-checked', el.classList.contains('done')?'true':'false');
+  el.addEventListener('keydown',_kbAct);
+});
+
+function _a11ySync(){
+  document.querySelectorAll('.profile-chip').forEach(b=>b.setAttribute('aria-pressed', b.classList.contains('active')?'true':'false'));
+  document.querySelectorAll('.toggle-btn').forEach(b=>{
+    const on=[...b.classList].some(c=>c==='active'||c.indexOf('active-')===0);
+    b.setAttribute('aria-pressed', on?'true':'false');
+  });
+  document.querySelectorAll('.day-tab').forEach(t=>t.setAttribute('aria-selected', t.classList.contains('active')?'true':'false'));
+}
+['setView','setAdria','setEsther','setDay'].forEach(fn=>{
+  const orig=window[fn];
+  if (typeof orig==='function') window[fn]=function(){ const r=orig.apply(this,arguments); _a11ySync(); return r; };
+});
+_a11ySync();
+
+// Modal: cerrar con Escape y devolver el foco al elemento que la abrió
+let _recipeLastFocus=null;
+const _a11yOpenRecipe=openRecipe;
+openRecipe=function(key){ _recipeLastFocus=document.activeElement; _a11yOpenRecipe(key); setTimeout(()=>document.querySelector('.rsh-back')?.focus(),350); };
+const _a11yCloseRecipe=closeRecipe;
+closeRecipe=function(){ _a11yCloseRecipe(); if (_recipeLastFocus&&_recipeLastFocus.focus) _recipeLastFocus.focus(); };
+document.addEventListener('keydown',e=>{
+  if (e.key==='Escape' && document.getElementById('recipe-sheet').classList.contains('open')) closeRecipe();
+});
+
 </script>
 
 <!-- Recipe sheet -->
-<div id="recipe-overlay" onclick="closeRecipe()"></div>
-<div id="recipe-sheet">
+<div id="recipe-overlay" onclick="closeRecipe()" aria-hidden="true"></div>
+<div id="recipe-sheet" role="dialog" aria-modal="true" aria-labelledby="rsh-title">
   <div class="rsh-header">
-    <button class="rsh-back" onclick="closeRecipe()">&#8592;</button>
+    <button class="rsh-back" onclick="closeRecipe()" aria-label="Cerrar receta">&#8592;</button>
     <div>
       <div class="rsh-title" id="rsh-title"></div>
       <div class="rsh-meta" id="rsh-meta"></div>
