@@ -484,9 +484,8 @@ header { background:linear-gradient(120deg,#16161b 0%,#27233d 100%); }
   <div class="training-person">
     <span class="person-name adria">Adrià</span>
     <div class="toggle-group" role="group" aria-label="Modo de entrenamiento de Adrià">
-      <button class="toggle-btn active" id="adria-normal" onclick="setAdria('normal')">🏃 Carrera+Fuerza</button>
-      <button class="toggle-btn" id="adria-hyrox" onclick="setAdria('hyrox')">🏋️ Hyrox</button>
-      <button class="toggle-btn" id="adria-larga" onclick="setAdria('larga')">🏅 Tirada Larga</button>
+      <button class="toggle-btn active" id="adria-fuerza" onclick="setAdria('fuerza')">💪 Fuerza</button>
+      <button class="toggle-btn" id="adria-carrera" onclick="setAdria('carrera')">🏃 Carrera Z2</button>
       <button class="toggle-btn" id="adria-rest" onclick="setAdria('rest')">😴 Descanso</button>
     </div>
   </div>
@@ -537,7 +536,7 @@ header { background:linear-gradient(120deg,#16161b 0%,#27233d 100%); }
 
 <!-- ===== LUNES ===== -->
 <div class="day-panel active" id="day-0">
-  <div class="day-header">Lunes · Adrià: Carrera Z2 + Fuerza 🏃 · Esther: Body Pump 💪</div>
+  <div class="day-header">Lunes · Adrià: Descanso (oficina) 😴 · Esther: Body Pump 💪</div>
   <div class="meals-grid">
     <div class="meal-card">
       <div class="meal-label">Desayuno · 7:00</div>
@@ -609,14 +608,14 @@ header { background:linear-gradient(120deg,#16161b 0%,#27233d 100%); }
         <div class="qty-row"><span class="qty-ingredient">Chocolate negro 85%</span><div class="qty-values"><span class="qty-adria" data-base="20" data-unit="g">20 g</span><span class="qty-esther" data-train="15 g" data-rest="15 g">15 g</span></div></div>
         <div class="qty-row"><span class="qty-ingredient">Nueces</span><div class="qty-values"><span class="qty-adria" data-base="10" data-unit="g">10 g</span><span class="qty-esther" data-train="—" data-rest="—">—</span></div></div>
       </div>
-      <p class="note">Total día: Adrià ~3.150 kcal · P ~200g · C ~370g · G ~68g &nbsp;|&nbsp; Esther ~1.980 kcal · P ~125g · C ~255g · G ~44g</p>
+      <p class="note">Total día (descanso): Adrià ~2.500 kcal · P ~190g · C ~250g · G ~75g &nbsp;|&nbsp; Esther ~1.980 kcal · P ~125g · C ~255g · G ~44g</p>
     </div>
   </div>
   <div class="extras-section" data-day="0"></div>
 </div>
 <!-- ===== MARTES ===== -->
 <div class="day-panel" id="day-1">
-  <div class="day-header">Martes · Adrià: Hyrox 🏋️ · Esther: Spinning 🚴</div>
+  <div class="day-header">Martes · Adrià: Fuerza (gimnasio) 💪 · Esther: Spinning 🚴</div>
   <div class="meals-grid">
     <div class="meal-card">
       <div class="meal-label">Desayuno · 7:00</div>
@@ -627,7 +626,7 @@ header { background:linear-gradient(120deg,#16161b 0%,#27233d 100%); }
         <div class="qty-row"><span class="qty-ingredient">Bebida de avena / leche</span><div class="qty-values"><span class="qty-adria" data-base="250" data-unit="ml">250 ml</span><span class="qty-esther" data-train="200 ml" data-rest="200 ml">200 ml</span></div></div>
         <div class="qty-row"><span class="qty-ingredient">Yogur griego 0%</span><div class="qty-values"><span class="qty-adria" data-base="150" data-unit="g">150 g</span><span class="qty-esther" data-train="100 g" data-rest="100 g">100 g</span></div></div>
         <div class="qty-row"><span class="qty-ingredient">Mango</span><div class="qty-values"><span class="qty-adria" data-base="100" data-unit="g" data-is-carb="true">100 g</span><span class="qty-esther" data-train="80 g" data-rest="60 g">80 g</span></div></div>
-        <div class="qty-row"><span class="qty-ingredient">Plátano (solo Adrià, día Hyrox)</span><div class="qty-values"><span class="qty-adria" data-base="100" data-unit="g" data-is-carb="true">100 g</span><span class="qty-esther" data-train="—" data-rest="—">—</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Plátano (solo Adrià, día de fuerza)</span><div class="qty-values"><span class="qty-adria" data-base="100" data-unit="g" data-is-carb="true">100 g</span><span class="qty-esther" data-train="—" data-rest="—">—</span></div></div>
         <div class="qty-row"><span class="qty-ingredient">🌿 Semillas de chía</span><div class="qty-values"><span class="qty-adria" data-base="0" data-unit="—">—</span><span class="qty-esther" data-train="8 g" data-rest="8 g">8 g</span></div></div>
         <div class="qty-row"><span class="qty-ingredient">Nueces</span><div class="qty-values"><span class="qty-adria" data-base="20" data-unit="g">20 g</span><span class="qty-esther" data-train="12 g" data-rest="12 g">12 g</span></div></div>
       </div>
@@ -658,7 +657,7 @@ header { background:linear-gradient(120deg,#16161b 0%,#27233d 100%); }
       <p class="note">🍱 <strong>Batch:</strong> una olla grande de estofado el domingo da 4-5 raciones y aguanta toda la semana (o congela). Añade el huevo al servir.</p>
     </div>
     <div class="meal-card">
-      <div class="meal-label">Merienda Pre-Hyrox · 17:30</div>
+      <div class="meal-label">Merienda · 17:30</div>
       <div class="meal-name">Plátano + Avena + Proteína / Manzana + Almendras</div>
       <div class="quantities">
         <div class="col-header"><span class="col-label-adria">Adrià</span><span class="col-label-esther">Esther</span></div>
@@ -670,7 +669,7 @@ header { background:linear-gradient(120deg,#16161b 0%,#27233d 100%); }
       </div>
     </div>
     <div class="meal-card">
-      <div class="meal-label">Cena Post-Hyrox · 21:00</div>
+      <div class="meal-label">Cena · 21:00</div>
       <div class="meal-name">🍱 Albóndigas de pavo en tomate + Arroz integral</div>
       <div class="quantities">
         <div class="col-header"><span class="col-label-adria">Adrià</span><span class="col-label-esther">Esther</span></div>
@@ -680,7 +679,7 @@ header { background:linear-gradient(120deg,#16161b 0%,#27233d 100%); }
         <div class="qty-row"><span class="qty-ingredient">Calabacín salteado</span><div class="qty-values"><span class="qty-adria" data-base="150" data-unit="g">150 g</span><span class="qty-esther" data-train="150 g" data-rest="150 g">150 g</span></div></div>
         <div class="qty-row"><span class="qty-ingredient">AOVE</span><div class="qty-values"><span class="qty-adria" data-base="8" data-unit="g">8 g</span><span class="qty-esther" data-train="6 g" data-rest="6 g">6 g</span></div></div>
       </div>
-      <div class="ctx-note hyrox show" data-mode="hyrox">🏋️ Post-Hyrox: proteína + arroz dentro de 45 min de llegar. Las albóndigas ya están hechas (batch), solo calientas.</div>
+      <p class="note">💪 Día de fuerza: proteína + arroz para recuperar. Las albóndigas ya están hechas (batch), solo calientas.</p>
     </div>
     <div class="meal-card">
       <div class="meal-label">Postre · 22:00</div>
@@ -698,7 +697,7 @@ header { background:linear-gradient(120deg,#16161b 0%,#27233d 100%); }
 </div>
 <!-- ===== MIÉRCOLES ===== -->
 <div class="day-panel" id="day-2">
-  <div class="day-header">Miércoles · Adrià: Carrera Z2 + Fuerza 🏃 · Esther: Descanso 😴</div>
+  <div class="day-header">Miércoles · Adrià: Descanso (oficina) 😴 · Esther: Descanso 😴</div>
   <div style="background:#fef3c7;border:1px solid #f59e0b;border-radius:8px;padding:8px 14px;margin-bottom:12px;font-size:12px;color:#92400e;">🏢 <strong>Solo esta semana:</strong> Adrià desayuna y come en la oficina todo el día (~700 kcal desayuno + ~780 kcal comida)</div>
   <div class="meals-grid">
     <div class="meal-card">
@@ -781,10 +780,7 @@ header { background:linear-gradient(120deg,#16161b 0%,#27233d 100%); }
 </div>
 <!-- ===== JUEVES ===== -->
 <div class="day-panel" id="day-3">
-  <div class="day-header">Jueves · Adrià: Evento de empresa 🎉 (sin entreno) · Esther: Body Pump / Hybrid 💪</div>
-  <div style="background:#fffbeb;border:1px solid #fbbf24;border-radius:10px;padding:10px 14px;margin-bottom:14px;font-size:13px;color:#92400e;">
-    🎉 <strong>Adrià — Evento de empresa:</strong> hoy no entrena y come fuera de casa. Antes del evento, una buena ración de proteína + verdura para llegar saciado; en el evento, disfruta con moderación y sin culpa. El menú de abajo aplica solo a <strong>Esther</strong> (día de Body Pump).
-  </div>
+  <div class="day-header">Jueves · Adrià: Fuerza (gimnasio) 💪 · Esther: Body Pump / Hybrid 💪</div>
   <div class="meals-grid">
     <div class="meal-card">
       <div class="meal-label">Desayuno · 7:00</div>
@@ -799,7 +795,6 @@ header { background:linear-gradient(120deg,#16161b 0%,#27233d 100%); }
         <div class="qty-row"><span class="qty-ingredient">Nueces / Almendras</span><div class="qty-values"><span class="qty-adria" data-base="25" data-unit="g">25 g</span><span class="qty-esther" data-train="5 g" data-rest="5 g">5 g</span></div></div>
         <div class="qty-row"><span class="qty-ingredient">🌿 Semillas de chía</span><div class="qty-values"><span class="qty-adria" data-base="0" data-unit="—">—</span><span class="qty-esther" data-train="8 g" data-rest="8 g">8 g</span></div></div>
       </div>
-      <div class="ctx-note hyrox show" data-mode="hyrox">🏋️ Desayuno cargado — Hyrox esta tarde. Esther: post-entreno mañana, carga bien.</div>
     </div>
     <div class="meal-card">
       <div class="meal-label">Media Mañana · 10:30</div>
@@ -813,16 +808,16 @@ header { background:linear-gradient(120deg,#16161b 0%,#27233d 100%); }
     </div>
     <div class="meal-card">
       <div class="meal-label">Comida · 14:00</div>
-      <div class="meal-name">🍱 Estofado de lentejas con verduras + Huevo <span style="font-size:11px;color:#92400e">(solo Esther)</span></div>
+      <div class="meal-name">🍱 Estofado de lentejas con verduras + Huevo</div>
       <div class="quantities">
         <div class="col-header"><span class="col-label-adria">Adrià</span><span class="col-label-esther">Esther</span></div>
-        <div class="qty-row"><span class="qty-ingredient">Lentejas cocidas (del batch)</span><div class="qty-values"><span class="qty-adria" data-base="0" data-unit="—">fuera 🎉</span><span class="qty-esther" data-train="130 g" data-rest="100 g">130 g</span></div></div>
-        <div class="qty-row"><span class="qty-ingredient">Sofrito (cebolla/zanahoria/pimiento)</span><div class="qty-values"><span class="qty-adria" data-base="0" data-unit="—">—</span><span class="qty-esther" data-train="150 g" data-rest="150 g">150 g</span></div></div>
-        <div class="qty-row"><span class="qty-ingredient">Huevo cocido</span><div class="qty-values"><span class="qty-adria" data-base="0" data-unit="—">—</span><span class="qty-esther" data-train="1 ud" data-rest="1 ud">1 ud</span></div></div>
-        <div class="qty-row"><span class="qty-ingredient">Espinacas</span><div class="qty-values"><span class="qty-adria" data-base="0" data-unit="—">—</span><span class="qty-esther" data-train="100 g" data-rest="100 g">100 g</span></div></div>
-        <div class="qty-row"><span class="qty-ingredient">AOVE</span><div class="qty-values"><span class="qty-adria" data-base="0" data-unit="—">—</span><span class="qty-esther" data-train="8 g" data-rest="8 g">8 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Lentejas cocidas (del batch)</span><div class="qty-values"><span class="qty-adria" data-base="220" data-unit="g" data-is-carb="true">220 g</span><span class="qty-esther" data-train="130 g" data-rest="100 g">130 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Sofrito (cebolla/zanahoria/pimiento)</span><div class="qty-values"><span class="qty-adria" data-base="150" data-unit="g">150 g</span><span class="qty-esther" data-train="150 g" data-rest="150 g">150 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Huevo cocido</span><div class="qty-values"><span class="qty-adria" data-base="2" data-unit="ud">2 ud</span><span class="qty-esther" data-train="1 ud" data-rest="1 ud">1 ud</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Espinacas</span><div class="qty-values"><span class="qty-adria" data-base="100" data-unit="g">100 g</span><span class="qty-esther" data-train="100 g" data-rest="100 g">100 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">AOVE</span><div class="qty-values"><span class="qty-adria" data-base="12" data-unit="g">12 g</span><span class="qty-esther" data-train="8 g" data-rest="8 g">8 g</span></div></div>
       </div>
-      <p class="note">🍱 Esther reaprovecha el estofado del martes (mismo bote). Adrià: hoy come fuera por el evento.</p>
+      <p class="note">🍱 Mismo bote de estofado que el martes (batch). Adrià añade 2.º huevo para más proteína (día de fuerza).</p>
     </div>
     <div class="meal-card">
       <div class="meal-label">Merienda · 17:30</div>
@@ -836,19 +831,18 @@ header { background:linear-gradient(120deg,#16161b 0%,#27233d 100%); }
         <div class="qty-row"><span class="qty-ingredient">Fruta de temporada</span><div class="qty-values"><span class="qty-adria" data-base="0" data-unit="—">—</span><span class="qty-esther" data-train="100 g" data-rest="75 g">100 g</span></div></div>
         <div class="qty-row"><span class="qty-ingredient">Almendras</span><div class="qty-values"><span class="qty-adria" data-base="0" data-unit="—">—</span><span class="qty-esther" data-train="15 g" data-rest="15 g">15 g</span></div></div>
       </div>
-      <div class="ctx-note hyrox show" data-mode="hyrox">🏋️ Adrià: carbos rápidos antes del Hyrox. No llegues con el estómago vacío.</div>
     </div>
     <div class="meal-card">
       <div class="meal-label">Cena · 21:00</div>
-      <div class="meal-name">🐟 Salmón al horno + Quinoa + Espárragos <span style="font-size:11px;color:#92400e">(solo Esther)</span></div>
+      <div class="meal-name">🐟 Salmón al horno + Quinoa + Espárragos</div>
       <div class="quantities">
         <div class="col-header"><span class="col-label-adria">Adrià</span><span class="col-label-esther">Esther</span></div>
-        <div class="qty-row"><span class="qty-ingredient">Salmón al horno</span><div class="qty-values"><span class="qty-adria" data-base="0" data-unit="—">fuera 🎉</span><span class="qty-esther" data-train="130 g" data-rest="130 g">130 g</span></div></div>
-        <div class="qty-row"><span class="qty-ingredient">Quinoa (cruda)</span><div class="qty-values"><span class="qty-adria" data-base="0" data-unit="—">—</span><span class="qty-esther" data-train="50 g" data-rest="40 g">50 g</span></div></div>
-        <div class="qty-row"><span class="qty-ingredient">Espárragos trigueros</span><div class="qty-values"><span class="qty-adria" data-base="0" data-unit="—">—</span><span class="qty-esther" data-train="200 g" data-rest="200 g">200 g</span></div></div>
-        <div class="qty-row"><span class="qty-ingredient">AOVE</span><div class="qty-values"><span class="qty-adria" data-base="0" data-unit="—">—</span><span class="qty-esther" data-train="8 g" data-rest="8 g">8 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Salmón al horno</span><div class="qty-values"><span class="qty-adria" data-base="200" data-unit="g">200 g</span><span class="qty-esther" data-train="130 g" data-rest="130 g">130 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Quinoa (cruda)</span><div class="qty-values"><span class="qty-adria" data-base="70" data-unit="g" data-is-carb="true">70 g</span><span class="qty-esther" data-train="50 g" data-rest="40 g">50 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Espárragos trigueros</span><div class="qty-values"><span class="qty-adria" data-base="200" data-unit="g">200 g</span><span class="qty-esther" data-train="200 g" data-rest="200 g">200 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">AOVE</span><div class="qty-values"><span class="qty-adria" data-base="10" data-unit="g">10 g</span><span class="qty-esther" data-train="8 g" data-rest="8 g">8 g</span></div></div>
       </div>
-      <p class="note">🐟 Segundo salmón de la semana (omega-3). 🍱 Cuece una 2.ª hornada de salmón el miércoles o congela una porción del lunes.</p>
+      <p class="note">🐟 Segundo salmón de la semana (omega-3). 🍱 Cuece una 2.ª hornada el miércoles o congela una porción del lunes.</p>
     </div>
     <div class="meal-card">
       <div class="meal-label">Postre · 22:00</div>
@@ -858,7 +852,7 @@ header { background:linear-gradient(120deg,#16161b 0%,#27233d 100%); }
         <div class="qty-row"><span class="qty-ingredient">Chocolate negro 85%</span><div class="qty-values"><span class="qty-adria" data-base="20" data-unit="g">20 g</span><span class="qty-esther" data-train="15 g" data-rest="15 g">15 g</span></div></div>
         <div class="qty-row"><span class="qty-ingredient">Nueces</span><div class="qty-values"><span class="qty-adria" data-base="10" data-unit="g">10 g</span><span class="qty-esther" data-train="—" data-rest="—">—</span></div></div>
       </div>
-      <p class="note">Total día: Adrià ~3.150 kcal · P ~200g · C ~370g · G ~68g &nbsp;|&nbsp; Esther ~1.980 kcal · P ~125g · C ~255g · G ~44g</p>
+      <p class="note">Total día (fuerza): Adrià ~2.900 kcal · P ~190g · C ~310g · G ~75g &nbsp;|&nbsp; Esther ~1.980 kcal · P ~125g · C ~255g · G ~44g</p>
     </div>
   </div>
   <div class="extras-section" data-day="3"></div>
@@ -927,13 +921,13 @@ header { background:linear-gradient(120deg,#16161b 0%,#27233d 100%); }
 </div>
 <!-- ===== SÁBADO ===== -->
 <div class="day-panel" id="day-5">
-  <div class="day-header">Sábado · Adrià: Tirada larga 🏅 · Esther: Descanso 😴</div>
+  <div class="day-header">Sábado · Adrià: Carrera Z2 (20 min) 🏃 · Esther: Descanso 😴</div>
   <div style="background:#fdf2f8;border:1px solid #f0abfc;border-radius:10px;padding:10px 14px;margin-bottom:14px;font-size:13px;color:#7e22ce;">
     🍔 <strong>Cheat meal del finde:</strong> elige una comida o cena este sábado o el domingo para salirte del plan. Disfruta sin culpa y el lunes volvemos.
   </div>
   <div class="meals-grid">
     <div class="meal-card">
-      <div class="meal-label">Desayuno · 7:00 — 2h antes de salir</div>
+      <div class="meal-label">Desayuno · 7:00 — antes de correr</div>
       <div class="meal-name">Yogur + Avena + Plátano + Miel</div>
       <div class="quantities">
         <div class="col-header"><span class="col-label-adria">Adrià</span><span class="col-label-esther">Esther</span></div>
@@ -944,7 +938,7 @@ header { background:linear-gradient(120deg,#16161b 0%,#27233d 100%); }
         <div class="qty-row"><span class="qty-ingredient">Mantequilla de cacahuete / Almendras</span><div class="qty-values"><span class="qty-adria" data-base="15" data-unit="g">15 g</span><span class="qty-esther" data-train="10 g" data-rest="10 g">10 g</span></div></div>
         <div class="qty-row"><span class="qty-ingredient">🌿 Semillas de chía</span><div class="qty-values"><span class="qty-adria" data-base="0" data-unit="—">—</span><span class="qty-esther" data-train="8 g" data-rest="8 g">8 g</span></div></div>
       </div>
-      <div class="ctx-note larga show" data-mode="larga">🏅 Pre-tirada: come 2h antes de salir. Si corres +75 min, toma 30-45 g carbos cada 45 min (gel, dátil o plátano).</div>
+      <p class="note">🏃 Carrera Z2 corta (20 min): desayuna ligero 60-90 min antes. Al ser corta no necesitas geles ni carga extra.</p>
     </div>
     <div class="meal-card">
       <div class="meal-label">Post-Carrera · 10:30 (30-45 min tras llegar)</div>
@@ -1091,11 +1085,10 @@ header { background:linear-gradient(120deg,#16161b 0%,#27233d 100%); }
 <div class="day-panel" id="day-7">
   <div class="day-header">Reglas de flexibilidad</div>
   <div class="rules-section">
-    <div class="rules-title">Adrià — 4 modos</div>
-    <div class="rule"><span class="rule-icon">🏃</span><div class="rule-text"><strong>Carrera + Fuerza (Lun/Mié):</strong> Cantidades base. Merienda pre-entreno con plátano si vas cargado de trabajo.</div></div>
-    <div class="rule"><span class="rule-icon">🏋️</span><div class="rule-text"><strong>Hyrox (Mar/Jue):</strong> Carbs +20% — pasta, arroz y pan suben. Merienda con plátano + miel obligatorio. Cena dentro de 45 min post-sesión.</div></div>
-    <div class="rule"><span class="rule-icon">🏅</span><div class="rule-text"><strong>Tirada Larga (Sáb):</strong> Carbs +20% con foco en el desayuno pre-carrera (come 90 min antes). Paella post-tirada es recuperación ideal. Hidratación con electrolitos si corres +60 min.</div></div>
-    <div class="rule"><span class="rule-icon">😴</span><div class="rule-text"><strong>Descanso (Vie/Dom):</strong> Carbs -25%. Proteína siempre igual — repara músculo incluso en reposo.</div></div>
+    <div class="rules-title">Adrià — 3 modos (Fase 1)</div>
+    <div class="rule"><span class="rule-icon">💪</span><div class="rule-text"><strong>Fuerza — gimnasio (Mar/Jue):</strong> Cantidades base. Proteína alta (~190g) para ganar músculo. Cena con proteína + carbohidrato para recuperar.</div></div>
+    <div class="rule"><span class="rule-icon">🏃</span><div class="rule-text"><strong>Carrera Z2 (Sáb):</strong> Carrera suave de 20 min, ritmo conversacional. Cantidades base, sin necesidad de carga extra de carbos (es corta).</div></div>
+    <div class="rule"><span class="rule-icon">😴</span><div class="rule-text"><strong>Descanso (Lun/Mié/Vie/Dom):</strong> Carbs -20%. Proteína siempre igual — repara y construye músculo incluso en reposo. Lun/Mié come en la oficina (lleva tupper del batch).</div></div>
   </div>
   <div class="rules-section" style="margin-top:12px;">
     <div class="rules-title">Esther — 2 modos</div>
@@ -1670,17 +1663,16 @@ header { background:linear-gradient(120deg,#16161b 0%,#27233d 100%); }
 <!-- /content -->
 
 <script>
-const adriaMode = { current: 'normal' };
+const adriaMode = { current: 'fuerza' };
 const estherMode = { current: 'fuerza' };
 
-// Day → default Adrià mode (semana 16-22 jun: lun carrera+fuerza, mar hyrox, jue evento empresa sin entreno)
-const dayModes = ['normal','hyrox','normal','rest','rest','larga','rest','rest','rest'];
+// Day → default Adrià mode (Fase 1: mar/jue fuerza gimnasio, sáb carrera Z2, resto descanso)
+const dayModes = ['rest','fuerza','rest','fuerza','rest','carrera','rest','rest','rest'];
 
 const modeConfig = {
-  normal: { label: 'Carrera + Fuerza', kcal: '2.900', prot: '190g', carbs: '310g', fat: '75g', mult: 1.0, btnClass: 'active', bannerClass: 'normal', bannerText: '🏃 Hoy: Carrera zona 2 (20 min) + Fuerza (40 min)' },
-  hyrox:  { label: 'Hyrox', kcal: '3.150', prot: '200g', carbs: '370g', fat: '68g', mult: 1.2, btnClass: 'active-hyrox', bannerClass: 'hyrox', bannerText: '🏋️ Hoy: Hyrox funcional — más carbs, cena dentro de 45 min post-sesión' },
-  larga:  { label: 'Tirada Larga', kcal: '3.100', prot: '190g', carbs: '390g', fat: '72g', mult: 1.2, btnClass: 'active-larga', bannerClass: 'larga', bannerText: '🏅 Hoy: Tirada larga — carga pre-carrera, paella de recuperación post' },
-  rest:   { label: 'Descanso', kcal: '2.300', prot: '190g', carbs: '235g', fat: '75g', mult: 0.75, btnClass: 'active-rest', bannerClass: 'rest', bannerText: '😴 Hoy: Descanso — carbs reducidos, proteína igual' }
+  fuerza:  { label: 'Fuerza (gym)', kcal: '2.900', prot: '190g', carbs: '310g', fat: '75g', mult: 1.0, btnClass: 'active', bannerClass: 'normal', bannerText: '💪 Hoy: Fuerza en el gimnasio (30 min) — proteína alta para ganar músculo' },
+  carrera: { label: 'Carrera Z2', kcal: '2.800', prot: '185g', carbs: '300g', fat: '74g', mult: 1.0, btnClass: 'active', bannerClass: 'normal', bannerText: '🏃 Hoy: Carrera suave Z2 (20 min) — ritmo conversacional' },
+  rest:    { label: 'Descanso', kcal: '2.500', prot: '190g', carbs: '250g', fat: '75g', mult: 0.8, btnClass: 'active-rest', bannerClass: 'rest', bannerText: '😴 Hoy: Descanso — proteína igual (clave para el músculo), carbos algo más bajos' }
 };
 
 function applyAdria(mode) {
@@ -1700,9 +1692,9 @@ function applyAdria(mode) {
   banner.textContent = cfg.bannerText;
 
   // Update toggle buttons
-  ['normal','hyrox','larga','rest'].forEach(m => {
+  ['fuerza','carrera','rest'].forEach(m => {
     const btn = document.getElementById('adria-' + m);
-    btn.className = 'toggle-btn' + (m === mode ? ' ' + modeConfig[m].btnClass : '');
+    if (btn) btn.className = 'toggle-btn' + (m === mode ? ' ' + modeConfig[m].btnClass : '');
   });
 
   // Update qty-adria spans
