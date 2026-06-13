@@ -350,6 +350,60 @@ body.view-esther .qty-adria, body.view-esther .col-label-adria { display: none; 
 .extras-rem-row strong { color:#1a1a1a; }
 .extras-warn { color:#dc2626; }
 
+/* ===== EVOLUCIÓN (progreso) ===== */
+.ev-person { background:white; border-radius:14px; border:1px solid #e8e8e8; padding:18px; margin-bottom:18px; box-shadow:0 1px 2px rgba(16,24,40,0.05); }
+.ev-person-hd { display:flex; align-items:center; gap:10px; margin-bottom:6px; }
+.ev-person-name { font-size:17px; font-weight:700; }
+.ev-person-name.adria { color:#1d4ed8; }
+.ev-person-name.esther { color:#be185d; }
+.ev-person-sub { font-size:12px; color:#6b7280; margin-bottom:16px; line-height:1.5; }
+.ev-cards { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-bottom:18px; }
+.ev-card { background:#f9fafb; border:1px solid #eef0f2; border-radius:10px; padding:11px 12px; text-align:center; }
+.ev-card-label { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; color:#6b7280; }
+.ev-card-value { font-size:20px; font-weight:700; color:#1a1a1a; margin-top:3px; }
+.ev-card-unit { font-size:11px; font-weight:600; color:#9ca3af; }
+.ev-card-delta { font-size:11px; font-weight:700; margin-top:3px; }
+.ev-delta-down { color:#16a34a; }
+.ev-delta-up { color:#dc2626; }
+.ev-delta-flat { color:#9ca3af; }
+.ev-delta-good { color:#16a34a; }
+.ev-charts { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:6px; }
+.ev-chart-box { border:1px solid #eef0f2; border-radius:10px; padding:10px 12px 6px; }
+.ev-chart-title { font-size:11px; font-weight:700; color:#6b7280; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:4px; display:flex; justify-content:space-between; align-items:baseline; }
+.ev-chart-cur { font-size:12px; font-weight:700; color:#1a1a1a; }
+.ev-chart svg { display:block; width:100%; height:auto; }
+.ev-nochart { font-size:12px; color:#bbb; text-align:center; padding:18px 0; }
+.ev-addbtn { display:inline-flex; align-items:center; gap:6px; background:#1a1a1a; color:white; border:none; border-radius:20px; padding:9px 18px; font-size:13px; font-weight:600; cursor:pointer; font-family:inherit; margin-top:8px; }
+.ev-addbtn:hover { background:#333; }
+.ev-form { margin-top:14px; padding-top:14px; border-top:1px solid #f0f0f0; display:none; }
+.ev-form.open { display:block; }
+.ev-form-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:10px; margin-bottom:12px; }
+.ev-form-field { display:flex; flex-direction:column; gap:4px; }
+.ev-form-field label { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.4px; color:#6b7280; }
+.ev-form-field input { padding:8px 10px; border:1px solid #e0e0e0; border-radius:8px; font-size:14px; font-family:inherit; outline:none; width:100%; }
+.ev-form-field input:focus { border-color:#7c3aed; box-shadow:0 0 0 2px #f3e8ff; }
+.ev-form-actions { display:flex; gap:10px; }
+.ev-save { background:#16a34a; color:white; border:none; border-radius:8px; padding:9px 18px; font-size:13px; font-weight:700; cursor:pointer; font-family:inherit; }
+.ev-save:hover { background:#15803d; }
+.ev-cancel { background:white; color:#6b7280; border:1px solid #e0e0e0; border-radius:8px; padding:9px 16px; font-size:13px; font-weight:600; cursor:pointer; font-family:inherit; }
+.ev-hist { margin-top:14px; }
+.ev-hist-toggle { font-size:12px; font-weight:600; color:#7c3aed; cursor:pointer; user-select:none; display:inline-flex; align-items:center; gap:5px; }
+.ev-hist-table { width:100%; border-collapse:collapse; font-size:12px; margin-top:10px; display:none; }
+.ev-hist.open .ev-hist-table { display:table; }
+.ev-hist-table th { text-align:right; font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.4px; color:#9ca3af; padding:5px 6px; border-bottom:1px solid #eee; }
+.ev-hist-table th:first-child { text-align:left; }
+.ev-hist-table td { text-align:right; padding:6px 6px; border-bottom:1px solid #f5f5f5; color:#374151; }
+.ev-hist-table td:first-child { text-align:left; font-weight:600; color:#1a1a1a; }
+.ev-hist-del { background:none; border:none; color:#d1d5db; cursor:pointer; font-size:14px; padding:0 4px; }
+.ev-hist-del:hover { color:#ef4444; }
+.ev-intro { background:#f5f3ff; border:1px solid #e9d5ff; border-radius:12px; padding:13px 16px; font-size:13px; color:#5b21b6; line-height:1.55; margin-bottom:18px; }
+@media (max-width:640px) {
+  .ev-cards { grid-template-columns:repeat(2,1fr); }
+  .ev-charts { grid-template-columns:1fr; }
+  .ev-form-grid { grid-template-columns:repeat(2,1fr); }
+  .ev-person { padding:14px; }
+}
+
 /* ===== UI polish & accesibilidad ===== */
 html { scroll-behavior:smooth; }
 ::selection { background:#ede9fe; }
@@ -459,6 +513,7 @@ header { background:linear-gradient(120deg,#16161b 0%,#27233d 100%); }
   <button class="day-tab" role="tab" aria-selected="false" onclick="setDay(7)">📋 Reglas</button>
   <button class="day-tab" role="tab" aria-selected="false" onclick="setDay(8)">🛒 Compra</button>
   <button class="day-tab" role="tab" aria-selected="false" onclick="setDay(9)">💪 Fuerza</button>
+  <button class="day-tab" role="tab" aria-selected="false" onclick="setDay(10)">📈 Evolución</button>
 </div>
 
 <div class="content" id="main-content" role="main">
@@ -1617,6 +1672,15 @@ header { background:linear-gradient(120deg,#16161b 0%,#27233d 100%); }
 
 </div>
 
+<!-- ===== EVOLUCIÓN ===== -->
+<div class="day-panel" id="day-10">
+  <div class="day-header">Evolución 📈</div>
+  <div class="ev-intro">
+    📊 Aquí veis cómo cambian vuestro peso y medidas semana a semana. Añadid los datos cada viernes y las gráficas se actualizan solas. <strong>Para Esther, las medidas (cintura/cadera/muslo) son mejor señal que la báscula</strong> — con el enfoque antiinflamatorio el peso baja más despacio que el volumen.
+  </div>
+  <div id="ev-root"></div>
+</div>
+
 <!-- /content -->
 
 <script>
@@ -2389,6 +2453,181 @@ closeRecipe=function(){ _a11yCloseRecipe(); if (_recipeLastFocus&&_recipeLastFoc
 document.addEventListener('keydown',e=>{
   if (e.key==='Escape' && document.getElementById('recipe-sheet').classList.contains('open')) closeRecipe();
 });
+
+// ── Evolución (peso y medidas) ────────────────────────────────────────────────
+const PROGRESS_KEY = 'progress_v1';
+const PROGRESS_SEED = {
+  adria:  [{ date:'2026-06-12', peso:90, pecho:99.5, brazo:34, muslo:59.5 }],
+  esther: [{ date:'2026-06-12', peso:69, cintura:77, cadera:104, muslo:62 }]
+};
+const EV_METRICS = {
+  adria: [
+    { key:'peso',  label:'Peso',  unit:'kg', goodDir:'down' },
+    { key:'pecho', label:'Pecho', unit:'cm', goodDir:null },
+    { key:'brazo', label:'Brazo', unit:'cm', goodDir:'up' },
+    { key:'muslo', label:'Muslo', unit:'cm', goodDir:null }
+  ],
+  esther: [
+    { key:'peso',    label:'Peso',    unit:'kg', goodDir:'down' },
+    { key:'cintura', label:'Cintura', unit:'cm', goodDir:'down' },
+    { key:'cadera',  label:'Cadera',  unit:'cm', goodDir:'down' },
+    { key:'muslo',   label:'Muslo',   unit:'cm', goodDir:'down' }
+  ]
+};
+const EV_COLOR = { adria:'#1d4ed8', esther:'#be185d' };
+
+function _getProgress() {
+  try {
+    const raw = localStorage.getItem(PROGRESS_KEY);
+    if (!raw) return JSON.parse(JSON.stringify(PROGRESS_SEED));
+    const p = JSON.parse(raw);
+    if (!p.adria) p.adria = []; if (!p.esther) p.esther = [];
+    return p;
+  } catch(e) { return JSON.parse(JSON.stringify(PROGRESS_SEED)); }
+}
+function _saveProgress(p) { localStorage.setItem(PROGRESS_KEY, JSON.stringify(p)); }
+
+function _evSorted(arr) { return [...arr].sort((a,b)=> a.date < b.date ? -1 : a.date > b.date ? 1 : 0); }
+function _evFmtDate(d) { const [y,m,day]=d.split('-'); return day+'/'+m; }
+
+function _evChart(points, color) {
+  const vals = points.map(p=>p.v).filter(v=>v!=null && !isNaN(v));
+  if (vals.length < 2) return '<div class="ev-nochart">Añade otra semana para ver la tendencia</div>';
+  const w=260, h=64, pad=10;
+  const min=Math.min(...vals), max=Math.max(...vals), range=(max-min)||1;
+  const n=points.length, xstep=(w-2*pad)/(n-1);
+  const coords = points.map((p,i)=>({
+    x: pad + i*xstep,
+    y: h-pad - ((p.v-min)/range)*(h-2*pad)
+  }));
+  const line = coords.map((c,i)=>(i===0?'M':'L')+c.x.toFixed(1)+' '+c.y.toFixed(1)).join(' ');
+  const area = 'M'+coords[0].x.toFixed(1)+' '+(h-pad)+' '+line.slice(1)+' L'+coords[n-1].x.toFixed(1)+' '+(h-pad)+' Z';
+  const dots = coords.map((c,i)=>`<circle cx="${c.x.toFixed(1)}" cy="${c.y.toFixed(1)}" r="${i===n-1?3.5:2.5}" fill="${i===n-1?color:'#fff'}" stroke="${color}" stroke-width="1.5"/>`).join('');
+  const grad='evg'+Math.random().toString(36).slice(2,7);
+  return `<div class="ev-chart"><svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="none" role="img" aria-label="Gráfica de evolución">
+    <defs><linearGradient id="${grad}" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="${color}" stop-opacity="0.18"/><stop offset="100%" stop-color="${color}" stop-opacity="0"/>
+    </linearGradient></defs>
+    <path d="${area}" fill="url(#${grad})"/>
+    <path d="${line}" fill="none" stroke="${color}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+    ${dots}
+  </svg></div>`;
+}
+
+function _evDelta(first, last, goodDir) {
+  if (first==null || last==null) return '<span class="ev-delta-flat">—</span>';
+  const d = Math.round((last-first)*10)/10;
+  if (d===0) return '<span class="ev-delta-flat">±0</span>';
+  const arrow = d>0 ? '▲' : '▼';
+  const sign = d>0 ? '+' : '';
+  let cls='ev-delta-flat';
+  if (goodDir) cls = ((d<0&&goodDir==='down')||(d>0&&goodDir==='up')) ? 'ev-delta-good' : 'ev-delta-up';
+  else cls = d>0 ? 'ev-delta-up' : 'ev-delta-down';
+  return `<span class="${cls}">${arrow} ${sign}${d}</span>`;
+}
+
+function _evPersonHTML(who, data, name, subtitle) {
+  const sorted = _evSorted(data);
+  const metrics = EV_METRICS[who];
+  const color = EV_COLOR[who];
+  const last = sorted[sorted.length-1] || {};
+  const first = sorted[0] || {};
+
+  const cards = metrics.map(m=>{
+    const cur = last[m.key];
+    const delta = _evDelta(first[m.key], last[m.key], m.goodDir);
+    return `<div class="ev-card">
+      <div class="ev-card-label">${m.label}</div>
+      <div class="ev-card-value">${cur!=null?cur:'—'}<span class="ev-card-unit"> ${m.unit}</span></div>
+      <div class="ev-card-delta">${sorted.length>1?delta:'<span class=\"ev-delta-flat\">base</span>'}</div>
+    </div>`;
+  }).join('');
+
+  const charts = metrics.map(m=>{
+    const pts = sorted.map(e=>({ x:_evFmtDate(e.date), v:e[m.key]!=null?Number(e[m.key]):null }));
+    const cur = last[m.key];
+    return `<div class="ev-chart-box">
+      <div class="ev-chart-title"><span>${m.label}</span><span class="ev-chart-cur">${cur!=null?cur+' '+m.unit:''}</span></div>
+      ${_evChart(pts, color)}
+    </div>`;
+  }).join('');
+
+  const histRows = _evSorted(data).reverse().map((e,i)=>{
+    const cells = metrics.map(m=>`<td>${e[m.key]!=null?e[m.key]:'—'}</td>`).join('');
+    return `<tr><td>${_evFmtDate(e.date)}</td>${cells}<td><button class="ev-hist-del" onclick="deleteProgress('${who}','${e.date}')" title="Eliminar" aria-label="Eliminar registro">✕</button></td></tr>`;
+  }).join('');
+  const histHead = metrics.map(m=>`<th>${m.label}</th>`).join('');
+
+  const formFields = [`<div class="ev-form-field"><label for="ev-${who}-date">Fecha</label><input type="date" id="ev-${who}-date" value="${new Date().toISOString().slice(0,10)}"></div>`]
+    .concat(metrics.map(m=>`<div class="ev-form-field"><label for="ev-${who}-${m.key}">${m.label} (${m.unit})</label><input type="number" step="0.1" inputmode="decimal" id="ev-${who}-${m.key}" placeholder="${last[m.key]!=null?last[m.key]:''}"></div>`))
+    .join('');
+
+  return `<div class="ev-person">
+    <div class="ev-person-hd"><span class="ev-person-name ${who}">${name}</span></div>
+    <div class="ev-person-sub">${subtitle}</div>
+    <div class="ev-cards">${cards}</div>
+    <div class="ev-charts">${charts}</div>
+    <button class="ev-addbtn" onclick="toggleEvForm('${who}')">＋ Registrar medición</button>
+    <div class="ev-form" id="ev-form-${who}">
+      <div class="ev-form-grid">${formFields}</div>
+      <div class="ev-form-actions">
+        <button class="ev-save" onclick="saveProgressEntry('${who}')">Guardar</button>
+        <button class="ev-cancel" onclick="toggleEvForm('${who}')">Cancelar</button>
+      </div>
+    </div>
+    <div class="ev-hist" id="ev-hist-${who}">
+      <span class="ev-hist-toggle" onclick="toggleEvHist('${who}')">📋 Ver historial (${data.length})</span>
+      <table class="ev-hist-table">
+        <thead><tr><th>Fecha</th>${histHead}<th></th></tr></thead>
+        <tbody>${histRows}</tbody>
+      </table>
+    </div>
+  </div>`;
+}
+
+function renderProgress() {
+  const root = document.getElementById('ev-root');
+  if (!root) return;
+  const p = _getProgress();
+  root.innerHTML =
+    _evPersonHTML('adria', p.adria, 'Adrià 🏃', 'Media maratón feb 2027 · seguimos peso y perímetros de fuerza (brazo↑ buena señal).')
+    + _evPersonHTML('esther', p.esther, 'Esther 💪', 'Objetivo 64 kg · con lipedema priorizamos que bajen cintura, cadera y muslo más que la báscula.');
+}
+
+function toggleEvForm(who) {
+  const f = document.getElementById('ev-form-'+who);
+  if (f) f.classList.toggle('open');
+}
+function toggleEvHist(who) {
+  const h = document.getElementById('ev-hist-'+who);
+  if (h) h.classList.toggle('open');
+}
+function saveProgressEntry(who) {
+  const p = _getProgress();
+  const date = document.getElementById('ev-'+who+'-date').value;
+  if (!date) { alert('Pon una fecha'); return; }
+  const entry = { date };
+  let any=false;
+  EV_METRICS[who].forEach(m=>{
+    const v = document.getElementById('ev-'+who+'-'+m.key).value;
+    if (v!=='' && !isNaN(parseFloat(v))) { entry[m.key]=parseFloat(v); any=true; }
+  });
+  if (!any) { alert('Rellena al menos un valor'); return; }
+  // Reemplaza si ya existe esa fecha
+  p[who] = p[who].filter(e=>e.date!==date);
+  p[who].push(entry);
+  _saveProgress(p);
+  renderProgress();
+}
+function deleteProgress(who, date) {
+  if (!confirm('¿Eliminar el registro del '+_evFmtDate(date)+'?')) return;
+  const p = _getProgress();
+  p[who] = p[who].filter(e=>e.date!==date);
+  _saveProgress(p);
+  renderProgress();
+}
+
+renderProgress();
 
 </script>
 
