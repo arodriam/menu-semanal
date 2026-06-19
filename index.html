@@ -586,10 +586,10 @@ header { background:linear-gradient(120deg,#241c15 0%,#3a2c1e 100%); }
     </div>
     <div class="meal-card">
       <div class="meal-label">Comida · 14:00</div>
-      <div class="meal-name">Adrià: 🏢 Oficina · Esther: 🍱 Pollo + Arroz + Verduras</div>
+      <div class="meal-name">Adrià: 🏢 Oficina · Esther: 🍗 Pollo a la plancha + Arroz + Verduras</div>
       <div class="quantities">
         <div class="col-header"><span class="col-label-adria">Adrià</span><span class="col-label-esther">Esther</span></div>
-        <div class="qty-row"><span class="qty-ingredient">Pollo asado (del batch)</span><div class="qty-values"><span class="qty-adria" data-base="0" data-unit="—">—</span><span class="qty-esther" data-train="160 g" data-rest="160 g">160 g</span></div></div>
+        <div class="qty-row"><span class="qty-ingredient">Pollo (pechuga a la plancha)</span><div class="qty-values"><span class="qty-adria" data-base="0" data-unit="—">—</span><span class="qty-esther" data-train="160 g" data-rest="160 g">160 g</span></div></div>
         <div class="qty-row"><span class="qty-ingredient">Arroz integral (crudo)</span><div class="qty-values"><span class="qty-adria" data-base="0" data-unit="—">—</span><span class="qty-esther" data-train="55 g" data-rest="40 g">55 g</span></div></div>
         <div class="qty-row"><span class="qty-ingredient">Verduras asadas (calabacín/pimiento/berenjena)</span><div class="qty-values"><span class="qty-adria" data-base="0" data-unit="—">—</span><span class="qty-esther" data-train="220 g" data-rest="220 g">220 g</span></div></div>
         <div class="qty-row"><span class="qty-ingredient">AOVE</span><div class="qty-values"><span class="qty-adria" data-base="0" data-unit="—">—</span><span class="qty-esther" data-train="10 g" data-rest="10 g">10 g</span></div></div>
@@ -1005,7 +1005,7 @@ header { background:linear-gradient(120deg,#241c15 0%,#3a2c1e 100%); }
   <div class="day-header">Lista de la compra &#128722;</div>
   <div class="shop-topbar">
     <div class="shop-progress-wrap">
-      <div class="shop-progress-label"><span id="shop-done">0</span> / 60 productos marcados</div>
+      <div class="shop-progress-label"><span id="shop-done">0</span> / 62 productos marcados</div>
       <div class="shop-progress-bar"><div class="shop-progress-fill" id="shop-bar" style="width:0%"></div></div>
     </div>
     <button class="shop-reset" onclick="resetShop()">&#8635; Resetear lista</button>
@@ -1018,13 +1018,18 @@ header { background:linear-gradient(120deg,#241c15 0%,#3a2c1e 100%); }
     <div class="shop-cat-body">
     <label class="shop-item" id="shop_pollo_batch_label" onclick="toggleShop('shop_pollo_batch')">
       <div class="shop-check"></div>
-      <span class="shop-item-name">Pollo (pechuga/muslo)</span>
-      <span class="shop-item-hint">≈ 300g · Esther Lun comida</span>
+      <span class="shop-item-name">Pollo (pechuga)</span>
+      <span class="shop-item-hint">≈ 200g · solo Esther Lun comida</span>
     </label>
     <label class="shop-item" id="shop_pavo_picado_label" onclick="toggleShop('shop_pavo_picado')">
       <div class="shop-check"></div>
       <span class="shop-item-name">Pavo picado (boloñesa Mié)</span>
       <span class="shop-item-hint">≈ 350g · Mié comida</span>
+    </label>
+    <label class="shop-item" id="shop_lomo_cerdo_label" onclick="toggleShop('shop_lomo_cerdo')">
+      <div class="shop-check"></div>
+      <span class="shop-item-name">Lomo de cerdo (filetes)</span>
+      <span class="shop-item-hint">✅ ya tienes en nevera · Lun cena</span>
     </label>
     </div>
   </div>
@@ -1039,10 +1044,15 @@ header { background:linear-gradient(120deg,#241c15 0%,#3a2c1e 100%); }
       <span class="shop-item-name">Merluza (lomos)</span>
       <span class="shop-item-hint">✅ ya tienes en nevera · Mié cena</span>
     </label>
+    <label class="shop-item" id="shop_bacalao_label" onclick="toggleShop('shop_bacalao')">
+      <div class="shop-check"></div>
+      <span class="shop-item-name">Bacalao (lomos)</span>
+      <span class="shop-item-hint">✅ ya tienes en nevera · Jue comida</span>
+    </label>
     <label class="shop-item" id="shop_atun_natural_label" onclick="toggleShop('shop_atun_natural')">
       <div class="shop-check"></div>
       <span class="shop-item-name">Atún al natural (botes)</span>
-      <span class="shop-item-hint">≈ 2 botes · 310g · Vie comida</span>
+      <span class="shop-item-hint">≈ 4 botes · 310g escurrido · Vie comida</span>
     </label>
     <label class="shop-item" id="shop_salmon_ahumado_label" onclick="toggleShop('shop_salmon_ahumado')">
       <div class="shop-check"></div>
