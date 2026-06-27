@@ -1006,7 +1006,7 @@ header { background:linear-gradient(120deg,#241c15 0%,#3a2c1e 100%); }
   <div class="day-header">Lista de la compra &#128722;</div>
   <div class="shop-topbar">
     <div class="shop-progress-wrap">
-      <div class="shop-progress-label"><span id="shop-done">0</span> / 62 productos marcados</div>
+      <div class="shop-progress-label"><span id="shop-done">0</span> / 63 productos marcados</div>
       <div class="shop-progress-bar"><div class="shop-progress-fill" id="shop-bar" style="width:0%"></div></div>
     </div>
     <button class="shop-reset" onclick="resetShop()">&#8635; Resetear lista</button>
@@ -1020,17 +1020,22 @@ header { background:linear-gradient(120deg,#241c15 0%,#3a2c1e 100%); }
     <label class="shop-item" id="shop_pollo_batch_label" onclick="toggleShop('shop_pollo_batch')">
       <div class="shop-check"></div>
       <span class="shop-item-name">Pollo (pechuga)</span>
-      <span class="shop-item-hint">≈ 200g · solo Esther Lun comida</span>
+      <span class="shop-item-hint">≈ 350g · Lun comida (Adrià 180g + Esther 160g) · Jue comida (Adrià 180g + Esther 160g)</span>
     </label>
     <label class="shop-item" id="shop_pavo_picado_label" onclick="toggleShop('shop_pavo_picado')">
       <div class="shop-check"></div>
-      <span class="shop-item-name">Pavo picado (boloñesa Mié)</span>
-      <span class="shop-item-hint">≈ 350g · Mié comida</span>
+      <span class="shop-item-name">Pavo picado (boloñesa)</span>
+      <span class="shop-item-hint">≈ 350g · Mar comida (Adrià 180g + Esther 140g + sofrito)</span>
     </label>
     <label class="shop-item" id="shop_lomo_cerdo_label" onclick="toggleShop('shop_lomo_cerdo')">
       <div class="shop-check"></div>
       <span class="shop-item-name">Lomo de cerdo (filetes)</span>
-      <span class="shop-item-hint">✅ ya tienes en nevera · Lun cena</span>
+      <span class="shop-item-hint">✅ ya tienes en nevera · Lun cena (200g Adrià + 140g Esther)</span>
+    </label>
+    <label class="shop-item" id="shop_champinones_label" onclick="toggleShop('shop_champinones_label')">
+      <div class="shop-check"></div>
+      <span class="shop-item-name">Champiñones (frescos)</span>
+      <span class="shop-item-hint">✅ ya tienes en nevera · Lun cena (150g salteados c/lomo + espinacas)</span>
     </label>
     </div>
   </div>
@@ -1043,12 +1048,12 @@ header { background:linear-gradient(120deg,#241c15 0%,#3a2c1e 100%); }
     <label class="shop-item" id="shop_merluza_label" onclick="toggleShop('shop_merluza')">
       <div class="shop-check"></div>
       <span class="shop-item-name">Merluza (lomos)</span>
-      <span class="shop-item-hint">✅ ya tienes en nevera · Mié cena</span>
+      <span class="shop-item-hint">✅ ya tienes en nevera · Mar cena (200g Adrià + 150g Esther) + guisantes</span>
     </label>
     <label class="shop-item" id="shop_bacalao_label" onclick="toggleShop('shop_bacalao')">
       <div class="shop-check"></div>
-      <span class="shop-item-name">Bacalao (lomos)</span>
-      <span class="shop-item-hint">✅ ya tienes en nevera · Jue comida</span>
+      <span class="shop-item-name">Bacalao (lomos, sin sal)</span>
+      <span class="shop-item-hint">✅ ya tienes en nevera · Mié comida (200g Adrià + 150g Esther) + espárragos + quinoa</span>
     </label>
     <label class="shop-item" id="shop_atun_natural_label" onclick="toggleShop('shop_atun_natural')">
       <div class="shop-check"></div>
@@ -1177,7 +1182,7 @@ header { background:linear-gradient(120deg,#241c15 0%,#3a2c1e 100%); }
     <label class="shop-item" id="shop_tomate_label" onclick="toggleShop('shop_tomate')">
       <div class="shop-check"></div>
       <span class="shop-item-name">Tomate</span>
-      <span class="shop-item-hint">≈ 2 ud · 200g · ensalada Jue cena</span>
+      <span class="shop-item-hint">≈ 2 ud · 200g · sofrito Mar comida</span>
     </label>
     <label class="shop-item" id="shop_pepino_label" onclick="toggleShop('shop_pepino')">
       <div class="shop-check"></div>
@@ -1204,11 +1209,6 @@ header { background:linear-gradient(120deg,#241c15 0%,#3a2c1e 100%); }
       <span class="shop-item-name">Brócoli</span>
       <span class="shop-item-hint">≈ 1 ud · 300g · solo Mié cena</span>
     </label>
-    <label class="shop-item" id="shop_champinones_label" onclick="toggleShop('shop_champinones')">
-      <div class="shop-check"></div>
-      <span class="shop-item-name">Champiñones</span>
-      <span class="shop-item-hint">≈ 200g · Mié boloñesa</span>
-    </label>
     <label class="shop-item" id="shop_tomate_cherry_label" onclick="toggleShop('shop_tomate_cherry')">
       <div class="shop-check"></div>
       <span class="shop-item-name">Tomate cherry</span>
@@ -1217,7 +1217,7 @@ header { background:linear-gradient(120deg,#241c15 0%,#3a2c1e 100%); }
     <label class="shop-item" id="shop_cebolla_label" onclick="toggleShop('shop_cebolla')">
       <div class="shop-check"></div>
       <span class="shop-item-name">Cebolla</span>
-      <span class="shop-item-hint">≈ 2-3 ud · sofrito Mié + tortilla Jue</span>
+      <span class="shop-item-hint">≈ 2-3 ud · sofrito Mar + tortilla Jue</span>
     </label>
     <label class="shop-item" id="shop_esparragos_label" onclick="toggleShop('shop_esparragos')">
       <div class="shop-check"></div>
@@ -1228,6 +1228,11 @@ header { background:linear-gradient(120deg,#241c15 0%,#3a2c1e 100%); }
       <div class="shop-check"></div>
       <span class="shop-item-name">Aguacate</span>
       <span class="shop-item-hint">≈ 4 ud · Mar+Vie comida + Vie desayuno</span>
+    </label>
+    <label class="shop-item" id="shop_col_label" onclick="toggleShop('shop_col')">
+      <div class="shop-check"></div>
+      <span class="shop-item-name">Col (cruda, rallada)</span>
+      <span class="shop-item-hint">≈ 450g · Jue cena (250g Adrià + 200g Esther) aliñada</span>
     </label>
     </div>
   </div>
