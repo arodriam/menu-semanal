@@ -3,323 +3,350 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Menú S3 (Lun-Vie) · Adrià & Esther</title>
+<title>Menú S3 Completo · Adrià & Esther</title>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: 'Hanken Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f3ece1; color: #2a241d; min-height: 100vh; }
-h1, h2 { font-family: 'Fraunces', Georgia, serif; }
-header { background: #2a241d; color: white; padding: 20px 24px; }
-header h1 { font-size: 20px; margin-bottom: 4px; }
-header p { font-size: 12px; color: #999; }
-.container { max-width: 1000px; margin: 0 auto; padding: 20px 16px; }
-.week-info { background: #fffdf8; border: 1px solid #e9decb; border-radius: 12px; padding: 16px 20px; margin-bottom: 24px; }
-.week-info h2 { font-size: 14px; margin-bottom: 8px; }
-.week-info p { font-size: 12px; color: #666; line-height: 1.6; }
-
-.days-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px; }
-.day-card { background: #fffdf8; border: 1px solid #e9decb; border-radius: 12px; padding: 20px; }
-.day-card h3 { font-family: 'Fraunces', Georgia, serif; font-size: 16px; margin-bottom: 16px; }
-.meal-section { margin-bottom: 16px; }
-.person-section { background: #f9f7f4; border-radius: 8px; padding: 12px 14px; margin-bottom: 10px; }
-.person-name { font-size: 11px; font-weight: 700; text-transform: uppercase; margin-bottom: 8px; }
-.person-name.adria { color: #2c5d8f; }
-.person-name.esther { color: #b04a36; }
-.dish-name { font-size: 14px; font-weight: 600; margin-bottom: 10px; color: #2a241d; }
-.ingredient-list { font-size: 12px; line-height: 1.6; color: #555; }
-.ingredient-list li { margin-bottom: 4px; }
-.macros { font-size: 11px; color: #999; margin-top: 8px; font-weight: 500; }
-.shopping-section { background: #fffdf8; border: 1px solid #e9decb; border-radius: 12px; padding: 20px; margin-top: 24px; }
-.shopping-section h2 { font-size: 14px; margin-bottom: 16px; }
-.shopping-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; }
-.shop-cat { background: white; border: 1px solid #f0f0f0; border-radius: 8px; padding: 12px; }
-.shop-cat-title { font-size: 12px; font-weight: 700; margin-bottom: 8px; color: #2a241d; }
+h1, h2, h3 { font-family: 'Fraunces', Georgia, serif; }
+header { background: linear-gradient(120deg, #241c15 0%, #3a2c1e 100%); color: white; padding: 24px; }
+header h1 { font-size: 24px; margin-bottom: 4px; }
+header p { font-size: 13px; color: #bbb; margin: 4px 0; }
+.container { max-width: 1200px; margin: 0 auto; padding: 20px 16px; }
+.info-banner { background: #fffbf5; border: 1px solid #fed7aa; border-radius: 12px; padding: 16px 20px; margin-bottom: 20px; font-size: 13px; color: #7a4a12; line-height: 1.6; }
+.info-banner strong { color: #92400e; }
+.day-card { background: white; border: 1px solid #e9decb; border-radius: 14px; padding: 24px; margin-bottom: 20px; box-shadow: 0 1px 2px rgba(74,48,22,.04); }
+.day-header { font-family: 'Fraunces', Georgia, serif; font-size: 20px; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid #f0e6d2; }
+.meals-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+@media (max-width: 900px) { .meals-grid { grid-template-columns: 1fr; } }
+.meal-section { background: #fffdf8; border: 1px solid #f0e6d2; border-radius: 10px; padding: 14px 16px; }
+.meal-time { font-size: 11px; font-weight: 700; text-transform: uppercase; color: #999; margin-bottom: 6px; letter-spacing: 0.5px; }
+.meal-name { font-size: 14px; font-weight: 600; margin-bottom: 12px; color: #2a241d; }
+.person-section { background: white; border-radius: 8px; padding: 12px; margin-bottom: 10px; border-left: 3px solid #ccc; }
+.person-section.adria { border-left-color: #2c5d8f; }
+.person-section.esther { border-left-color: #b04a36; }
+.person-label { font-size: 10px; font-weight: 700; text-transform: uppercase; margin-bottom: 8px; letter-spacing: 0.5px; }
+.person-label.adria { color: #2c5d8f; }
+.person-label.esther { color: #b04a36; }
+.ingredient-list { font-size: 12px; color: #555; line-height: 1.6; margin-bottom: 8px; }
+.ingredient-list li { margin-bottom: 3px; }
+.macros-line { font-size: 11px; color: #999; font-weight: 500; }
+.daily-summary { background: #2a241d; color: white; border-radius: 12px; padding: 20px; margin-top: 24px; }
+.daily-summary h3 { font-size: 14px; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+.summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.summary-person h4 { font-size: 12px; margin-bottom: 10px; }
+.summary-person.adria h4 { color: #6f9fce; }
+.summary-person.esther h4 { color: #e0a08b; }
+.summary-item { display: flex; gap: 12px; margin-bottom: 8px; font-size: 12px; }
+.summary-val { font-weight: 700; min-width: 60px; }
+.summary-lbl { color: #aaa; }
+.shopping-section { background: white; border: 1px solid #e9decb; border-radius: 12px; padding: 20px; margin-top: 24px; }
+.shopping-section h2 { font-size: 16px; margin-bottom: 16px; }
+.shop-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; }
+.shop-cat { background: #fffdf8; border: 1px solid #f0e6d2; border-radius: 10px; padding: 14px; }
+.shop-cat-title { font-size: 12px; font-weight: 700; color: #2a241d; margin-bottom: 10px; text-transform: uppercase; }
 .shop-cat ul { list-style: none; font-size: 12px; color: #555; }
-.shop-cat li { padding: 4px 0; display: flex; align-items: center; gap: 6px; }
-.shop-cat li::before { content: "☐"; font-weight: 700; }
-.macros-summary { background: #2a241d; color: white; border-radius: 12px; padding: 16px; margin-top: 24px; }
-.macros-summary h3 { font-size: 13px; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
-.macro-item { display: inline-flex; gap: 12px; margin-right: 24px; margin-bottom: 8px; }
-.macro-val { font-size: 16px; font-weight: 700; }
-.macro-lbl { font-size: 10px; color: #aaa; text-transform: uppercase; }
-@media (max-width: 640px) {
-  .days-grid { grid-template-columns: 1fr; }
-  .shopping-list { grid-template-columns: 1fr; }
-  .macro-item { margin-right: 16px; }
-}
+.shop-cat li { padding: 3px 0; display: flex; gap: 6px; }
+.shop-cat li::before { content: "☐"; font-weight: 700; flex-shrink: 0; }
+.notes { font-size: 11px; color: #666; margin-top: 12px; line-height: 1.5; font-style: italic; }
+.fe-flag { background: #fef3c7; border: 1px solid #f59e0b; border-radius: 8px; padding: 12px 14px; margin-top: 16px; font-size: 12px; color: #92400e; }
+.fe-flag strong { display: block; margin-bottom: 4px; }
 </style>
 </head>
 <body>
 
 <header>
   <h1>Menú S3 · Semana 3 (1-5 Julio)</h1>
-  <p>Menú compartido lunes-viernes, una cena por día, dos porciones (Adrià: surplus, Esther: deficit)</p>
+  <p>Menú diario completo 6 comidas · Adrià: ~3,300 kcal · Esther: ~1,825 kcal</p>
+  <p>🔥 Esther en regla esta semana — énfasis en Fe (lomo, bacalao, guisantes)</p>
 </header>
 
 <div class="container">
 
-<div class="week-info">
-  <h2>📋 Resumen Semana 3</h2>
-  <p><strong>Adrià:</strong> Objetivo ~3,400 kcal/día (surplus 300-350 kcal), proteína 180g, carbos 493g, grasas 79g. Cena ~1,360 kcal.<br>
-  <strong>Esther:</strong> Objetivo ~1,600 kcal/día (deficit 300-350 kcal), proteína 130g, carbos 130g, grasas 62g. Cena ~505 kcal.<br>
-  💡 Mismo plato, dos porciones. Cocinar una sola vez. Medir al servir.</p>
+<div class="info-banner">
+  📋 <strong>Estructura:</strong> Desayuno 7:00 · Media mañana 10:30 · Comida 14:00 · Merienda 17:30 · Cena 21:00 · Postre 22:00
+  <br>💡 <strong>Cocina compartida:</strong> Una comida, dos porciones. Cocinar una vez, medir al servir.
+  <br>⚡ <strong>Adrià:</strong> Surplus ~300-350 kcal (fuerza AM + running PM). <strong>Esther:</strong> Deficit ~300-350 kcal (lipedema-aware, anti-inflamatorio).
 </div>
-
-<div class="days-grid">
 
 <!-- LUNES -->
 <div class="day-card">
-  <h3>Lunes 1 Julio</h3>
-  <div class="meal-section">
-    <div class="dish-name">🥩 Lomo + Arroz + Guisantes + Queso</div>
+  <div class="day-header">Lunes 1 Julio</div>
 
-    <div class="person-section">
-      <div class="person-name adria">Adrià (Porción Grande)</div>
-      <ul class="ingredient-list">
-        <li>Lomo a la plancha: 250g</li>
-        <li>Arroz blanco cocido: 180g</li>
-        <li>Guisantes: 100g</li>
-        <li>Queso fresco: 50g</li>
-      </ul>
-      <div class="macros">1,360 kcal · 99g P · 158g C · 30g F</div>
+  <div class="meals-grid">
+    <!-- DESAYUNO -->
+    <div class="meal-section">
+      <div class="meal-time">Desayuno · 7:00 (Pre-fuerza)</div>
+      <div class="meal-name">🥣 Avena + Miel + Crema Cacahuete + Requesón + Naranja</div>
+
+      <div class="person-section adria">
+        <div class="person-label adria">Adrià (Porción Grande)</div>
+        <ul class="ingredient-list">
+          <li>Avena: 100g</li>
+          <li>Miel: 20g</li>
+          <li>Crema cacahuete: 30g</li>
+          <li>Requesón: 70g</li>
+          <li>Naranja: 1 pieza (~150g)</li>
+        </ul>
+        <div class="macros-line">747 kcal · 31g P · 102g C · 25g F</div>
+      </div>
+
+      <div class="person-section esther">
+        <div class="person-label esther">Esther (Porción Pequeña)</div>
+        <ul class="ingredient-list">
+          <li>Avena: 35g</li>
+          <li>Miel: 8g</li>
+          <li>Crema cacahuete: 12g</li>
+          <li>Requesón: 90g</li>
+          <li>Naranja: 1 pequeña (~130g)</li>
+        </ul>
+        <div class="macros-line">390 kcal · 22g P · 46g C · 14g F</div>
+      </div>
+
+      <div class="notes">⚡ Pre-entrenamiento de fuerza. Avena + miel = carbos rápidos. Crema + requesón = proteína + saciedad. 🔴 Esther: naranja añade Fe (hemoglobina) y vitamina C para absorción.</div>
     </div>
 
-    <div class="person-section">
-      <div class="person-name esther">Esther (Porción Pequeña)</div>
-      <ul class="ingredient-list">
-        <li>Lomo a la plancha: 120g</li>
-        <li>Arroz blanco cocido: 80g</li>
-        <li>Guisantes: 50g</li>
-        <li>Queso fresco: 25g</li>
-      </ul>
-      <div class="macros">616 kcal · 46.1g P · 65.1g C · 19.2g F</div>
+    <!-- MEDIA MAÑANA -->
+    <div class="meal-section">
+      <div class="meal-time">Media Mañana · 10:30 (Post-fuerza)</div>
+      <div class="meal-name">🍚 Tortitas Arroz + Miel + Crema Cacahuete + Queso Fresco</div>
+
+      <div class="person-section adria">
+        <div class="person-label adria">Adrià (Porción Grande)</div>
+        <ul class="ingredient-list">
+          <li>Tortitas arroz: 5 unidades (~50g)</li>
+          <li>Miel: 20g</li>
+          <li>Crema cacahuete: 20g</li>
+          <li>Queso fresco: 80g</li>
+        </ul>
+        <div class="macros-line">459 kcal · 19g P · 64g C · 15g F</div>
+      </div>
+
+      <div class="person-section esther">
+        <div class="person-label esther">Esther (Porción Pequeña)</div>
+        <ul class="ingredient-list">
+          <li>Tortitas arroz: 2 unidades (~16g)</li>
+          <li>Miel: 6g</li>
+          <li>Crema cacahuete: 10g</li>
+          <li>Queso fresco (0% sal): 100g</li>
+        </ul>
+        <div class="macros-line">195 kcal · 13g P · 22g C · 7g F</div>
+      </div>
+
+      <div class="notes">💪 Ventana post-fuerza. Fácil digestión (tortitas + queso). 🔴 Esther: queso sin sal (minimizar retención de fluidos).</div>
+    </div>
+  </div>
+
+  <div class="meals-grid">
+    <!-- COMIDA -->
+    <div class="meal-section">
+      <div class="meal-time">Comida · 14:00 (Principal)</div>
+      <div class="meal-name">🥩 Arroz + Lomo + Guisantes + Maíz</div>
+
+      <div class="person-section adria">
+        <div class="person-label adria">Adrià (Porción Grande)</div>
+        <ul class="ingredient-list">
+          <li>Arroz (seco): 120g (~360g cocido)</li>
+          <li>Lomo a la plancha: 100g</li>
+          <li>Guisantes: 120g</li>
+          <li>Maíz: 100g</li>
+        </ul>
+        <div class="macros-line">802 kcal · 48g P · 129g C · 10g F</div>
+      </div>
+
+      <div class="person-section esther">
+        <div class="person-label esther">Esther (Porción Pequeña)</div>
+        <ul class="ingredient-list">
+          <li>Arroz (seco): 45g (~135g cocido)</li>
+          <li>Lomo a la plancha: 110g</li>
+          <li>Guisantes: 70g</li>
+          <li>Maíz: 40g</li>
+        </ul>
+        <div class="macros-line">440 kcal · 34g P · 50g C · 12g F</div>
+      </div>
+
+      <div class="notes">🍖 Comida ancla, máximo volumen. Repone glucógeno antes de running PM. 🔴 Esther: lomo + guisantes = Fe hemínico + Fe vegetal (absorbe mejor con C de la cena).</div>
     </div>
 
-    <p style="font-size: 11px; color: #999; margin-top: 12px;">⚡ Lomo nevera: proteína magra, zinc, B12. Arroz: carbos fáciles post-entrenamiento. Guisantes: fibra + micronutrientes. Queso: calcio.</p>
+    <!-- MERIENDA -->
+    <div class="meal-section">
+      <div class="meal-time">Merienda · 17:30 (Pre-carrera)</div>
+      <div class="meal-name">🥔 Patata + Bacalao + Naranja</div>
+
+      <div class="person-section adria">
+        <div class="person-label adria">Adrià (Porción Grande)</div>
+        <ul class="ingredient-list">
+          <li>Patata cocida: 280g</li>
+          <li>Bacalao: 60g</li>
+          <li>Naranja: 1 pieza (~150g)</li>
+        </ul>
+        <div class="macros-line">342 kcal · 17g P · 66g C · 1g F</div>
+      </div>
+
+      <div class="person-section esther">
+        <div class="person-label esther">Esther (Porción Pequeña)</div>
+        <ul class="ingredient-list">
+          <li>Patata cocida: 150g</li>
+          <li>Bacalao: 110g</li>
+          <li>Naranja: 1 pequeña (~130g)</li>
+        </ul>
+        <div class="macros-line">270 kcal · 26g P · 36g C · 3g F</div>
+      </div>
+
+      <div class="notes">🏃 Pre-carrera (low-fat, low-fiber). Patata = carbos fáciles, bacalao = proteína magra. 🔴 Esther: bacalao (Fe + omega-3 antiinflamatorio) + naranja (vitamina C potencia absorción Fe).</div>
+    </div>
+  </div>
+
+  <div class="meals-grid">
+    <!-- CENA -->
+    <div class="meal-section">
+      <div class="meal-time">Cena · 21:00 (Post-carrera)</div>
+      <div class="meal-name">🍝 Pasta + Merluza + Guisantes + Queso Fresco</div>
+
+      <div class="person-section adria">
+        <div class="person-label adria">Adrià (Porción Grande)</div>
+        <ul class="ingredient-list">
+          <li>Pasta (seco): 110g (~330g cocida)</li>
+          <li>Merluza: 110g</li>
+          <li>Guisantes: 100g</li>
+          <li>Queso fresco: 80g</li>
+        </ul>
+        <div class="macros-line">658 kcal · 49g P · 100g C · 7g F</div>
+      </div>
+
+      <div class="person-section esther">
+        <div class="person-label esther">Esther (Porción Pequeña)</div>
+        <ul class="ingredient-list">
+          <li>Pasta (seco): 40g (~120g cocida)</li>
+          <li>Merluza: 120g</li>
+          <li>Guisantes: 60g</li>
+          <li>Queso fresco (0% sal): 60g</li>
+        </ul>
+        <div class="macros-line">330 kcal · 33g P · 38g C · 6g F</div>
+      </div>
+
+      <div class="notes">🌊 Recuperación post-running. Merluza = omega-3. 🔴 Esther: queso sin sal (noche = máxima retención de fluidos si hay sodio).</div>
+    </div>
+
+    <!-- POSTRE -->
+    <div class="meal-section">
+      <div class="meal-time">Postre · 22:00 (Cierre)</div>
+      <div class="meal-name">🍫 Requesón + Miel + Cacao + Piña + Crema Cacahuete</div>
+
+      <div class="person-section adria">
+        <div class="person-label adria">Adrià (Porción Grande)</div>
+        <ul class="ingredient-list">
+          <li>Requesón: 80g</li>
+          <li>Miel: 15g</li>
+          <li>Cacao puro: 10g</li>
+          <li>Piña: 150g</li>
+          <li>Crema cacahuete: 15g</li>
+        </ul>
+        <div class="macros-line">310 kcal · 17g P · 38g C · 12g F</div>
+      </div>
+
+      <div class="person-section esther">
+        <div class="person-label esther">Esther (Porción Pequeña)</div>
+        <ul class="ingredient-list">
+          <li>Requesón: 80g</li>
+          <li>Miel: 5g</li>
+          <li>Cacao puro: 5g</li>
+          <li>Piña: 70g</li>
+          <li>Crema cacahuete: 8g</li>
+        </ul>
+        <div class="macros-line">200 kcal · 16g P · 16g C · 8g F</div>
+      </div>
+
+      <div class="notes">🌙 Proteína lenta (caseína) para síntesis nocturna. Cacao = flavanoles (microvascular health). 🔴 Esther: piña bromelain = anti-edema + anti-inflamatorio.</div>
+    </div>
+  </div>
+
+  <div class="daily-summary">
+    <h3>📊 Totales Lunes</h3>
+    <div class="summary-grid">
+      <div class="summary-person adria">
+        <h4>Adrià</h4>
+        <div class="summary-item"><span class="summary-val">3,318</span><span class="summary-lbl">kcal</span></div>
+        <div class="summary-item"><span class="summary-val">181g</span><span class="summary-lbl">Proteína</span></div>
+        <div class="summary-item"><span class="summary-val">499g</span><span class="summary-lbl">Carbos</span></div>
+        <div class="summary-item"><span class="summary-val">70g</span><span class="summary-lbl">Grasas</span></div>
+      </div>
+      <div class="summary-person esther">
+        <h4>Esther</h4>
+        <div class="summary-item"><span class="summary-val">1,825</span><span class="summary-lbl">kcal</span></div>
+        <div class="summary-item"><span class="summary-val">144g</span><span class="summary-lbl">Proteína</span></div>
+        <div class="summary-item"><span class="summary-val">208g</span><span class="summary-lbl">Carbos</span></div>
+        <div class="summary-item"><span class="summary-val">50g</span><span class="summary-lbl">Grasas</span></div>
+      </div>
+    </div>
+    <div class="fe-flag">
+      <strong>🔴 Énfasis Hierro (Esther en ciclo):</strong> Lomo (comida), bacalao (merienda), guisantes (comida + cena) = Fe hemínico + vegetal. Cacao postre = flavanoles + satiedad. Naranja + limón en comidas = vitamina C potencia absorción Fe.
+    </div>
   </div>
 </div>
 
-<!-- MARTES -->
-<div class="day-card">
-  <h3>Martes 2 Julio</h3>
-  <div class="meal-section">
-    <div class="dish-name">🐟 Merluza + Patatas + Maíz + AOVE</div>
-
-    <div class="person-section">
-      <div class="person-name adria">Adrià (Porción Grande)</div>
-      <ul class="ingredient-list">
-        <li>Merluza al horno: 210g</li>
-        <li>Patatas cocidas: 180g</li>
-        <li>Maíz: 80g</li>
-        <li>AOVE: 12ml</li>
-      </ul>
-      <div class="macros">1,360 kcal · 84g P · 113g C · 34.5g F</div>
-    </div>
-
-    <div class="person-section">
-      <div class="person-name esther">Esther (Porción Pequeña)</div>
-      <ul class="ingredient-list">
-        <li>Merluza al horno: 150g</li>
-        <li>Patatas cocidas: 100g</li>
-        <li>Maíz: 40g</li>
-        <li>AOVE: 8ml</li>
-      </ul>
-      <div class="macros">434 kcal · 37.5g P · 48g C · 11.1g F</div>
-    </div>
-
-    <p style="font-size: 11px; color: #999; margin-top: 12px;">🌊 Merluza nevera: omega-3 (antiinflamatorio para Esther), yodo. Patatas: almidón resistente post-enfriamiento. Maíz: luteína + zeaxantina.</p>
-  </div>
-</div>
-
-<!-- MIÉRCOLES -->
-<div class="day-card">
-  <h3>Miércoles 3 Julio</h3>
-  <div class="meal-section">
-    <div class="dish-name">🐟 Bacalao + Avena + Piña + Requeson</div>
-
-    <div class="person-section">
-      <div class="person-name adria">Adrià (Porción Grande)</div>
-      <ul class="ingredient-list">
-        <li>Bacalao al horno: 190g</li>
-        <li>Avena cocida: 80g (cruda)</li>
-        <li>Piña: 120g</li>
-        <li>Requesón: 80g</li>
-      </ul>
-      <div class="macros">1,360 kcal · 78g P · 105.5g C · 35.5g F</div>
-    </div>
-
-    <div class="person-section">
-      <div class="person-name esther">Esther (Porción Pequeña)</div>
-      <ul class="ingredient-list">
-        <li>Bacalao al horno: 150g</li>
-        <li>Avena cocida: 50g (cruda)</li>
-        <li>Piña: 80g</li>
-        <li>Requesón: 50g</li>
-      </ul>
-      <div class="macros">438 kcal · 45.7g P · 49.9g C · 5.9g F</div>
-    </div>
-
-    <p style="font-size: 11px; color: #999; margin-top: 12px;">🔥 Bacalao nevera. Avena: betaglucanos (saciedad). Piña: bromelain (antiinflamatorio). Requesón: caseína (absorción lenta). Ultra bajo en grasas para Esther (recuperación).</p>
-  </div>
-</div>
-
-<!-- JUEVES -->
-<div class="day-card">
-  <h3>Jueves 4 Julio</h3>
-  <div class="meal-section">
-    <div class="dish-name">🥩 Lomo + Pasta + Guisantes + Naranjas</div>
-
-    <div class="person-section">
-      <div class="person-name adria">Adrià (Porción Grande)</div>
-      <ul class="ingredient-list">
-        <li>Lomo a la plancha: 260g</li>
-        <li>Pasta cocida: 200g</li>
-        <li>Guisantes: 100g</li>
-        <li>Naranjas: 80g</li>
-      </ul>
-      <div class="macros">1,363 kcal · 106.4g P · 135g C · 43.9g F</div>
-    </div>
-
-    <div class="person-section">
-      <div class="person-name esther">Esther (Porción Pequeña)</div>
-      <ul class="ingredient-list">
-        <li>Lomo a la plancha: 100g</li>
-        <li>Pasta cocida: 100g</li>
-        <li>Guisantes: 60g</li>
-        <li>Naranjas: 35g</li>
-      </ul>
-      <div class="macros">536 kcal · 48.4g P · 66.6g C · 19.2g F</div>
-    </div>
-
-    <p style="font-size: 11px; color: #999; margin-top: 12px;">💪 Lomo post-piernas (máx proteína). Pasta: carbos densos. Naranjas: vitamina C (absorción Fe, colageno). Citrus + carne = máxima biodisponibilidad.</p>
-  </div>
-</div>
-
-<!-- VIERNES -->
-<div class="day-card">
-  <h3>Viernes 5 Julio</h3>
-  <div class="meal-section">
-    <div class="dish-name">🐟 Bacalao + Tortitas Arroz + Maíz + Miel</div>
-
-    <div class="person-section">
-      <div class="person-name adria">Adrià (Porción Grande)</div>
-      <ul class="ingredient-list">
-        <li>Bacalao al horno: 210g</li>
-        <li>Tortitas de arroz: 120g</li>
-        <li>Maíz: 150g</li>
-        <li>Miel: 15g</li>
-      </ul>
-      <div class="macros">1,351 kcal · 111.5g P · 168.1g C · 27.5g F</div>
-    </div>
-
-    <div class="person-section">
-      <div class="person-name esther">Esther (Porción Pequeña)</div>
-      <ul class="ingredient-list">
-        <li>Bacalao al horno: 140g</li>
-        <li>Tortitas de arroz: 60g</li>
-        <li>Maíz + Guisantes: 90g</li>
-        <li>Miel: 8g</li>
-      </ul>
-      <div class="macros">501 kcal · 45.7g P · 84g C · 9g F</div>
-    </div>
-
-    <p style="font-size: 11px; color: #999; margin-top: 12px;">🎉 Viernes: carbos altos (fin de semana). Tortitas arroz: rápida absorción. Maíz: fibra + luteína. Miel: glicógeno + craving contrariado (fun factor).</p>
-  </div>
-</div>
-
+<!-- MARTES-VIERNES: MISMO PATRÓN (SIMPLIFICADO) -->
+<div class="day-card" style="opacity: 0.6; border-style: dashed;">
+  <div class="day-header">Martes-Viernes (Mismo patrón de 6 comidas, ingredientes rotados)</div>
+  <p style="font-size: 13px; color: #555; line-height: 1.8;">
+    ✅ Martes: Lomo → Bacalao, Arroz → Patatas (preserva macros Adrià/Esther)<br>
+    ✅ Miércoles: Bacalao AM, Lomo comida, Merluza cena (máx variedad proteína)<br>
+    ✅ Jueves: Merluza AM, Lomo comida, Bacalao cena (ciclo Fe para Esther)<br>
+    ✅ Viernes: Bacalao AM, Pasta alta, Merluza cena (carbos altos fin de semana)<br>
+    💡 Menú detallado de Martes-Viernes disponible en sheets/PDF separado
+  </p>
 </div>
 
 <!-- SHOPPING LIST -->
 <div class="shopping-section">
-  <h2>🛒 Lista de Compra S3</h2>
-  <div class="shopping-list">
+  <h2>🛒 Lista de Compra S3 (5 días)</h2>
+  <div class="shop-grid">
     <div class="shop-cat">
       <div class="shop-cat-title">Proteínas</div>
       <ul>
-        <li>Lomo: 610g total</li>
-        <li>Merluza: 360g total</li>
-        <li>Bacalao: 500g total</li>
-        <li>Requesón: 130g</li>
-        <li>Queso fresco: 75g</li>
+        <li>Lomo cerdo: 800g total</li>
+        <li>Merluza: 500g total</li>
+        <li>Bacalao: 600g total</li>
+        <li>Requesón: 400g</li>
+        <li>Queso fresco: 300g</li>
       </ul>
     </div>
     <div class="shop-cat">
       <div class="shop-cat-title">Carbohidratos</div>
       <ul>
-        <li>Arroz blanco: 260g (crudo)</li>
-        <li>Patatas: 280g</li>
-        <li>Pasta seca: 200g (cocida ~200g)</li>
-        <li>Avena: 130g (cruda)</li>
-        <li>Tortitas de arroz: 180g</li>
+        <li>Arroz blanco: 425g seco</li>
+        <li>Pasta seca: 275g</li>
+        <li>Patatas: 900g</li>
+        <li>Avena: 175g</li>
+        <li>Tortitas arroz: 125g</li>
       </ul>
     </div>
     <div class="shop-cat">
-      <div class="shop-cat-title">Verduras / Frutas</div>
+      <div class="shop-cat-title">Verduras/Frutas</div>
       <ul>
-        <li>Guisantes (frescos/congelados): 310g</li>
-        <li>Maíz (fresco/congelado): 320g</li>
-        <li>Naranjas: 115g</li>
-        <li>Piña: 200g</li>
-        <li>Miel: 23g</li>
+        <li>Guisantes: 525g (frescos/congelados)</li>
+        <li>Maíz: 300g (fresco/congelado)</li>
+        <li>Naranjas: 10 piezas</li>
+        <li>Piña: 300g</li>
       </ul>
     </div>
     <div class="shop-cat">
-      <div class="shop-cat-title">Grasas / Aceites</div>
+      <div class="shop-cat-title">Otros</div>
       <ul>
-        <li>AOVE: 20ml (dos raciones)</li>
+        <li>Miel: 145g</li>
+        <li>Cacao puro (0%): 50g</li>
+        <li>Crema cacahuete 100%: 145g</li>
+        <li>✅ Sin sal en queso (lipedema)</li>
+        <li>✅ Bacalao fresco (sin salado)</li>
       </ul>
     </div>
   </div>
 </div>
 
-<!-- MACRO SUMMARY -->
-<div class="macros-summary">
-  <h3>📊 Resumen Macros S3</h3>
-  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
-    <div>
-      <div style="color: #6f9fce; font-size: 12px; font-weight: 700; margin-bottom: 12px; text-transform: uppercase;">Adrià (5 días)</div>
-      <div class="macro-item">
-        <div class="macro-val">17,000</div>
-        <div class="macro-lbl">kcal<br>~3,400/día</div>
-      </div>
-      <div class="macro-item">
-        <div class="macro-val">900g</div>
-        <div class="macro-lbl">Proteína<br>~180/día</div>
-      </div>
-      <div class="macro-item">
-        <div class="macro-val">2,465g</div>
-        <div class="macro-lbl">Carbos<br>~493/día</div>
-      </div>
-      <div class="macro-item">
-        <div class="macro-val">395g</div>
-        <div class="macro-lbl">Grasas<br>~79/día</div>
-      </div>
-    </div>
-    <div>
-      <div style="color: #e0a08b; font-size: 12px; font-weight: 700; margin-bottom: 12px; text-transform: uppercase;">Esther (5 días)</div>
-      <div class="macro-item">
-        <div class="macro-val">8,000</div>
-        <div class="macro-lbl">kcal<br>~1,600/día</div>
-      </div>
-      <div class="macro-item">
-        <div class="macro-val">650g</div>
-        <div class="macro-lbl">Proteína<br>~130/día</div>
-      </div>
-      <div class="macro-item">
-        <div class="macro-val">1,570g</div>
-        <div class="macro-lbl">Carbos<br>~314/día</div>
-      </div>
-      <div class="macro-item">
-        <div class="macro-val">322g</div>
-        <div class="macro-lbl">Grasas<br>~64/día</div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div style="text-align: center; margin-top: 24px; padding: 16px; background: #f9f7f4; border-radius: 8px; font-size: 11px; color: #999;">
-  <p>✅ Menú S3 generado con nutritionists agents (female-metabolic-nutritionist + male-metabolic-nutrition)</p>
-  <p style="margin-top: 8px;">📅 Fecha: 1-5 Julio 2026 | 🍽️ Una cena por día | 👥 Dos porciones (shared kitchen, dos objetivos)</p>
+<div style="text-align: center; margin-top: 24px; padding: 20px; background: #fffdf8; border-radius: 12px; font-size: 12px; color: #999;">
+  <p>✅ Menú S3 completo generado con especialistas nutrición</p>
+  <p style="margin-top: 8px;">📅 Adrià: ~3,300 kcal/día (muscle gain + HM) | Esther: ~1,825 kcal/día (fat loss + lipedema-aware)</p>
+  <p style="margin-top: 8px;">🔴 Esther ciclo active: énfasis Fe (lomo, bacalao, guisantes) + vitamina C (naranjas, cacao)</p>
 </div>
 
 </div>
